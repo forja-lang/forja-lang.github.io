@@ -7,15 +7,15 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="info"><svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg> <strong>Propósito:</strong> Genera un diagrama de flujo <strong>Mermaid.js</strong> a partir del AST de un programa Forja, mostrando visualmente el flujo de control (condicionales, bucles, funciones, clases). Ideal para entender visualmente cómo se ejecuta un programa.</div>
 
-  <h2>CLI: <code>forja diagrama</code></h2>
+  <h2>CLI: <code><span class="cmd">forja</span> <span class="sub">diagrama</span></code></h2> 
 
-  <p>El comando <code>forja diagrama</code> (o <code>forja grafico</code>) genera un diagrama Mermaid a partir de un archivo <code>.fa</code>:</p>
+  <p>El comando <code><span class="cmd">forja</span> <span class="sub">diagrama</span></code>  (o <code><span class="cmd">forja</span> <span class="sub">grafico</span></code>)  genera un diagrama Mermaid a partir de un archivo <code>.fa</code>:</p>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg> Uso</span></div>
-    <pre><code>forja diagrama <span class="st">"ejemplo.fa"</span>                <span class="co">// genera ejemplo.mmd</span>
-forja diagrama <span class="st">"ejemplo.fa"</span> -o <span class="st">"salida.mmd"</span> <span class="co">// archivo específico</span>
-forja diagrama <span class="st">"ejemplo.fa"</span> -o -             <span class="co">// stdout</span></code></pre>
+    <pre><code><span class="cmd">forja</span> <span class="sub">diagrama</span> <span class="st">"ejemplo.fa"</span>                <span class="co">// genera ejemplo.mmd</span>
+<span class="cmd">forja</span> <span class="sub">diagrama</span> <span class="st">"ejemplo.fa"</span> <span class="st">"salida.mmd"</span> <span class="co">// archivo específico</span>
+<span class="cmd">forja</span> <span class="sub">diagrama</span> <span class="st">"ejemplo.fa"</span> -              <span class="co">// stdout</span></code></pre>
   </div>
 
   <div class="tip"><svg class="ico" aria-hidden="true"><use href="#i-lightbulb"/></svg> El archivo <code>.mmd</code> generado se puede visualizar en cualquier herramienta compatible con <strong>Mermaid.js</strong> (GitHub Markdown, <a href="https://mermaid.live" target="_blank">mermaid.live</a>, editores con plugin Mermaid).</div>
