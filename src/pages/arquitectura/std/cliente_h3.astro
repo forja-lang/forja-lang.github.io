@@ -11,7 +11,9 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/cliente_h3.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>h3_obtener(url: Texto)</code></td><td>Realiza una solicitud HTTP/3 GET a una URL dada.  Parámetros: url: URL a solicitar (ej: "https://cloudflare.com")  Retorna: Ok(RespuestaH3) o Error(mensaje)</td></tr>
+    <tr><td><code>h3_enviar(url: Texto, cuerpo: Texto)</code></td><td>Realiza una solicitud HTTP/3 POST a una URL dada.  Parámetros: url: URL a solicitar cuerpo: cuerpo de la petición (Texto/JSON)  Retorna: Ok(RespuestaH3) o Error(mensaje)</td></tr>
+    <tr><td><code>h3_solicitud(metodo: Texto, url: Texto, cabeceras: Mapa, cuerpo: Texto)</code></td><td>Realiza una solicitud HTTP/3 personalizada.  Parámetros: metodo: método HTTP ("GET", "POST", "PUT", "DELETE", etc) url: URL completa destino cabeceras: Mapa con las cabeceras personalizadas cuerpo: cuerpo de la solicitud  Retorna: Ok(RespuestaH3) o Error(mensaje)</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

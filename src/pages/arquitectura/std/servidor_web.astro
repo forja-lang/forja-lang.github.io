@@ -11,7 +11,28 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/servidor_web.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>_cabeceras_a_texto(cabeceras)</code></td><td> cabeceras a texto</td></tr>
+    <tr><td><code>_texto_a_mapa(texto: Texto)</code></td><td> texto a mapa</td></tr>
+    <tr><td><code>_parsear_cookies(texto_cookie: Texto)</code></td><td> parsear cookies</td></tr>
+    <tr><td><code>html(respuesta, contenido: Texto)</code></td><td>Envía una respuesta HTML</td></tr>
+    <tr><td><code>texto_plano(respuesta, contenido: Texto)</code></td><td>Envía una respuesta de texto plano</td></tr>
+    <tr><td><code>redirigir(respuesta, url: Texto)</code></td><td>Envía una respuesta de redirección</td></tr>
+    <tr><td><code>error_respuesta(respuesta, codigo: Entero)</code></td><td>Envía una respuesta de error</td></tr>
+    <tr><td><code>_registrar_ruta(servidor, metodo: Texto, ruta: Texto, manejador)</code></td><td> registrar ruta</td></tr>
+    <tr><td><code>obtener(servidor, ruta: Texto, manejador)</code></td><td>Obtiene una variable de entorno</td></tr>
+    <tr><td><code>enviar(servidor, ruta: Texto, manejador)</code></td><td>Envía datos por la conexión TLS</td></tr>
+    <tr><td><code>actualizar(servidor, ruta: Texto, manejador)</code></td><td>Reemplaza un recurso con PUT</td></tr>
+    <tr><td><code>eliminar(servidor, ruta: Texto, manejador)</code></td><td>Realiza una petición DELETE</td></tr>
+    <tr><td><code>modificar_parcial(servidor, ruta: Texto, manejador)</code></td><td>Modifica parcialmente un recurso con PATCH</td></tr>
+    <tr><td><code>usar(servidor, middleware)</code></td><td>Registra un middleware/handler</td></tr>
+    <tr><td><code>servir_estaticos(servidor, prefijo: Texto, directorio: Texto)</code></td><td>Sirve archivos estáticos desde un directorio</td></tr>
+    <tr><td><code>habilitar_cors(servidor)</code></td><td>Habilita CORS en el servidor</td></tr>
+    <tr><td><code>fijar_max_cuerpo(servidor, max_bytes: Entero)</code></td><td>Limita el tamaño máximo del cuerpo de la petición</td></tr>
+    <tr><td><code>_resolver_ruta(servidor, metodo: Texto, ruta: Texto)</code></td><td> resolver ruta</td></tr>
+    <tr><td><code>_manejar_solicitud(servidor, socket, datos_raw: Texto)</code></td><td> manejar solicitud</td></tr>
+    <tr><td><code>_enviar_respuesta(socket, respuesta)</code></td><td> enviar respuesta</td></tr>
+    <tr><td><code>iniciar(servidor)</code></td><td>Inicia el perfilador</td></tr>
+    <tr><td><code>detener(servidor)</code></td><td>Detiene el perfilador</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

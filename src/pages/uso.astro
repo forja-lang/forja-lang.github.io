@@ -17,15 +17,15 @@ COMANDOS:
   repl                       Modo interactivo
   diagrama &lt;archivo>         Generar diagrama HTML del código
   compilar &lt;archivo>         Generar .exe autónomo
-  compilar-asm &lt;archivo>     Compilar a assembly nativo [--target &lt;arch>] [-o &lt;salida>]
-  formatear &lt;archivo>        Formatear código .fa
-  transpilar &lt;archivo>       Exportar a proyecto Rust
+  asm &lt;archivo> [salida]     Compilar a assembly nativo (arch en forja.yaml)
+  formatear &lt;archivo> [salida]  Formatear código .fa
+  transpilar &lt;archivo> [dir] Exportar a proyecto Rust
   nuevo &lt;nombre>             Crear nuevo proyecto
   iniciar                    Inicializar proyecto aquí
   add &lt;paquete> [version]   Añadir dependencia
   remove &lt;paquete>           Eliminar dependencia
   install                    Instalar todas las dependencias
-  medir &lt;archivo>            Benchmark de VMs [--iters N] [--vm ...] [--asm]
+  medir &lt;archivo>            Benchmark de VMs (forja.yaml: iters, motor, backend)
   aprender                   Tutorial interactivo
   palabras                   Lista de palabras clave
   colorear &lt;archivo>         Colorear código en terminal
@@ -40,9 +40,9 @@ Los comandos también aceptan su nombre en inglés:
 
 EJEMPLOS:
    forja ejecutar ejemplos/01_hola.fa
-   forja compilar ejemplos/01_hola.fa -o programa.exe
-   forja compilar-asm ejemplos/01_hola.fa
-   forja compilar-asm ejemplos/01_hola.fa --target arm64 -o programa
+   forja compilar ejemplos/01_hola.fa programa.exe
+   forja asm ejemplos/01_hola.fa
+   forja asm ejemplos/01_hola.fa programa     (arch: arm64 en forja.yaml)
    forja repl
     forja formatear ejemplos/01_hola.fa
     forja colorear ejemplos/01_hola.fa
@@ -50,8 +50,8 @@ EJEMPLOS:
     forja nuevo mi_programa
 
 PGO (Profile-Guided Optimization):
-   forja ejecutar programa.fa --pgo            Recolectar perfil (.forjaprof)
-   forja ejecutar programa.fa --pgo=usar       Aplicar perfil existente</code></pre>
+   pgo: recoger  en forja.yaml → recolecta el perfil (.forjaprof)
+   pgo: usar     en forja.yaml → aplica el perfil existente</code></pre>
   </div>
 
   <h2><code>transpile|t|transpilar</code> — Forja → Rust</h2>
@@ -66,18 +66,18 @@ PGO (Profile-Guided Optimization):
 forja ejemplos/01_hola.fa
 
 <span class="co"># Con salida personalizada</span>
-forja transpile ejemplos/01_hola.fa -o salida.rs
+forja transpilar ejemplos/01_hola.fa salida_rs
 
 <span class="co"># Atajo 't'</span>
 forja t ejemplos/10_clases.fa
 
-<span class="co"># Errores en JSON (ideal para IDEs)</span>
-forja transpile ejemplos/10_clases.fa --json-errors</code></pre>
+<span class="co"># Errores en JSON (ideal para IDEs): json: true en forja.yaml</span>
+forja transpilar ejemplos/10_clases.fa</code></pre>
   </div>
 
   <h2><code>run|ejecutar|correr</code> — Ejecutar en VM</h2>
 
-  <p>Compila y ejecuta el <strong>bytecode</strong> directamente en la Máquina Virtual. No necesitás Rust instalado para ejecutar programas. La VM usada es <strong>ForjaFast v5</strong> (la más rápida de las VMs).</p>
+  <p>Compila y ejecuta el <strong>bytecode</strong> directamente en la Máquina Virtual. No necesitás Rust instalado para ejecutar programas. La VM usada es <strong>ForjaFast v5</strong> (la más rápida de las VMs). <strong>Motor y backend se eligen en <code>forja.yaml</code></strong> (<code>motor</code> y <code>backend</code>).</p>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg> Ejemplos de ejecución</span></div>
@@ -91,32 +91,58 @@ forja run ejemplos/10_clases.fa
 forja run ejemplos/14_adivina.fa
 <span class="co">// → Juego: adivina el número</span>
 
-<span class="co"># Seleccionar VM (fast | jit)</span>
-forja run ejemplos/01_hola.fa --vm fast
-forja run ejemplos/01_hola.fa --vm jit
+<span class="co"># Seleccionar VM (fast | jit): motor en forja.yaml</span>
+forja run ejemplos/01_hola.fa
 
-<span class="co"># Compilar a assembly y ejecutar con gcc -O2</span>
-forja run ejemplos/01_hola.fa --asm
+<span class="co"># Compilar a assembly y ejecutar con gcc -O2: backend: asm</span>
+forja run ejemplos/01_hola.fa
 
-<span class="co"># Fast math (arritmética flotante optimizada)</span>
-forja run ejemplos/01_hola.fa --fast-math</code></pre>
+<span class="co"># Fast math (aritmética flotante optimizada): fast_math: true</span>
+forja run ejemplos/01_hola.fa</code></pre>
   </div>
 
-  <h3>Flags de <code>run</code></h3>
+  <h3>Configuración de <code>run</code> / <code>medir</code> / <code>compilar</code></h3>
+  <p>La CLI no usa flags. Al arrancar crea <code>forja.yaml</code> en el directorio de ejecución con estos valores; editá el archivo para cambiar el comportamiento.</p>
+  <pre><code>motor: fast              # fast | jit | todas
+backend: vm              # vm | asm | nativo
+estricto: false          # modo estricto de tipos y ownership
+contratos: true          # requiere/asegura/invariantes
+backtrace: false         # pila de llamadas en errores
+fast_math: false         # aritmética rápida
+pgo: ''                  # '' | recoger | usar
+hot: false               # hot reload (backend: nativo)
+allow_net: ''            # hosts del sandbox (coma)
+allow_port: ''           # puertos del sandbox (coma)
+max_archivo_mb: 10       # límite del fuente
+arch: ''                 # arquitectura de asm
+iters: 100               # iteraciones de medir
+consola: false           # consola visible en el .exe
+fmt_check: false         # formatear sólo verifica
+lint_deny: false         # lint: advertencias = errores
+nivel: ''                # '' | verbose | debug | trace
+json: false              # diagnósticos JSON
+color: true              # color en la salida
+registry_port: 8787      # servidor del registry</code></pre>
   <table>
-    <tr><th>Flag</th><th>Descripción</th></tr>
-    <tr><td><code>--vm fast|jit</code></td><td>Elige la VM a usar (default: fast)</td></tr>
-    <tr><td><code>--asm</code></td><td>Compila a assembly nativo y ejecuta (gcc -O2)</td></tr>
-    <tr><td><code>--native</code></td><td>GUI nativa con Xilem (requiere <code>--features gui</code>)</td></tr>
-    <tr><td><code>--fast-math</code></td><td>Aritmética flotante optimizada</td></tr>
-    <tr><td><code>--pgo</code> / <code>--pgo=recoger</code></td><td>Recolecta un perfil de ejecución (<code>.forjaprof</code>)</td></tr>
-    <tr><td><code>--pgo=usar</code></td><td>Aplica un perfil PGO existente</td></tr>
-    <tr><td><code>--hot-reload</code> / <code>--hot</code></td><td>Recarga módulos en caliente</td></tr>
-    <tr><td><code>--contratos</code> / <code>--no-contratos</code></td><td>Activa/desactiva verificación de design by contract</td></tr>
-    <tr><td><code>--allow-net &lt;hosts></code></td><td>Permite hosts de red en el sandbox</td></tr>
-    <tr><td><code>--allow-port &lt;puertos></code></td><td>Permite puertos de red en el sandbox</td></tr>
-    <tr><td><code>--max-archivo &lt;MB></code></td><td>Límite de tamaño de archivo</td></tr>
-    <tr><td><code>--debug</code> / <code>--no-debug</code></td><td>Habilita/deshabilita modo debug</td></tr>
+    <tr><th>Clave</th><th>Efecto</th></tr>
+    <tr><td><code>motor</code></td><td>Motor de ejecución / benchmark (default: <code>fast</code>; <code>medir</code> usa <code>todas</code> si no se cambia)</td></tr>
+    <tr><td><code>backend</code></td><td><code>vm</code>, <code>asm</code> (gcc -O2) o <code>nativo</code> (GUI con Xilem)</td></tr>
+    <tr><td><code>estricto</code></td><td><code>nulo</code> sólo en <code>Opcion&lt;T&gt;</code>, <code>Opcion</code> sólo con <code>Algo</code>/<code>Nada</code>, funciones declaradas y ownership estricto</td></tr>
+    <tr><td><code>contratos</code></td><td>Activa/desactiva <code>requiere</code>/<code>asegura</code>/invariantes</td></tr>
+    <tr><td><code>backtrace</code></td><td>Pila de llamadas en errores de runtime</td></tr>
+    <tr><td><code>fast_math</code></td><td>Aritmética flotante optimizada</td></tr>
+    <tr><td><code>pgo</code></td><td><code>recoger</code> o <code>usar</code> un perfil (<code>.forjaprof</code>)</td></tr>
+    <tr><td><code>hot</code></td><td>Recarga módulos en caliente (con <code>backend: nativo</code>)</td></tr>
+    <tr><td><code>allow_net</code> / <code>allow_port</code></td><td>Hosts / puertos permitidos en el sandbox de red (coma)</td></tr>
+    <tr><td><code>max_archivo_mb</code></td><td>Límite de tamaño del archivo fuente</td></tr>
+    <tr><td><code>arch</code></td><td>Arquitectura de <code>asm</code> (<code>x86_64-windows</code>, <code>x86_64-linux</code>, <code>arm64</code>, <code>riscv64</code>)</td></tr>
+    <tr><td><code>iters</code></td><td>Iteraciones de <code>medir</code></td></tr>
+    <tr><td><code>consola</code></td><td>Consola visible en el <code>.exe</code> de <code>compilar</code></td></tr>
+    <tr><td><code>fmt_check</code></td><td><code>formatear</code> sólo verifica (CI)</td></tr>
+    <tr><td><code>lint_deny</code></td><td><code>lint</code> trata las advertencias como errores</td></tr>
+    <tr><td><code>nivel</code></td><td><code>verbose</code>, <code>debug</code> o <code>trace</code></td></tr>
+    <tr><td><code>json</code> / <code>color</code></td><td>Diagnósticos JSON / color en la salida</td></tr>
+    <tr><td><code>registry_port</code></td><td>Puerto del servidor del registry</td></tr>
   </table>
 
   <h2><code>repl</code> — Modo interactivo</h2>
@@ -147,7 +173,7 @@ Hola Gaucho
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-package"/></svg> Ejemplo de build</span></div>
-    <pre><code>forja build ejemplos/01_hola.fa -o hola.exe
+    <pre><code>forja compilar ejemplos/01_hola.fa hola.exe
 <span class="co">// → OK Ejecutable generado: hola.exe (1234 bytes)</span>
 
 <span class="co">// Ahora cualquiera puede ejecutarlo, sin Rust:</span>
@@ -164,19 +190,19 @@ Hola Gaucho
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-wrench"/></svg> Ejemplos de build-asm</span></div>
     <pre><code><span class="co"># Mínimo: genera el ejecutable automáticamente (target = plataforma actual)</span>
-forja build-asm ejemplos/01_hola.fa
+forja asm ejemplos/01_hola.fa
 
 <span class="co"># Con nombre de salida personalizado</span>
-forja build-asm ejemplos/01_hola.fa -o programa.exe
+forja asm ejemplos/01_hola.fa programa.exe
 
 <span class="co"># Especificar arquitectura destino</span>
-forja build-asm ejemplos/01_hola.fa --target arm64 -o programa
+forja asm ejemplos/01_hola.fa programa      # arch: arm64 en forja.yaml
 
 <span class="co"># Especificar Linux x86-64</span>
-forja build-asm ejemplos/01_hola.fa --target x86_64-linux -o prog
+forja asm ejemplos/01_hola.fa prog          # arch: x86_64-linux
 
 <span class="co"># El assembly generado se puede compilar manualmente</span>
-forja build-asm ejemplos/01_hola.fa --target x86_64-windows -o prog
+forja asm ejemplos/01_hola.fa prog          # arch: x86_64-windows
 gcc -O2 -o prog.exe prog.s</code></pre>
   </div>
 
@@ -184,13 +210,13 @@ gcc -O2 -o prog.exe prog.s</code></pre>
     <summary><strong><svg class="ico" aria-hidden="true"><use href="#i-target"/></svg> Targets disponibles</strong></summary>
     <table>
       <thead>
-        <tr><th>Flag</th><th>Arquitectura</th><th>Convención</th><th>Args (enteros)</th></tr>
+        <tr><th>Clave</th><th>Arquitectura</th><th>Convención</th><th>Args (enteros)</th></tr>
       </thead>
       <tbody>
         <tr><td><em>(ninguno)</em></td><td>Detección automática</td><td>Según SO y CPU</td><td>—</td></tr>
-        <tr><td><code>--target x86_64-windows</code></td><td>x86-64</td><td>Microsoft x64</td><td>RCX, RDX, R8, R9 + 32B shadow</td></tr>
-        <tr><td><code>--target x86_64-linux</code></td><td>x86-64</td><td>System V AMD64</td><td>RDI, RSI, RDX, RCX, R8, R9</td></tr>
-        <tr><td><code>--target arm64</code></td><td>ARM64 AArch64</td><td>ARM64</td><td>X0..X7</td></tr>
+        <tr><td><code>arch: x86_64-windows</code></td><td>x86-64</td><td>Microsoft x64</td><td>RCX, RDX, R8, R9 + 32B shadow</td></tr>
+        <tr><td><code>arch: x86_64-linux</code></td><td>x86-64</td><td>System V AMD64</td><td>RDI, RSI, RDX, RCX, R8, R9</td></tr>
+        <tr><td><code>arch: arm64</code></td><td>ARM64 AArch64</td><td>ARM64</td><td>X0..X7</td></tr>
       </tbody>
     </table>
   </details>
@@ -203,9 +229,9 @@ gcc -O2 -o prog.exe prog.s</code></pre>
       </thead>
       <tbody>
         <tr><td><code>build-asm</code> (gcc -O2)</td><td>~51 μs</td><td><strong>~80x más rápido que Python</strong></td></tr>
-        <tr><td><code>run --vm fast</code> (ForjaFast v5 <svg class="ico" aria-hidden="true"><use href="#i-trophy"/></svg>)</td><td>~9,544 μs</td><td>~2.3x más lento que Python</td></tr>
+        <tr><td><code>motor: fast</code> (ForjaFast v5 <svg class="ico" aria-hidden="true"><use href="#i-trophy"/></svg>)</td><td>~9,544 μs</td><td>~2.3x más lento que Python</td></tr>
         <tr><td>Python (CPython 3.11)</td><td>~4,117 μs</td><td>— referencia</td></tr>
-        <tr><td><code>run --vm jit</code> (VM v3 Direct Threading)</td><td>~34,864 μs</td><td>~8.5x más lento que Python</td></tr>
+        <tr><td><code>motor: jit</code> (VM v3 Direct Threading)</td><td>~34,864 μs</td><td>~8.5x más lento que Python</td></tr>
       </tbody>
     </table>
   </details>
@@ -222,14 +248,14 @@ forja fmt ejemplos/01_hola.fa
 <span class="co"># Después: código formateado con estilo consistente</span></code></pre>
   </div>
 
-  <h2><code>run|ejecutar --native</code> — GUI nativa con Xilem</h2>
+  <h2><code>backend: nativo</code> — GUI nativa con Xilem</h2>
 
   <p>Ejecuta archivos <code>.fa</code> que usen <code>importar gui</code> en una ventana nativa, ya sea compilando el proyecto a Rust+Xilem o usando el runtime de GUI nativa sin cargo previo (si compilaste Forja con <code>--features gui</code>).</p>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-image"/></svg> Ejemplo</span></div>
     <pre><code><span class="co"># Native runner (AST directo a Xilem, sin compilar Rust)</span>
-cargo run --features gui --bin forja -- run --native ejemplos/204_login_final.fa
+cargo run --features gui --bin forja -- run ejemplos/204_login_final.fa   # con backend: nativo
 
 <span class="co"># Transpilado a Rust (genera .exe autónomo)</span>
 cargo run --features gui --bin forja -- transpile ejemplos/204_login_final.fa
@@ -392,14 +418,14 @@ forja test</code></pre>
     <pre><code><span class="co"># Medir en todas las VMs</span>
 forja medir ejemplos/bench_fib.fa
 
-<span class="co"># Medir en una VM específica</span>
-forja medir ejemplos/bench_fib.fa --vm fast
+<span class="co"># Medir en una VM específica: motor: fast en forja.yaml</span>
+forja medir ejemplos/bench_fib.fa
 
-<span class="co"># Con iteraciones personalizadas</span>
-forja medir ejemplos/bench_fib.fa --iters 10
+<span class="co"># Con iteraciones personalizadas: iters: 10 en forja.yaml</span>
+forja medir ejemplos/bench_fib.fa
 
-<span class="co"># Modo ASM nativo</span>
-forja medir ejemplos/bench_fib.fa --asm</code></pre>
+<span class="co"># Modo ASM nativo: backend: asm en forja.yaml</span>
+forja medir ejemplos/bench_fib.fa</code></pre>
   </div>
 
   <h2><code>PGO — Profile-Guided Optimization</code></h2>
@@ -408,11 +434,11 @@ forja medir ejemplos/bench_fib.fa --asm</code></pre>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-trending-up"/></svg> Ejemplos de PGO</span></div>
-    <pre><code><span class="co"># Recolectar perfil (genera .forjaprof)</span>
-forja ejecutar programa.fa --pgo
+    <pre><code><span class="co"># Recolectar perfil (genera .forjaprof): pgo: recoger en forja.yaml</span>
+forja ejecutar programa.fa
 
-<span class="co"># Aplicar un perfil existente</span>
-forja ejecutar programa.fa --pgo=usar</code></pre>
+<span class="co"># Aplicar un perfil existente: pgo: usar en forja.yaml</span>
+forja ejecutar programa.fa</code></pre>
   </div>
 
   <h2><code>add|agregar|remove|remover|install|instalar</code> — Gestión de paquetes</h2>

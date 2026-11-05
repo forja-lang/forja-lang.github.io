@@ -11,7 +11,12 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/hash.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>sha1(datos: Texto)</code></td><td>Calcula SHA-1 de un texto, retorna hash hexadecimal (40 caracteres en minúscula)</td></tr>
+    <tr><td><code>sha224(datos: Texto)</code></td><td>Calcula SHA-224 de un texto, retorna hash hexadecimal (56 caracteres en minúscula)</td></tr>
+    <tr><td><code>sha256(datos: Texto)</code></td><td>Calcula SHA-256 de un texto, retorna hash hexadecimal (64 caracteres en minúscula)</td></tr>
+    <tr><td><code>sha384(datos: Texto)</code></td><td>Calcula SHA-384 de un texto, retorna hash hexadecimal (96 caracteres en minúscula)</td></tr>
+    <tr><td><code>sha512(datos: Texto)</code></td><td>Calcula SHA-512 de un texto, retorna hash hexadecimal (128 caracteres en minúscula)</td></tr>
+    <tr><td><code>hmac_sha256(clave: Texto, datos: Texto)</code></td><td>Calcula HMAC-SHA256 de un mensaje con una clave clave: texto usado como clave secreta datos: mensaje a autenticar Retorna: hash hexadecimal HMAC-SHA256 (64 caracteres en minúscula)</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

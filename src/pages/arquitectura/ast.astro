@@ -86,11 +86,11 @@ import Layout from '../../layouts/Layout.astro';
       <tr><td><code>Exacto</code></td><td>Número exacto de precisión arbitraria (i128 + escala u32)</td><td><code>variable e: Exacto = 10.50 exacto</code></td></tr>
       <tr><td><code>Clase(String)</code></td><td>Nombre de clase definida por el usuario</td><td><code>variable p: Persona = ...</code></td></tr>
       <tr><td><code>Arreglo(Box&#60;Tipo&#62;)</code></td><td>Arreglo de elementos de tipo T</td><td><code>variable arr: [Entero] = [1, 2, 3]</code></td></tr>
-      <tr><td><code>Funcion(Vec&#60;Tipo&#62;, Box&#60;Tipo&#62;)</code></td><td>Tipo función: (parametros) → retorno</td><td><code>variable f: (Entero) → Texto</code></td></tr>
+      <tr><td><code>Funcion(Vec&#60;Tipo&#62;, Box&#60;Tipo&#62;)</code></td><td>Tipo función: (parametros) → retorno</td><td><code>variable f: (Entero) -> Texto</code></td></tr>
       <tr><td><code>Resultado(Box&#60;Tipo&#62;, Box&#60;Tipo&#62;)</code></td><td>Resultado con Ok(T) y Error(E)</td><td><code>variable r: Resultado&#60;Entero, Texto&#62;</code></td></tr>
       <tr><td><code>Opcion(Box&#60;Tipo&#62;)</code></td><td>Valor opcional Option(T)</td><td><code>variable o: Opcion&#60;Entero&#62;</code></td></tr>
       <tr><td><code>RasgoObjeto(String)</code></td><td>Un rasgo usado como tipo base (polimorfismo)</td><td><code>variable r: Mostrable</code></td></tr>
-      <tr><td><code>Parametro(String)</code></td><td>Parámetro de tipo genérico (T, U, etc.)</td><td><code>funcion id&#60;T&#62;(x: T) → T &#123; x &#125;</code></td></tr>
+      <tr><td><code>Parametro(String)</code></td><td>Parámetro de tipo genérico (T, U, etc.)</td><td><code>funcion id&#60;T&#62;(x: T) -> T &#123; x &#125;</code></td></tr>
     </tbody>
   </table>
 
@@ -375,7 +375,7 @@ import Layout from '../../layouts/Layout.astro';
       <tr><th>Variante</th><th>Descripción</th><th>Ejemplo Forja</th></tr>
     </thead>
     <tbody>
-      <tr><td><code>Funcion &#123; nombre, parametros_tipo, parametros, tipo_retorno, cuerpo, externa, enlace_nombre, atributos, doc, precondiciones, postcondiciones &#125;</code></td><td>Declaración de función completa con soporte para genéricos, FFI, atributos, documentación y contratos</td><td><code>funcion sumar(a: Entero, b: Entero) → Entero &#123; a + b &#125;</code></td></tr>
+      <tr><td><code>Funcion &#123; nombre, parametros_tipo, parametros, tipo_retorno, cuerpo, externa, enlace_nombre, atributos, doc, precondiciones, postcondiciones &#125;</code></td><td>Declaración de función completa con soporte para genéricos, FFI, atributos, documentación y contratos</td><td><code>funcion sumar(a: Entero, b: Entero) -> Entero &#123; a + b &#125;</code></td></tr>
     </tbody>
   </table>
 

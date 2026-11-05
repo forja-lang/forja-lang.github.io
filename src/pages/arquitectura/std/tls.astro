@@ -11,7 +11,11 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/tls.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>conectar(host: Texto, puerto: Entero)</code></td><td>Conecta un cliente WebSocket</td></tr>
+    <tr><td><code>conectar_con_pin(host: Texto, puerto: Entero, pin_sha256: Texto)</code></td><td>Conecta con verificación de pinning</td></tr>
+    <tr><td><code>enviar(conn: Entero, datos: Texto)</code></td><td>Envía datos por la conexión TLS</td></tr>
+    <tr><td><code>recibir(conn: Entero, tamano: Entero)</code></td><td>Recibe datos de la conexión TLS</td></tr>
+    <tr><td><code>cerrar(conn: Entero)</code></td><td>Cierra la conexión TLS</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

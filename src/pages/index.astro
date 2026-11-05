@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import DemoForja from '../components/DemoForja.astro';
+import Playground from '../components/Playground.astro';
 ---
 
 <Layout
@@ -37,7 +37,7 @@ import DemoForja from '../components/DemoForja.astro';
       Este es el compilador y la VM reales, compilados a WebAssembly y ejecutándose
       en tu navegador. Editá el código y presioná <strong><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg> Ejecutar</strong>.
     </p>
-    <DemoForja autoEjecutar={true} alto={280} />
+    <Playground alto={280} mostrarEjemplos={false} />
   </section>
 
   <h2>¿Por qué Forja?</h2>

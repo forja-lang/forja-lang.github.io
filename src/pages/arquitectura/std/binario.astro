@@ -11,7 +11,11 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/binario.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>empaquetar(formato: Texto, valores: Arreglo&lt;Entero&gt;)</code></td><td>Empaqueta valores en bytes binarios</td></tr>
+    <tr><td><code>desempaquetar(formato: Texto, datos: Texto)</code></td><td>Desempaqueta bytes en valores Forja</td></tr>
+    <tr><td><code>a_hex(datos: Texto)</code></td><td>Convierte bytes a texto hexadecimal</td></tr>
+    <tr><td><code>desde_hex(hex: Texto)</code></td><td>Convierte texto hexadecimal a bytes</td></tr>
+    <tr><td><code>tamano(formato: Texto)</code></td><td>Devuelve el tamaño en bytes de un dato</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

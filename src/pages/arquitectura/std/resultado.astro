@@ -22,16 +22,10 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td><code>es_alguno(opcion)</code></td><td>Retorna verdadero si la opción es Alguno/Some</td></tr>
-    <tr><td><code>es_ninguno(opcion)</code></td><td>Retorna verdadero si es Ninguno/None</td></tr>
-    <tr><td><code>es_ok(resultado)</code></td><td>Retorna verdadero si es Ok</td></tr>
-    <tr><td><code>es_error(resultado)</code></td><td>Retorna verdadero si es Error</td></tr>
-    <tr><td><code>obtener_o_sino(opcion, default)</code></td><td>Extrae el valor o retorna un default (unwrap_or)</td></tr>
-    <tr><td><code>obtener_o_ninguno(opcion)</code></td><td>Extrae el valor o retorna Ninguno</td></tr>
-    <tr><td><code>mapear(opcion, fn)</code></td><td>Aplica una función al valor interno si existe (map)</td></tr>
-    <tr><td><code>a_resultado(opcion, mensaje_error)</code></td><td>Convierte Opcion a Resultado (ok_or)</td></tr>
-    <tr><td><code>resultado_ok(resultado)</code></td><td>Extrae el valor Ok o lanza error</td></tr>
-    <tr><td><code>resultado_error(resultado)</code></td><td>Extrae el mensaje de error</td></tr>
+    <tr><td><code>es_ok(valor)</code></td><td>Verifica si es ok</td></tr>
+    <tr><td><code>es_error(valor)</code></td><td>Verifica si es error</td></tr>
+    <tr><td><code>desenvolver_o(valor, por_defecto)</code></td><td>Extrae el valor o devuelve un valor por defecto</td></tr>
+    <tr><td><code>desenvolver(valor)</code></td><td>Extrae el valor de un Resultado/Opcion o propaga el error</td></tr>
   </table>
 
   <h2>Uso con pattern matching</h2>

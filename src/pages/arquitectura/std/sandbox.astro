@@ -12,12 +12,12 @@ import Layout from '../../../layouts/Layout.astro';
 
   <h2>Funciones que expone</h2>
   <table>
-    <tr><th>Función</th><th>Nativa que llama</th><th>Descripción</th></tr>
-    <tr><td><code>restringir_host(host: Texto)</code></td><td><code>_sandbox_restringir_host</code></td><td>Restringe un host de red. Luego de restringir uno, solo los hosts restringidos están permitidos</td></tr>
-    <tr><td><code>restringir_puerto(puerto: Entero)</code></td><td><code>_sandbox_restringir_puerto</code></td><td>Restringe un puerto de red. Solo los puertos restringidos quedan accesibles</td></tr>
-    <tr><td><code>restringir_directorio(dir: Texto)</code></td><td><code>_sandbox_restringir_directorio</code></td><td>Restringe el acceso a un directorio. Solo los directorios restringidos están permitidos</td></tr>
-    <tr><td><code>restringir_comando(comando: Texto)</code></td><td><code>_sandbox_restringir_comando</code></td><td>Restringe la ejecución de un comando. Solo los comandos restringidos se pueden ejecutar</td></tr>
-    <tr><td><code>estado()</code></td><td><code>_sandbox_estado</code></td><td>Retorna el estado actual del sandbox como un mapa, p. ej. <code>&#123;red: "abierto", archivos: "abierto", procesos: "abierto"&#125;</code></td></tr>
+    <tr><th>Función</th><th>Descripción</th></tr>
+    <tr><td><code>restringir_host(host: Texto)</code></td><td>Restringe un host de red específico. Una vez que se restringe un host, solo los hosts restringidos están permitidos.  Ejemplo: sandbox.restringir_host("google.com") sandbox.restringir_host("facebook.com") # Ahora solo se puede acceder a google.com y facebook.com</td></tr>
+    <tr><td><code>restringir_puerto(puerto: Entero)</code></td><td>Restringe un puerto de red específico.  Ejemplo: sandbox.restringir_puerto(80) sandbox.restringir_puerto(443) # Ahora solo se puede acceder a puertos 80 y 443</td></tr>
+    <tr><td><code>restringir_directorio(dir: Texto)</code></td><td>Restringe acceso a un directorio específico. Una vez que se restringe un directorio, solo los directorios restringidos están permitidos.  Ejemplo: sandbox.restringir_directorio("/etc") sandbox.restringir_directorio("/root") # Ahora solo se puede acceder a /etc y /root</td></tr>
+    <tr><td><code>restringir_comando(comando: Texto)</code></td><td>Restringe ejecución de un comando específico. Una vez que se restringe un comando, solo los comandos restringidos están permitidos.  Ejemplo: sandbox.restringir_comando("rm") sandbox.restringir_comando("chmod") # Ahora solo se puede ejecutar rm y chmod</td></tr>
+    <tr><td><code>estado()</code></td><td>Retorna el estado actual del sandbox como un mapa.  Ejemplo: variable estado = sandbox.estado() escribir(estado) # &lbrace;red: "abierto", archivos: "abierto", procesos: "abierto"&rbrace;</td></tr>
   </table>
 
   <h2>Ejemplo</h2>

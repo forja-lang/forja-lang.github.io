@@ -11,7 +11,15 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/fecha.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>_comp(ts: Entero)</code></td><td>Obtiene componentes como arreglo: [año, mes, dia, hora, minuto, segundo, nombre_dia, nombre_mes]</td></tr>
+    <tr><td><code>_fmt(valor, digitos: Entero)</code></td><td>Formatea número con ceros a la izquierda</td></tr>
+    <tr><td><code>ahora()</code></td><td>Devuelve la fecha y hora actuales</td></tr>
+    <tr><td><code>hoy()</code></td><td>Devuelve la fecha de hoy</td></tr>
+    <tr><td><code>hora_actual()</code></td><td>Devuelve la hora actual</td></tr>
+    <tr><td><code>formatear(ts: Entero, formato: Texto)</code></td><td>Formatea una fecha con un patrón</td></tr>
+    <tr><td><code>parsear(texto: Texto, formato: Texto)</code></td><td>Parsea una URL en sus componentes</td></tr>
+    <tr><td><code>formato_largo(ts: Entero)</code></td><td>Formatea la fecha en formato largo</td></tr>
+    <tr><td><code>formato_corto(ts: Entero)</code></td><td>Formatea la fecha en formato corto</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

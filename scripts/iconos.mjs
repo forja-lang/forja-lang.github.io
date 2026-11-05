@@ -32,7 +32,7 @@ const MAP = {
 };
 
 // Iconos extra para la interfaz (botones de ejecutar/copiar/ver código)
-const EXTRA = ["code", "copy", "loader-circle", "terminal", "chevron-right"];
+const EXTRA = ["code", "copy", "loader-circle", "terminal", "chevron-right", "maximize", "minimize"];
 
 // ---------- 1) Sprite ----------
 const names = [...new Set([...Object.values(MAP), ...EXTRA])].sort();

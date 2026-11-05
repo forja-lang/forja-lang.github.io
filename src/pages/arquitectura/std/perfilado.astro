@@ -11,7 +11,10 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/perfilado.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>iniciar(etiqueta: Texto)</code></td><td>Inicia el perfilador</td></tr>
+    <tr><td><code>detener(etiqueta: Texto)</code></td><td>Detiene el perfilador</td></tr>
+    <tr><td><code>medir(etiqueta: Texto, iteraciones: Entero, bloque: Texto)</code></td><td>Mide el tiempo transcurrido</td></tr>
+    <tr><td><code>reportes()</code></td><td>Devuelve los reportes del perfilador</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

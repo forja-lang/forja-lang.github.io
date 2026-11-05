@@ -11,18 +11,18 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Módulo <code>archivo</code> — Operaciones de Archivos</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td><code>archivo_leer(ruta)</code></td><td>Lee el contenido completo de un archivo como texto</td></tr>
-    <tr><td><code>archivo_escribir(ruta, contenido)</code></td><td>Escribe contenido a un archivo (sobrescribe)</td></tr>
-    <tr><td><code>archivo_agregar(ruta, contenido)</code></td><td>Agrega contenido al final de un archivo</td></tr>
-    <tr><td><code>archivo_eliminar(ruta)</code></td><td>Elimina un archivo</td></tr>
-    <tr><td><code>archivo_existe(ruta)</code></td><td>Verifica si un archivo existe</td></tr>
-    <tr><td><code>archivo_copiar(origen, destino)</code></td><td>Copia un archivo</td></tr>
-    <tr><td><code>archivo_mover(origen, destino)</code></td><td>Mueve/renombra un archivo</td></tr>
-    <tr><td><code>archivo_tamano(ruta)</code></td><td>Obtiene el tamaño de un archivo en bytes</td></tr>
-    <tr><td><code>archivo_permisos(ruta)</code></td><td>Obtiene los permisos de un archivo</td></tr>
-    <tr><td><code>directorio_crear(ruta)</code></td><td>Crea un directorio (y padres si es necesario)</td></tr>
-    <tr><td><code>directorio_listar(ruta)</code></td><td>Lista el contenido de un directorio</td></tr>
-    <tr><td><code>directorio_eliminar(ruta)</code></td><td>Elimina un directorio vacío</td></tr>
+    <tr><td><code>leer_archivo(ruta: Texto)</code></td><td>Lee todo el contenido de un archivo como texto</td></tr>
+    <tr><td><code>escribir_archivo(ruta: Texto, contenido: Texto)</code></td><td>Escribe (crea o sobrescribe) un archivo con el texto dado</td></tr>
+    <tr><td><code>existe_archivo(ruta: Texto)</code></td><td>Verifica si un archivo existe</td></tr>
+    <tr><td><code>eliminar_archivo(ruta: Texto)</code></td><td>Elimina un archivo</td></tr>
+    <tr><td><code>copiar_archivo(origen: Texto, destino: Texto)</code></td><td>Copia un archivo a otra ruta</td></tr>
+    <tr><td><code>mover_archivo(origen: Texto, destino: Texto)</code></td><td>Mueve o renombra un archivo</td></tr>
+    <tr><td><code>tamano_archivo(ruta: Texto)</code></td><td>Devuelve el tamaño de un archivo en bytes</td></tr>
+    <tr><td><code>crear_directorio(ruta: Texto)</code></td><td>Crea un directorio (incluye padres si es necesario)</td></tr>
+    <tr><td><code>eliminar_directorio(ruta: Texto)</code></td><td>Elimina un directorio</td></tr>
+    <tr><td><code>listar_directorio(ruta: Texto)</code></td><td>Lista las entradas de un directorio</td></tr>
+    <tr><td><code>info_archivo(ruta: Texto)</code></td><td>Devuelve metadatos de un archivo (tamaño, fechas, tipo)</td></tr>
+    <tr><td><code>es_directorio(ruta: Texto)</code></td><td>Verifica si una ruta es un directorio</td></tr>
   </table>
 
   <h2>Módulo <code>sistema</code> — Información del Sistema</h2>

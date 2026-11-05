@@ -8,19 +8,19 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>¿Por qué existen?</h2>
   <p>Proveen capacidades de comunicación en red de bajo y alto nivel. <code>sockets.fa</code> expone sockets TCP/UDP para comunicación directa, mientras que <code>red.fa</code> ofrece utilidades de red de más alto nivel como resolución DNS y verificación de conectividad.</p>
 
-  <div class="warning"><strong><svg class="ico" aria-hidden="true"><use href="#i-triangle-alert"/></svg> Sandbox:</strong> Por defecto, Forja bloquea todas las conexiones de red. Usá <code>--allow-net</code> para habilitar conectividad. Ver <a href="/arquitectura/sandbox">Sandbox de Red</a>.</div>
+  <div class="warning"><strong><svg class="ico" aria-hidden="true"><use href="#i-triangle-alert"/></svg> Sandbox:</strong> Por defecto, Forja bloquea todas las conexiones de red. Poné <code>allow_net: &lt;hosts&gt;</code> en <code>forja.yaml</code> para habilitar conectividad. Ver <a href="/arquitectura/sandbox">Sandbox de Red</a>.</div>
 
   <h2>Módulo <code>sockets</code> — Sockets TCP/UDP</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td><code>socket_tcp_conectar(host, puerto)</code></td><td>Conecta a un servidor TCP</td></tr>
-    <tr><td><code>socket_tcp_escuchar(puerto)</code></td><td>Inicia un servidor TCP en un puerto</td></tr>
-    <tr><td><code>socket_tcp_aceptar(server)</code></td><td>Acepta una conexión entrante</td></tr>
-    <tr><td><code>socket_enviar(socket, datos)</code></td><td>Envía datos por el socket</td></tr>
-    <tr><td><code>socket_recibir(socket, n)</code></td><td>Recibe hasta n bytes del socket</td></tr>
-    <tr><td><code>socket_cerrar(socket)</code></td><td>Cierra el socket</td></tr>
-    <tr><td><code>socket_udp_enviar(host, puerto, datos)</code></td><td>Envía un datagrama UDP</td></tr>
-    <tr><td><code>socket_udp_recibir(puerto)</code></td><td>Recibe datagramas UDP en un puerto</td></tr>
+    <tr><td><code>validar_ipv4(ip: Texto)</code></td><td>Valida si un texto es una IPv4 válida</td></tr>
+    <tr><td><code>validar_ipv6(ip: Texto)</code></td><td>Valida si un texto es una dirección IPv6 válida (ej: "::1" o "fe80::1")</td></tr>
+    <tr><td><code>validar_mac(mac: Texto)</code></td><td>Valida si un texto es una dirección MAC (ej: "00:1A:2B:3C:4D:5E")</td></tr>
+    <tr><td><code>dns_resolver(host: Texto)</code></td><td>Resuelve la dirección IP principal de un nombre de host (DNS A/AAAA).  Parámetros: host: nombre de dominio (ej: "google.com")  Retorna: Ok(IP como Texto) o Error(mensaje)</td></tr>
+    <tr><td><code>dns_resolver_tipo(host: Texto, tipo: Texto)</code></td><td>Resuelve registros DNS específicos para un dominio (A, AAAA, MX, TXT).  Parámetros: host: nombre de dominio tipo: tipo de registro ("A", "AAAA", "MX", "TXT")  Retorna: Ok(arreglo de IP/valores) o Error(mensaje)</td></tr>
+    <tr><td><code>doh_resolver(host: Texto, servidor_doh: Texto)</code></td><td>Resuelve DNS sobre HTTPS (DoH) usando Cloudflare (1.1.1.1) o Google (8.8.8.8).  Parámetros: host: dominio a consultar servidor_doh: URL del servidor DoH (ej: "https://cloudflare-dns.com/dns-query")  Retorna: Ok(arreglo de IPs) o Error(mensaje)</td></tr>
+    <tr><td><code>ping(host: Texto)</code></td><td>Diagnóstica la conectividad enviando una sonda ICMP / Socket probe a un host.  Parámetros: host: IP o nombre de dominio  Retorna: Ok(RespuestaPing)</td></tr>
+    <tr><td><code>interfaces()</code></td><td>Lista las interfaces de red activas en el equipo local.  Retorna: Ok(Arreglo de InterfazRed)</td></tr>
   </table>
 
   <h2>Módulo <code>red</code> — Utilidades de Red</h2>

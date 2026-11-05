@@ -11,7 +11,13 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/sistema.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>argumentos()</code></td><td>Obtiene los argumentos de línea de comandos como Arreglo&lt;Texto&gt; El primer elemento es la ruta del ejecutable.</td></tr>
+    <tr><td><code>variable_entorno(nombre: Texto)</code></td><td>Obtiene el valor de una variable de entorno Retorna Opcion&lt;Texto&gt; — Algo(valor) si existe, Nada si no existe</td></tr>
+    <tr><td><code>salir(codigo: Entero)</code></td><td>Termina el proceso con un código de salida 0 = éxito, cualquier otro valor indica error</td></tr>
+    <tr><td><code>directorio_actual()</code></td><td>Obtiene el directorio de trabajo actual Retorna Resultado&lt;Texto, ErrorSistema&gt;</td></tr>
+    <tr><td><code>tiempo_ms()</code></td><td>Tiempo actual en milisegundos desde Unix epoch (1/1/1970) Útil para medir tiempos con precisión, timestamps, etc.</td></tr>
+    <tr><td><code>sistema_operativo()</code></td><td>Nombre del sistema operativo Retorna: "windows", "linux", "macos" según corresponda (determinado en compilación)</td></tr>
+    <tr><td><code>version_forja()</code></td><td>Versión del lenguaje Forja</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

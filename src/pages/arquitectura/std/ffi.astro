@@ -11,7 +11,9 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/ffi.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>obtener_funcion(ruta: Texto, nombre: Texto)</code></td><td>Obtiene un puntero a función desde una librería ya cargada con importar externa</td></tr>
+    <tr><td><code>llamar_entero(fn_ptr: Entero, args: Arreglo&lt;Entero&gt;)</code></td><td>Llama una función FFI que retorna Entero</td></tr>
+    <tr><td><code>llamar_texto(fn_ptr: Entero, args: Arreglo&lt;Texto&gt;)</code></td><td>Llama una función FFI que retorna Texto</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

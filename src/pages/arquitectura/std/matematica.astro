@@ -20,27 +20,26 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td><code>abs(x)</code></td><td>Valor absoluto</td></tr>
-    <tr><td><code>raiz(x)</code></td><td>Raíz cuadrada (sqrt)</td></tr>
-    <tr><td><code>exp(x)</code></td><td>e^x (exponencial)</td></tr>
-    <tr><td><code>ln(x)</code></td><td>Logaritmo natural (base e)</td></tr>
-    <tr><td><code>log(x, base)</code></td><td>Logaritmo en cualquier base</td></tr>
-    <tr><td><code>sen(x)</code></td><td>Seno (en radianes)</td></tr>
-    <tr><td><code>cos(x)</code></td><td>Coseno (en radianes)</td></tr>
-    <tr><td><code>tan(x)</code></td><td>Tangente (en radianes)</td></tr>
-    <tr><td><code>asen(x)</code></td><td>Arco seno</td></tr>
-    <tr><td><code>acos(x)</code></td><td>Arco coseno</td></tr>
-    <tr><td><code>atan(x)</code></td><td>Arco tangente</td></tr>
-    <tr><td><code>atan2(y, x)</code></td><td>Arco tangente de y/x (todos los cuadrantes)</td></tr>
-    <tr><td><code>senh(x)</code></td><td>Seno hiperbólico</td></tr>
-    <tr><td><code>cosh(x)</code></td><td>Coseno hiperbólico</td></tr>
-    <tr><td><code>tanh(x)</code></td><td>Tangente hiperbólica</td></tr>
-    <tr><td><code>redondear(x)</code></td><td>Redondea al entero más cercano</td></tr>
-    <tr><td><code>piso(x)</code></td><td>Redondea hacia abajo (floor)</td></tr>
-    <tr><td><code>techo(x)</code></td><td>Redondea hacia arriba (ceil)</td></tr>
-    <tr><td><code>potencia(base, exp)</code></td><td>Calcula base^exp (pow)</td></tr>
-    <tr><td><code>min(a, b)</code></td><td>Retorna el menor de dos valores</td></tr>
-    <tr><td><code>max(a, b)</code></td><td>Retorna el mayor de dos valores</td></tr>
+    <tr><td><code>absoluto(x)</code></td><td>Valor absoluto de un número</td></tr>
+    <tr><td><code>truncar(x)</code></td><td>Parte entera de un número (trunca hacia cero) Ejemplo: truncar(3.7) -&gt; 3</td></tr>
+    <tr><td><code>maximo(a, b)</code></td><td>Retorna el mayor entre dos números</td></tr>
+    <tr><td><code>minimo(a, b)</code></td><td>Retorna el menor entre dos números</td></tr>
+    <tr><td><code>limitar(valor, minimo, maximo)</code></td><td>Restringe un valor dentro del rango [minimo, maximo]</td></tr>
+    <tr><td><code>potencia(base, exp)</code></td><td>Calcula base^exp (exponente entero no negativo)</td></tr>
+    <tr><td><code>factorial(n)</code></td><td>Calcula el factorial de n (n!)</td></tr>
+    <tr><td><code>es_par(n)</code></td><td>Retorna verdadero si n es par</td></tr>
+    <tr><td><code>es_impar(n)</code></td><td>Retorna verdadero si n es impar</td></tr>
+    <tr><td><code>redondear(x)</code></td><td>Redondea un número al entero más cercano</td></tr>
+    <tr><td><code>suma_array(arr)</code></td><td>Suma todos los elementos de un array</td></tr>
+    <tr><td><code>promedio(arr)</code></td><td>Calcula el promedio de los elementos de un array</td></tr>
+    <tr><td><code>mcd(a, b)</code></td><td>Máximo Común Divisor (algoritmo de Euclides)</td></tr>
+    <tr><td><code>mcm(a, b)</code></td><td>Mínimo Común Múltiplo</td></tr>
+    <tr><td><code>exacto_desde_entero(n: Entero)</code></td><td>Convierte un entero a Exacto</td></tr>
+    <tr><td><code>exacto_desde_decimal(d: Decimal)</code></td><td>Convierte un decimal a Exacto (con posible pérdida de precisión)</td></tr>
+    <tr><td><code>exacto_desde_texto(t: Texto)</code></td><td>Convierte un texto a Exacto (parsing) Ejemplo: exacto_desde_texto("123.456") -&gt; 123.456</td></tr>
+    <tr><td><code>redondear_exacto(e: Exacto, decimales: Entero)</code></td><td>Redondea un Exacto a la cantidad de decimales especificada Ejemplo: redondear_exacto(123.4567, 2) -&gt; 123.45</td></tr>
+    <tr><td><code>exacto_absoluto(e: Exacto)</code></td><td>Valor absoluto de un Exacto</td></tr>
+    <tr><td><code>exacto_potencia(base: Exacto, exp: Exacto)</code></td><td>Potencia de Exacto (exponente entero, exponenciación binaria) Calcula base^exp usando el algoritmo de exponenciación binaria rápida Ejemplo: exacto_potencia(2.0, 3.0) -&gt; 8.0</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

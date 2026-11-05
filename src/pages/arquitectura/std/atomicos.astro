@@ -11,7 +11,15 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/atomicos.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>entero_nuevo(valor_inicial: Entero)</code></td><td>Crea un entero atómico con valor inicial</td></tr>
+    <tr><td><code>entero_cargar(ptr: Entero)</code></td><td>Lee el valor de un entero atómico</td></tr>
+    <tr><td><code>entero_almacenar(ptr: Entero, valor: Entero)</code></td><td>Escribe el valor de un entero atómico</td></tr>
+    <tr><td><code>entero_sumar(ptr: Entero, delta: Entero)</code></td><td>Suma un valor al entero atómico</td></tr>
+    <tr><td><code>entero_intercambiar(ptr: Entero, valor: Entero)</code></td><td>Intercambia el valor y devuelve el anterior</td></tr>
+    <tr><td><code>entero_comparar_intercambiar(ptr: Entero, esperado: Entero, nuevo: Entero)</code></td><td>Intercambia solo si el valor actual coincide con el esperado</td></tr>
+    <tr><td><code>booleano_nuevo(valor_inicial: Booleano)</code></td><td>Crea un booleano atómico con valor inicial</td></tr>
+    <tr><td><code>booleano_cargar(ptr: Entero)</code></td><td>Lee el valor de un booleano atómico</td></tr>
+    <tr><td><code>booleano_almacenar(ptr: Entero, valor: Booleano)</code></td><td>Escribe el valor de un booleano atómico</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

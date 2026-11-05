@@ -27,23 +27,28 @@ import Layout from '../../layouts/Layout.astro';
   </table>
 
   <h2>Control desde CLI</h2>
-  <p>El sandbox se configura desde la línea de comandos al ejecutar un programa Forja:</p>
+  <p>El sandbox se configura en <code>forja.yaml</code> (<code>allow_net</code> y <code>allow_port</code>) antes de ejecutar un programa Forja:</p>
   <div class="code-block-wrapper">
-    <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg> Flags de sandbox</span></div>
-    <pre><code><span class="co"># Modo air-gapped (por defecto, no hace falta flag)</span>
-forja run script.fa
+    <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg> Configuración del sandbox</span></div>
+    <pre><code><span class="co"># Modo air-gapped (por defecto): no hace falta tocar nada</span>
+forja ejecutar script.fa
 
-<span class="co"># Permitir hosts específicos</span>
-forja run --allow-net localhost,127.0.0.1 script.fa
+<span class="co"># forja.yaml: permitir hosts específicos</span>
+#   allow_net: localhost,127.0.0.1
+forja ejecutar script.fa
 
-<span class="co"># Permitir todos los hosts</span>
-forja run --allow-net "*" script.fa
+<span class="co"># forja.yaml: permitir todos los hosts</span>
+#   allow_net: "*"
+forja ejecutar script.fa
 
-<span class="co"># Restringir puertos</span>
-forja run --allow-port 80,443 script.fa
+<span class="co"># forja.yaml: restringir puertos</span>
+#   allow_port: 80,443
+forja ejecutar script.fa
 
-<span class="co"># Combinación</span>
-forja run --allow-net localhost --allow-port 3000 script.fa</code></pre>
+<span class="co"># forja.yaml: combinación (allow_net + allow_port)</span>
+#   allow_net: localhost
+#   allow_port: 3000
+forja ejecutar script.fa</code></pre>
   </div>
 
   <div class="warning"><strong><svg class="ico" aria-hidden="true"><use href="#i-triangle-alert"/></svg> Seguridad:</strong> El sandbox de red es la primera línea de defensa. Se complementa con el sistema de módulos (que previene path traversal) y el diseño general de la VM que aísla la memoria entre programas.</div>

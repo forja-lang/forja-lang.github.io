@@ -11,7 +11,10 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/señales.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>manejar_sigint(handler: Texto)</code></td><td>Registra un manejador para SIGINT (Ctrl+C)</td></tr>
+    <tr><td><code>manejar_sigterm(handler: Texto)</code></td><td>Registra un manejador para SIGTERM</td></tr>
+    <tr><td><code>ignorar(senal: Texto)</code></td><td>Ignora una señal</td></tr>
+    <tr><td><code>enviar(pid: Entero, senal: Texto)</code></td><td>Envía datos por la conexión TLS</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

@@ -15,7 +15,7 @@ import Layout from '../layouts/Layout.astro';
   </p>
 
   <div class="info">
-    <svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg> <strong>Estado actual: Forja v0.9.6.</strong> ~138.574 líneas de Rust
+    <svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg> <strong>Estado actual: Forja v0.9.6.</strong> ~142.185 líneas de Rust
     (~72.000 en <code>src/</code> y ~36.000 en <code>crates/</code>), <strong>2 motores</strong>
     (<code>vm_fast</code> + <code>jit_tiered</code>), frontend en
     <code>forja-syntax</code> / <code>forja-types</code>, <strong>263 ejemplos</strong>,
@@ -127,7 +127,7 @@ import Layout from '../layouts/Layout.astro';
     <tr><td>x86-64 Windows (Microsoft x64) y Linux (System V)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>ARM64 AArch64</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>Detección automática con <code>cfg!()</code></td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Flag <code>--target</code> para compilación cruzada</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Compilación cruzada (<code>arch</code> en forja.yaml)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>Runtime assembly (print_int, print_str, …)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>Integración con <code>gcc -O2</code></td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>POO en assembly (objetos, métodos)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
@@ -230,7 +230,7 @@ import Layout from '../layouts/Layout.astro';
   <table>
     <tr><th>Componente</th><th>Estado</th></tr>
     <tr><td><code>monomorph.rs</code> — instanciación de genéricos + inferencia</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td><code>pgo.rs</code> — <code>--pgo=recoger</code> / <code>--pgo=usar</code></td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td><code>pgo.rs</code> — <code>pgo: recoger</code> / <code>pgo: usar</code> (forja.yaml)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td><code>jit_tiered.rs</code> — tiers, OSR y deoptimización</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
   </table>
 

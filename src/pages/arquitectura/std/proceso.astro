@@ -11,7 +11,9 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/proceso.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>ejecutar(comando: Texto)</code></td><td>Ejecuta un comando del sistema</td></tr>
+    <tr><td><code>ejecutar_con_stdin(comando: Texto, entrada: Texto)</code></td><td>Ejecuta un comando pasándole stdin</td></tr>
+    <tr><td><code>ejecutar_en_dir(comando: Texto, dir: Texto)</code></td><td>Ejecuta un comando en un directorio específico</td></tr>
   </table>
 
   <h2>Casos de uso</h2>
