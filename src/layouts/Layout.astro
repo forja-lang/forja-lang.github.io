@@ -4,6 +4,7 @@ import "@fontsource-variable/jetbrains-mono";
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import Header from "../components/Header.astro";
+import Busqueda from "../components/Busqueda.astro";
 import Footer from "../components/Footer.astro";
 import Sidebar from "../components/Sidebar.astro";
 import SpriteIconos from "../components/SpriteIconos.astro";
@@ -49,6 +50,7 @@ const fuente = fuentePara(Astro.url.pathname);
     <SpriteIconos />
 
     <Header />
+    <Busqueda />
 
     <div class="docs-shell container-wide">
       <aside class="docs-sidebar" aria-label="Documentación">
@@ -117,6 +119,12 @@ const fuente = fuentePara(Astro.url.pathname);
           const open = menu?.classList.toggle("is-open") ?? false;
           document.documentElement.style.overflow = open ? "hidden" : "";
           document.querySelector("[data-menu-toggle]")?.setAttribute("aria-expanded", String(open));
+          return;
+        }
+
+        // Navegar desde el menú móvil lo cierra (si no, queda tapando la página).
+        if (target.closest("#mobile-menu a")) {
+          cerrarMenuMovil();
           return;
         }
 
@@ -291,6 +299,12 @@ const fuente = fuentePara(Astro.url.pathname);
         // (o YAML/CLI/mermaid), así que el heurístico de abajo no tiene nada que
         // ejecutar con la VM de Forja y sólo agregaba botones que fallaban.
         if (location.pathname.startsWith("/arquitectura/")) return;
+        // /uso es sólo comandos de CLI: no hay código Forja que ejecutar, así
+        // que no corresponde el botón "Ejecutar" en ninguno de sus bloques.
+        if (location.pathname.startsWith("/uso")) return;
+        // La GUI nativa sólo corre con el runtime nativo (`destino: nativo`),
+        // no en el playground del navegador: sus ejemplos no llevan botón.
+        if (location.pathname.startsWith("/sintaxis/gui/")) return;
         document.querySelectorAll<HTMLElement>("pre").forEach((pre) => {
           // Forja = palabras clave en español; los bloques de Rust/bash/salida no.
           const codigo = (pre.textContent ?? "").trim();
@@ -444,6 +458,17 @@ const fuente = fuentePara(Astro.url.pathname);
         // Compatibilidad: playground y DemoForja esperan este evento.
         window.dispatchEvent(new CustomEvent("page-loaded", { detail: location.pathname }));
       }
+
+      function cerrarMenuMovil() {
+        document.querySelector("#mobile-menu")?.classList.remove("is-open");
+        document.documentElement.style.overflow = "";
+        document.querySelector("[data-menu-toggle]")?.setAttribute("aria-expanded", "false");
+      }
+
+      // Si se agranda la ventana (o se rota el teléfono), el menú móvil sobra.
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 980) cerrarMenuMovil();
+      });
 
       document.addEventListener("astro:page-load", initPage);
       initPage();
