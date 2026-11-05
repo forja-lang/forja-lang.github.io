@@ -52,16 +52,16 @@ import Layout from '../../layouts/Layout.astro';
   <h2>Diseño futuro del prelude</h2>
 
   <h3>Tipos algebraicos planeados</h3>
-  <pre><code>// Opcion (Option)
-tipo Opcion = Algo(valor) | Ninguno
+  <pre><code><span class="co">// Opcion (Option)</span>
+<span class="kw">tipo</span> <span class="ty">Opcion</span> <span class="op">=</span> <span class="ty">Algo</span>(valor) <span class="op">|</span> <span class="ty">Ninguno</span>
 
-// Resultado (Result)
-tipo Resultado = Ok(valor) | Error(valor)</code></pre>
+<span class="co">// Resultado (Result)</span>
+<span class="kw">tipo</span> <span class="ty">Resultado</span> <span class="op">=</span> <span class="ty">Ok</span>(valor) <span class="op">|</span> <span class="ty">Error</span>(valor)</code></pre>
 
   <h3>Funciones de utilidad planeadas</h3>
-  <pre><code>funcion escribir(valor)
-funcion leer() -> Texto
-funcion tipo_de(valor) -> Texto</code></pre>
+  <pre><code><span class="kw">funcion</span> <span class="fn">escribir</span>(valor)
+<span class="kw">funcion</span> <span class="fn">leer</span>() <span class="op">-&gt;</span> <span class="ty">Texto</span>
+<span class="kw">funcion</span> <span class="fn">tipo_de</span>(valor) <span class="op">-&gt;</span> <span class="ty">Texto</span></code></pre>
 
   <h2>¿Por qué está vacío ahora?</h2>
   <p>

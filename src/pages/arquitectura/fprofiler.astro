@@ -19,8 +19,8 @@ import Layout from '../../layouts/Layout.astro';
   <p>Instrumentación puntual en pasadas críticas del compilador (optimización, generación de código, JIT) y en la VM para comparar versiones de algoritmos.</p>
 
   <h2>Ejemplo de uso</h2>
-  <pre><code class="language-rust">measure!("optimizar", &#123;
-    // Código a perfilar aquí
+  <pre><code class="language-rust"><span class="fn">measure!</span>(<span class="st">"optimizar"</span>, &#123;
+    <span class="co">// Código a perfilar aquí</span>
 &#125;);
 </code></pre>
 </Layout>

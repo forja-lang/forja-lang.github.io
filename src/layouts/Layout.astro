@@ -287,6 +287,10 @@ const fuente = fuentePara(Astro.url.pathname);
       }
 
       function initRunBlocks() {
+        // Arquitectura documenta el compilador: el código de esas páginas es Rust
+        // (o YAML/CLI/mermaid), así que el heurístico de abajo no tiene nada que
+        // ejecutar con la VM de Forja y sólo agregaba botones que fallaban.
+        if (location.pathname.startsWith("/arquitectura/")) return;
         document.querySelectorAll<HTMLElement>("pre").forEach((pre) => {
           // Forja = palabras clave en español; los bloques de Rust/bash/salida no.
           const codigo = (pre.textContent ?? "").trim();
