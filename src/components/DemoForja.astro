@@ -2,7 +2,7 @@
 /**
  * Demo interactiva de Forja: editor + salida que ejecuta el código en la VM
  * compilada a WebAssembly. Pensada para embeber el playground en la landing
- * (F3-T6) sin duplicar la lógica de la página /playground.
+ * sin duplicar la lógica de la página /playground.
  */
 export interface Props {
   codigoInicial?: string;
@@ -92,30 +92,30 @@ escribir("Suma: " + suma)`,
       <div class="demo-actions">
         <button type="button" class="demo-btn demo-run" data-demo-run><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg> Ejecutar</button>
         <button type="button" class="demo-btn demo-clear" data-demo-clear title="Limpiar editor"><svg class="ico" aria-hidden="true"><use href="#i-trash-2"/></svg></button>
-      </div>
-    </div>
+</div>
+</div>
     <textarea
       class="demo-editor"
       data-demo-code
       spellcheck="false"
       style={`height:${alto}px`}>{codigoInicial}</textarea>
-  </div>
+</div>
   <div class="demo-panel">
     <div class="demo-head">
       <span class="demo-file"><svg class="ico" aria-hidden="true"><use href="#i-clipboard-list"/></svg> Salida</span>
       <span class="demo-status" data-demo-status><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> listo</span>
-    </div>
+</div>
     <div class="demo-output" data-demo-output style={`height:${alto}px`}>
       <span class="demo-placeholder">Presioná <svg class="ico" aria-hidden="true"><use href="#i-play"/></svg> Ejecutar para correr el código</span>
-    </div>
-  </div>
+</div>
+</div>
 
   {ejemplos.length > 0 && (
     <div class="demo-chips">
       {ejemplos.map((ej) => (
         <button type="button" class="demo-chip" data-demo-example={ej.codigo}>{ej.nombre}</button>
       ))}
-    </div>
+</div>
   )}
 </div>
 
