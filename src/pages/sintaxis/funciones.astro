@@ -11,10 +11,16 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-file"/></svg> Plantilla de función</span></div>
-    <pre><code><span class="kw">funcion</span> nombre(param1, param2, ...) &lbrace;
-    <span class="co">// cuerpo de la función</span>
-    <span class="kw">retornar</span> valor  <span class="co">// opcional</span>
-&rbrace;</code></pre>
+    <pre><code><span class="kw">funcion</span> <span class="fn">sumar</span>(a: <span class="ty">Entero</span>, b: <span class="ty">Entero</span>) -&gt; <span class="ty">Entero</span> &lbrace;
+    <span class="kw">retornar</span> a + b
+&rbrace;
+
+<span class="kw">funcion</span> <span class="fn">saludar</span>(nombre) &lbrace;
+    <span class="fn">escribir</span>(<span class="st">&quot;Hola, &quot;</span> + nombre)
+&rbrace;
+
+<span class="fn">saludar</span>(<span class="st">&quot;Ana&quot;</span>)
+<span class="fn">escribir</span>(<span class="fn">sumar</span>(<span class="nu">2</span>, <span class="nu">3</span>))</code></pre>
   </div>
 
   <h2>Ejemplo: suma</h2>
@@ -73,9 +79,12 @@ saludo(<span class="st">"Forja"</span>)   <span class="co">// → Hola, Forja!</
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-refresh-cw"/></svg> Genéricos</span></div>
-    <pre><code><span class="kw">funcion</span> <span class="fn">imprimir</span>&lt;T: <span class="kw">Rasgo</span>&gt;(valor: T) &lbrace;
-    <span class="fn">escribir</span>(valor.<span class="fn">mostrar</span>())
-&rbrace;</code></pre>
+    <pre><code><span class="kw">funcion</span> imprimir&lt;T&gt;(valor: T) &lbrace;
+    <span class="fn">escribir</span>(valor)
+&rbrace;
+
+<span class="fn">imprimir</span>(<span class="st">&quot;texto&quot;</span>)
+<span class="fn">imprimir</span>(<span class="nu">42</span>)</code></pre>
   </div>
 
   <h2>Parámetros por referencia</h2>
