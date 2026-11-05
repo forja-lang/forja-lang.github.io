@@ -92,7 +92,7 @@ export const navSections: NavSection[] = [
       { title: "Cache Incremental (incremental_cache.rs)", href: "/arquitectura/incremental_cache/", sub: true },
       { title: "Entorno REPL (repl.rs)", href: "/arquitectura/repl/", sub: true },
       { title: "Compilador AOT (aot.rs)", href: "/arquitectura/aot/", sub: true },
-      { title: "Auto-ejecutor stub (selfrun.rs)", href: "/arquitectura/selfrun/", sub: true },
+      { title: "Arranque autónomo (selfrun.rs)", href: "/arquitectura/selfrun/", sub: true },
       { title: "Gestor de Módulos (module.rs)", href: "/arquitectura/module/", sub: true },
       { title: "Preludio del Lenguaje (prelude.rs)", href: "/arquitectura/prelude/", sub: true },
       { title: "FFI a C (ffi.rs)", href: "/arquitectura/ffi/", sub: true },
