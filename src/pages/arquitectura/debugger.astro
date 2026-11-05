@@ -9,7 +9,7 @@ import Layout from '../../layouts/Layout.astro';
   <p>Implementa un depurador paso a paso con soporte para <strong>breakpoints</strong> y el protocolo <strong>DAP (Debug Adapter Protocol)</strong> de Microsoft. Envuelve la VM ForjaFast y controla la ejecución opcode por opcode, permitiendo pausar, inspeccionar variables, y ejecutar paso a paso (step over/into/out).</p>
 
   <h2>Arquitectura</h2>
-  <p>El debugger se sitúa como una capa entre el compilador y la VM. Cuando el usuario ejecuta <code>forja debug archivo.fa</code>:</p>
+  <p>El debugger se sitúa como una capa entre el compilador y la VM. Cuando el usuario ejecuta <code><span class="cmd">forja</span> <span class="sub">debug</span>  archivo.fa</code>:</p>
   <ol>
     <li>El compilador genera bytecode normalmente</li>
     <li>El debugger inicia la VM en modo controlado (<code>DebugState::Running</code>)</li>
@@ -55,5 +55,5 @@ import Layout from '../../layouts/Layout.astro';
     <li><strong>continue / nextIn / stepIn / stepOut:</strong> Control de ejecución</li>
   </ul>
 
-  <div class="info"><strong><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg> Uso:</strong> Ejecutá <code>forja debug ejemplo.fa</code> para usar el debugger en terminal, o configurá VS Code para usar el adaptador DAP en <code>src/bin/forja_dap.rs</code>.</div>
+  <div class="info"><strong><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg> Uso:</strong> Ejecutá <code><span class="cmd">forja</span> <span class="sub">debug</span>  ejemplo.fa</code> para usar el debugger en terminal, o configurá VS Code para usar el adaptador DAP en <code>src/bin/forja_dap.rs</code>.</div>
 </Layout>
