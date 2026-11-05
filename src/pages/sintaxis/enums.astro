@@ -36,8 +36,18 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-dna"/></svg> Genéricos</span></div>
-    <pre><code><span class="kw">tipo</span> Resultado&lt;T, E&gt; = Ok(T) | Error(E)
-<span class="kw">tipo</span> Opcion&lt;T&gt; = Alguno(T) | Ninguno</code></pre>
+    <pre><code><span class="kw">tipo</span> Forma = <span class="fn">Circulo</span>(<span class="ty">Decimal</span>) | <span class="fn">Rect</span>(<span class="ty">Decimal</span>, <span class="ty">Decimal</span>)
+
+<span class="kw">variable</span> f = <span class="fn">Circulo</span>(<span class="nu">2.0</span>)
+
+<span class="kw">coincidir</span> (f) &lbrace;
+    <span class="kw">caso</span> <span class="fn">Circulo</span>(r) -&gt; &lbrace;
+        <span class="fn">escribir</span>(<span class="st">&quot;Círculo de radio &quot;</span> + r)
+    &rbrace;
+    <span class="kw">caso</span> <span class="fn">Rect</span>(a, b) -&gt; &lbrace;
+        <span class="fn">escribir</span>(<span class="st">&quot;Rectángulo &quot;</span> + a + <span class="st">&quot; x &quot;</span> + b)
+    &rbrace;
+&rbrace;</code></pre>
   </div>
 
   <h2>Uso con <code>coincidir</code></h2>
