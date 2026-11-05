@@ -24,21 +24,11 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Descargar WASM playground de la última versión
-        continue-on-error: true
-        run: |
-          curl -sL \
-            https://github.com/forja-lang/forja/releases/latest/download/forja_wasm_bg.wasm \
-            -o src/wasm/forja_wasm_bg.wasm
-          curl -sL \
-            https://github.com/forja-lang/forja/releases/latest/download/forja_wasm.js \
-            -o src/wasm/forja_wasm.js
-          curl -sL \
-            https://github.com/forja-lang/forja/releases/latest/download/forja_wasm_gui_bg.wasm \
-            -o src/wasm/forja_wasm_gui_bg.wasm
-          curl -sL \
-            https://github.com/forja-lang/forja/releases/latest/download/forja_wasm_gui.js \
-            -o src/wasm/forja_wasm_gui.js
+      # El par glue/wasm del playground se versiona en src/wasm y se compila
+      # desde el árbol de `forja` (scripts/build-wasm.ps1). Antes se
+      # descargaba el par del último release y pisaba lo commiteado: eso
+      # publicó un runtime viejo (contador con {{contador}}, botones sin
+      # callback). Se usa lo que está en git.
       - name: Verify WASM files (fallback to local if download failed)
         run: |
           # Un wasm válido empieza con los bytes mágicos \0asm (0061736d).
