@@ -5,7 +5,7 @@ import Layout from '../../layouts/Layout.astro';
   <h1>Backend LLVM</h1>
   <p><strong>Archivo:</strong> <code>src/backend_llvm.rs</code> + lowering en <code>src/backend_llvm/legacy.rs</code></p>
 
-  <div class="info"><strong><svg class="ico" aria-hidden="true"><use href="#i-lightbulb"/></svg> Backend unificado (F6-T5):</strong> <code>backend_llvm.rs</code> expone el andamiaje IR→LLVM y el lowering AST→LLVM textual (<code>compilar_a_llvm_texto</code>). El histórico <code>compiler_llvm.rs</code> se movió a <code>backend_llvm/legacy.rs</code>: ya no hay un módulo LLVM paralelo. <code>compilar_a_llvm()</code> usa este único backend.</div>
+  <div class="info"><strong><svg class="ico" aria-hidden="true"><use href="#i-lightbulb"/></svg> Backend unificado:</strong> <code>backend_llvm.rs</code> expone el andamiaje IR→LLVM y el lowering AST→LLVM textual (<code>compilar_a_llvm_texto</code>). El histórico <code>compiler_llvm.rs</code> se movió a <code>backend_llvm/legacy.rs</code>: ya no hay un módulo LLVM paralelo. <code>compilar_a_llvm()</code> usa este único backend.</div>
 
   <h2>¿Por qué existe?</h2>
   <p>Backend que genera código máquina nativo usando <strong>LLVM como infraestructura</strong>. Soporta tipos básicos, funciones, clases/structs, enums y closures. A diferencia del JIT de <code>jit.rs</code> (que emite bytes x86-64 a mano), este backend serializa el programa a <strong>LLVM IR textual</strong> y delega las optimizaciones y la generación de código de bajo nivel a LLVM.</p>
