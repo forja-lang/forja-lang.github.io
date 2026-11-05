@@ -8,7 +8,7 @@ import Playground from '../components/Playground.astro';
   description="Forja (fa) es un lenguaje de programación educativo, en español, con contratos y tipado. Compila a nativo, GUI, WASM y más. Probalo en el navegador."
 >
   <section class="hero landing-hero">
-    <div class="hero-eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg> Lenguaje de programación · v0.9.6</div>
+    <div class="hero-eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg> Lenguaje de programación · v0.9.7</div>
     <h1>Programá en español.<br />Compilá a todas partes.</h1>
     <p class="hero-pitch">
       <strong>Forja</strong> es un lenguaje educativo con <strong>contratos</strong> y
@@ -137,7 +137,7 @@ import Playground from '../components/Playground.astro';
   <ol class="step-list">
     <li><strong>Instalá el compilador</strong> — cloná el repo y compilá con <code>cargo build --release</code> (solo necesitás Rust).</li>
     <li><strong>Escribí tu primer programa</strong> — guardá <code>hola.fa</code> con <code>escribir("¡Hola!")</code>.</li>
-    <li><strong>Ejecutalo</strong> — <code>forja run hola.fa</code> en la VM, o <code>forja build-asm hola.fa</code> para un binario nativo.</li>
+    <li><strong>Ejecutalo</strong> — <code><span class="cmd">forja</span> <span class="sub">run</span>  hola.fa</code> en la VM, o <code><span class="cmd">forja</span> <span class="sub">build-asm</span>  hola.fa</code> para un binario nativo.</li>
     <li><strong>Seguí con el curso</strong> — 30 lecciones progresivas, de variables a GUI, red y SQLite.</li>
   </ol>
 
@@ -148,13 +148,13 @@ git clone https://github.com/forja-lang/forja
 cd forja &amp;&amp; cargo build --release
 
 <span class="co"># Ejecutar en la VM</span>
-forja run ejemplos/01_hola.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/01_hola.fa
 
 <span class="co"># Compilar a un binario nativo</span>
-forja build-asm ejemplos/01_hola.fa -o programa
+<span class="cmd">forja</span> <span class="sub">build-asm</span> ejemplos/01_hola.fa -o programa
 
 <span class="co"># Modo interactivo</span>
-forja repl</code></pre>
+<span class="cmd">forja</span> <span class="sub">repl</span></code></pre>
   </div>
 
   <h2>Seguí explorando</h2>
