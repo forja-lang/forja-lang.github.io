@@ -40,6 +40,7 @@
   --shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
   --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.28);
   --header-bg: rgba(10, 9, 8, 0.74);
+  --header-h: 68px;
   --focus: #fcd34d;
   --success: #6ee7b7;
   --danger: #fda4af;
@@ -517,6 +518,63 @@ pre {
   margin-left: auto;
 }
 
+/* Botón del buscador: al lado de "Blog" (final del nav). */
+.search-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 34px;
+  margin-left: 6px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.search-trigger-mobile {
+  display: none;
+}
+
+@media (max-width: 1200px) {
+  .search-trigger kbd {
+    display: none;
+  }
+
+  .search-trigger {
+    width: 34px;
+    padding: 0;
+  }
+}
+
+.search-trigger:hover {
+  background: var(--surface-strong);
+  color: var(--text);
+}
+
+.search-trigger svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+}
+
+.search-trigger kbd {
+  padding: 2px 6px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
 .icon-btn {
   display: inline-grid;
   place-items: center;
@@ -567,13 +625,30 @@ pre {
 
 .mobile-menu.is-open {
   position: fixed;
-  inset: 68px 0 0;
+  top: var(--header-h);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: auto;
+  max-width: none;
   z-index: 55;
   display: block;
-  overflow: auto;
-  padding: 20px 0 40px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  /* Mismo margen lateral que `.container-wide`: el contenido no debe quedar
+     pegado a la pared (antes era `20px 0 40px`). */
+  padding: 20px max(24px, calc((100vw - 1360px) / 2)) 40px;
   background: var(--bg);
   box-shadow: inset 0 1px 0 var(--line);
+}
+
+.mobile-menu .sidebar-inner {
+  gap: 26px;
+}
+
+.mobile-menu .docs-label {
+  padding-left: 12px;
 }
 
 .mobile-menu .docs-search {
@@ -593,10 +668,147 @@ pre {
   font-size: 13px;
 }
 
+/* ---------- Buscador global ---------- */
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  align-items: start;
+  justify-items: center;
+  padding: 10vh 20px 20px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.search-overlay[hidden] {
+  display: none;
+}
+
+.search-panel {
+  width: min(680px, 100%);
+  max-height: 72vh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 16px;
+  background: var(--surface-strong);
+  box-shadow: var(--shadow);
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.search-field svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  color: var(--faint);
+}
+
+.search-field input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+}
+
+.search-field input::placeholder {
+  color: var(--faint);
+}
+
+.search-field input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.search-close {
+  flex: none;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.search-close:hover {
+  color: var(--text);
+  border-color: var(--line-strong);
+}
+
+.search-results {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 6px;
+}
+
+.search-result {
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: inherit;
+}
+
+.search-result:hover,
+.search-result.is-active {
+  background: var(--surface);
+}
+
+.search-result-title {
+  color: var(--text);
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.search-result-snippet {
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.search-empty,
+.search-hint {
+  margin: 0;
+  padding: 10px 16px 14px;
+  color: var(--faint);
+  font-size: 11.5px;
+}
+
+.search-empty {
+  padding-top: 18px;
+  font-size: 13px;
+}
+
+.search-hint {
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+}
+
+.search-hint kbd {
+  padding: 1px 5px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  font-size: 10px;
+}
+
 /* ---------- Shell de documentación ---------- */
 .docs-shell {
   display: grid;
-  grid-template-columns: var(--sidebar-w) minmax(0, 1fr) 210px;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr) minmax(0, 210px);
   gap: 44px;
   flex: 1 0 auto;
   align-items: start;
@@ -617,6 +829,22 @@ pre {
   gap: 20px;
   align-content: start;
   padding-right: 4px;
+  min-width: 0;
+}
+
+/* Títulos y enlaces largos (p. ej. `add|agregar|remove|...`) no deben
+   provocar scroll horizontal en el índice ni en el menú. */
+.docs-toc,
+.toc-nav,
+.docs-nav {
+  min-width: 0;
+}
+
+.docs-toc,
+.toc-nav a,
+.docs-nav a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .sidebar-inner {
@@ -716,7 +944,9 @@ pre {
 }
 
 .docs-toc {
+  min-width: 0;
   padding-top: 2px;
+  overflow-x: hidden;
 }
 
 .toc-nav {
@@ -1018,6 +1248,12 @@ pre code {
 .op { color: var(--syn-op); }
 .nu { color: var(--syn-nu); }
 
+/* Resaltado de la CLI: comando, subcomando y argumentos */
+.cmd { color: var(--syn-fn); font-weight: 600; }
+.sub { color: var(--syn-kw); font-weight: 600; }
+.arg { color: var(--syn-ty); }
+h2 > code, h3 > code { color: var(--syn-kw); font-weight: 600; }
+
 /* ---------- Iconos (sprite lucide) ---------- */
 .ico {
   width: 1em;
@@ -1026,7 +1262,7 @@ pre code {
   vertical-align: -0.15em;
 }
 
-/* ---------- Botón Ejecutar + mini consola ---------- */
+/* ---------- Botón Correr + mini consola ---------- */
 .code-header > span:first-child {
   margin-right: auto;
 }
@@ -1635,7 +1871,9 @@ details .code-block-wrapper {
   }
 }
 
-@media (max-width: 860px) {
+/* El nav necesita ancho para los 5 enlaces + el buscador: en tablets chicas
+   pasa a menú hamburguesa (antes se desbordaba). */
+@media (max-width: 980px) {
   .nav,
   .header-actions .btn {
     display: none;
@@ -1643,6 +1881,21 @@ details .code-block-wrapper {
 
   .menu-toggle {
     display: inline-grid;
+  }
+
+  .search-trigger-mobile {
+    display: inline-grid;
+  }
+}
+
+@media (max-width: 860px) {
+
+  .search-overlay {
+    padding: 8vh 12px 12px;
+  }
+
+  .search-panel {
+    max-height: 80vh;
   }
 
   .docs-shell {
@@ -1677,8 +1930,20 @@ details .code-block-wrapper {
     width: calc(100% - 32px);
   }
 
+  :root {
+    --header-h: 60px;
+  }
+
+  .mobile-menu.is-open {
+    padding-inline: 16px;
+  }
+
   .header-inner {
     min-height: 60px;
+  }
+
+  .header-github {
+    display: none;
   }
 
   .brand-tag {
