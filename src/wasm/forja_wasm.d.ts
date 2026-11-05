@@ -2,20 +2,10 @@
 /* eslint-disable */
 
 /**
- * Codificar código para compartir via URL (percent-encoding)
- */
-export function codificar_url(codigo: string): string;
-
-/**
  * Transpila código Forja a Rust (transpilación; la API WASM conserva el
  * nombre `compilar` por compatibilidad con el JS existente).
  */
 export function compilar(codigo: string): string;
-
-/**
- * Decodificar código desde URL (percent-encoding)
- */
-export function decodificar_url(codigo_encoded: string): string;
 
 /**
  * Compila y ejecuta código Forja en la VM, devolviendo el output.
@@ -23,32 +13,12 @@ export function decodificar_url(codigo_encoded: string): string;
  */
 export function forja_ejecutar(source: string): string;
 
-/**
- * Tokeniza código Forja y devuelve los tokens como JSON
- */
-export function forja_tokenizar(source: string): string;
-
-/**
- * Obtener ejemplos disponibles como JSON
- */
-export function obtener_ejemplos(): string;
-
-/**
- * Obtener versión de Forja
- */
-export function version(): string;
-
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
     readonly memory: WebAssembly.Memory;
-    readonly codificar_url: (a: number, b: number) => [number, number];
     readonly compilar: (a: number, b: number) => [number, number];
-    readonly decodificar_url: (a: number, b: number) => [number, number];
     readonly forja_ejecutar: (a: number, b: number) => [number, number, number, number];
-    readonly forja_tokenizar: (a: number, b: number) => [number, number, number, number];
-    readonly obtener_ejemplos: () => [number, number];
-    readonly version: () => [number, number];
     readonly __wbindgen_externrefs: WebAssembly.Table;
     readonly __wbindgen_malloc: (a: number, b: number) => number;
     readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
