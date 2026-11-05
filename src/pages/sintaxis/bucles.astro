@@ -27,8 +27,10 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-clipboard-list"/></svg> Iteración sobre colección</span></div>
-    <pre><code><span class="kw">para</span> elemento <span class="kw">en</span> coleccion &lbrace;
-    <span class="fn">escribir</span>(elemento)
+    <pre><code><span class="kw">variable</span> coleccion = [<span class="nu">10</span>, <span class="nu">20</span>, <span class="nu">30</span>]
+
+<span class="kw">para</span> (<span class="kw">variable</span> i = <span class="nu">0</span>; i &lt; <span class="fn">longitud</span>(coleccion); i = i + <span class="nu">1</span>) &lbrace;
+    <span class="fn">escribir</span>(coleccion[i])
 &rbrace;</code></pre>
   </div>
 
@@ -36,8 +38,8 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-clipboard-list"/></svg> Sintaxis</span></div>
-    <pre><code><span class="kw">para</span> (inicialización; condición; incremento) &lbrace;
-    <span class="co">// cuerpo del bucle</span>
+    <pre><code><span class="kw">para</span> (<span class="kw">variable</span> i = <span class="nu">0</span>; i &lt; <span class="nu">3</span>; i = i + <span class="nu">1</span>) &lbrace;
+    <span class="fn">escribir</span>(<span class="st">&quot;Vuelta &quot;</span> + i)
 &rbrace;</code></pre>
   </div>
 
