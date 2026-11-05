@@ -90,14 +90,30 @@ import Layout from '../../layouts/Layout.astro';
       <tr><th>Comando</th><th>Descripción</th></tr>
     </thead>
     <tbody>
-      <tr><td><code>:salir</code> / <code>:quit</code></td><td>Sale del REPL</td></tr>
-      <tr><td><code>:reset</code> / <code>:limpiar</code></td><td>Reinicia el estado de la VM (limpia variables, funciones, heap)</td></tr>
-      <tr><td><code>:reload</code></td><td>Recarga todos los módulos (re-parsea y re-compila desde las fuentes originales)</td></tr>
-      <tr><td><code>:reload modulo</code></td><td>Recarga un módulo específico por su nombre</td></tr>
-      <tr><td><code>:variables</code></td><td>Muestra las variables definidas actualmente (solo modo fast)</td></tr>
-      <tr><td><code>:bytecode</code></td><td>Alterna la visualización del bytecode generado</td></tr>
+      <tr><td><code>/salir</code> / <code>/exit</code> / <code>/quit</code></td><td>Sale del REPL</td></tr>
+      <tr><td><code>/configurar</code> / <code>/config</code></td><td>Asistente de opciones: se elige con <strong>↑ / ↓ y Enter</strong> (no se escribe nada). La opción seleccionada se ve en verde y cada elección queda impresa (<code>Motor: vm</code>) antes de pasar a la siguiente</td></tr>
+      <tr><td><code>/motor &lt;vm|rapido|jit&gt;</code></td><td>Cambia el motor de la sesión (mismos nombres que <code>forja.yaml</code>)</td></tr>
+      <tr><td><code>/limpiar</code> / <code>/reset</code></td><td>Reinicia el estado de la VM (limpia variables, funciones, heap)</td></tr>
+      <tr><td><code>/recargar</code></td><td>Recarga todos los módulos (re-parsea y re-compila desde las fuentes originales)</td></tr>
+      <tr><td><code>/recargar modulo</code></td><td>Recarga un módulo específico por su nombre</td></tr>
+      <tr><td><code>/variables</code></td><td>Muestra las variables definidas actualmente</td></tr>
+      <tr><td><code>/ayuda</code> / <code>/help</code></td><td>Lista de comandos</td></tr>
     </tbody>
   </table>
+
+  <p>El REPL <strong>no usa argumentos <code>--</code></strong> y los comandos van <strong>siempre con <code>/</code></strong> (<code>/salir</code>, <code>/configurar</code>, …). Todo lo que no empieza con <code>/</code> se ejecuta como código Forja.</p>
+
+  <h2>Historial de sesiones</h2>
+  <p>
+    Cada REPL escribe su historial en <code>&lt;nombre_del_archivo&gt;_historial.txt</code>
+    (junto al <code>.fa</code>; si se abre sin archivo, <code>repl_historial.txt</code>).
+    El archivo se <strong>agrega</strong>, nunca se sobreescribe: cada sesión empieza con una
+    cabecera con fecha y hora local del sistema, una instancia corta y el motor, y después van los
+    comandos tal como se escribieron:
+  </p>
+  <pre><code># ── sesión 18e5100f12702810 · 2026-11-05 05:48:00 · motor rapido · programa.fa ──
+escribir(1)
+salir</code></pre>
 
   <hr />
 
@@ -175,6 +191,6 @@ import Layout from '../../layouts/Layout.astro';
     <li>Depende de <code>lexer.rs</code>, <code>parser.rs</code>, <code>bytecode.rs</code> para el pipeline de compilación</li>
     <li>Ejecuta el código en <code>vm_fast.rs</code> (ForjaFast)</li>
     <li>Utiliza <code>module.rs</code> (ModuleResolver) para recarga de módulos</li>
-    <li>Se invoca con <code>forja repl</code> (el motor se elige con <code>motor</code> en <code>forja.yaml</code>; dentro del REPL, <code>motor &lt;fast|jit&gt;</code>)</li>
+    <li>Se invoca con <code><span class="cmd">forja</span> <span class="sub">repl</span></code> o <code><span class="cmd">forja</span> <span class="sub">repl</span> archivo.fa</code> (el motor se elige con <code>motor</code> en <code>forja.yaml</code>, dentro del REPL con <code>/motor &lt;vm|rapido|jit&gt;</code>, o con el menú <code>/configurar</code>)</li>
   </ul>
 </Layout>
