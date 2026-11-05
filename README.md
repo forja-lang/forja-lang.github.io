@@ -66,7 +66,7 @@ es [`compilar_pipeline_completa()`](../src/lib.rs) (y su variante con imports
 - **Aliases obsoletos (delegan, `#[deprecated]`):** `compilar_con_ir` y `compilar_pipeline`.
 - **Ruta de transpilación a Rust (independiente, no genera bytecode):** `transpilar_a_rust`
   (alias obsoleto `compilar`) y `transpilar_a_rust_con_ast` (alias obsoleto `compilar_con_ast`).
-- **Estado del IR:** andamiaje diagnóstico; su finalización corresponde a **F4-T8**, no a esta fase.
+- **Estado del IR:** andamiaje diagnóstico; su finalización corresponde , no a esta fase.
 
 ## Playground WASM
 
