@@ -108,13 +108,13 @@ saludo(<span class="st">"Forja"</span>)</code></pre>
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-file"/></svg> ejemplos/06_bucles.fa</span></div>
     <pre><code><span class="co">// Mientras</span>
 <span class="kw">variable</span> contador = 0
-<span class="kw">mientras</span> (contador {'&lt;'} 5) &lbrace;
+<span class="kw">mientras</span> (contador &lbrace;'&lt;'&rbrace; 5) &lbrace;
     <span class="fn">escribir</span>(<span class="st">"Contador: "</span> + contador)
     contador = contador + 1
 &rbrace;
 
 <span class="co">// Para</span>
-<span class="kw">para</span> (<span class="kw">variable</span> i = 0; i {'&lt;'} 3; i = i + 1) &lbrace;
+<span class="kw">para</span> (<span class="kw">variable</span> i = 0; i &lbrace;'&lt;'&rbrace; 3; i = i + 1) &lbrace;
     <span class="fn">escribir</span>(<span class="st">"i = "</span> + i)
 &rbrace;
 
@@ -293,9 +293,9 @@ persona[<span class="st">"edad"</span>] = 31
     <span class="kw">variable</span> guess = <span class="fn">leer</span>()
     intento = intento + 1
 
-    <span class="kw">si</span> (guess {'&lt;'} secreto) &lbrace;
+    <span class="kw">si</span> (guess &lbrace;'&lt;'&rbrace; secreto) &lbrace;
         <span class="fn">escribir</span>(<span class="st">"📈 Más alto"</span>)
-    &rbrace; <span class="kw">sino</span> <span class="kw">si</span> (guess {'>'} secreto) &lbrace;
+    &rbrace; <span class="kw">sino</span> <span class="kw">si</span> (guess &lbrace;'>'&rbrace; secreto) &lbrace;
         <span class="fn">escribir</span>(<span class="st">"📉 Más bajo"</span>)
     &rbrace; <span class="kw">sino</span> &lbrace;
         <span class="fn">escribir</span>(<span class="st">"🎉 Correcto! Lo lograste en "</span> + intento + <span class="st">" intentos"</span>)
@@ -367,27 +367,27 @@ persona[<span class="st">"edad"</span>] = 31
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg> Lista de ejemplos disponibles</span></div>
     <pre><code><span class="co"># Básicos (01-09)</span>
-forja run ejemplos/01_hola.fa
-forja run ejemplos/02_variables.fa
-forja run ejemplos/03_tipos.fa
-forja run ejemplos/04_operaciones.fa
-forja run ejemplos/05_condicionales.fa
-forja run ejemplos/06_bucles.fa
-forja run ejemplos/07_funciones.fa
-forja run ejemplos/08_arrays.fa
-forja run ejemplos/09_strings.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/01_hola.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/02_variables.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/03_tipos.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/04_operaciones.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/05_condicionales.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/06_bucles.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/07_funciones.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/08_arrays.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/09_strings.fa
 
 <span class="co"># Intermedios (10-14)</span>
-forja run ejemplos/10_clases.fa
-forja run ejemplos/11_mapas.fa
-forja run ejemplos/12_input.fa
-forja run ejemplos/13_errores.fa
-forja run ejemplos/14_adivina.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/10_clases.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/11_mapas.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/12_input.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/13_errores.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/14_adivina.fa
 
 <span class="co"># Avanzados (traits, concurrencia, GUI)</span>
-forja run ejemplos/91_trait_simple.fa
-forja run ejemplos/70_concurrencia.fa
-# forja.yaml: backend: nativo
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/91_trait_simple.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/70_concurrencia.fa
+# forja.yaml: destino: nativo
 cargo run --features gui --bin forja -- run ejemplos/204_login_final.fa</code></pre>
   </div>
 </Layout>
