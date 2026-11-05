@@ -6,7 +6,7 @@ import Layout from '../../layouts/Layout.astro';
 
   <p>Forja abre una <strong>ventana gráfica nativa</strong> con <code>importar gui</code>. Internamente transpila tu código a Rust y usa <strong>Xilem</strong> con GPU (<strong>Vello</strong>/<strong>wgpu</strong>) para renderizar widgets reactivos.</p>
 
-  <div class="info"><svg class="ico" aria-hidden="true"><use href="#i-lightbulb"/></svg> Para ejecutar código GUI necesitás compilar Forja con <code>--features gui</code>. Si no lo hiciste, visitá <a href="/instalacion">Instalación</a>.</div>
+  <div class="info"><svg class="ico" aria-hidden="true"><use href="#i-lightbulb"/></svg> Para ejecutar código GUI necesitás compilar Forja con <code>--features gui</code> y poner <code>destino: nativo</code> en <code>forja.yaml</code>. Si no lo hiciste, visitá <a href="/instalacion">Instalación</a>. Los ejemplos de esta página no se ejecutan en el playground del navegador (la GUI necesita el runtime nativo).</div>
 
   <h2>Ejemplo mínimo</h2>
 
@@ -60,7 +60,7 @@ import Layout from '../../layouts/Layout.astro';
   </div>
 
   <div class="info">
-    <strong>Consola:</strong> en Windows las apps GUI no abren ventana de consola. Si necesitás ver los errores, pon <code>consola: true</code> en <code>forja.yaml</code> y compilá con <code>forja compilar app.fa</code>. Los logs del runtime están apagados por defecto: activalos con <code>FORJA_GUI_DEBUG=1</code>.
+    <strong>Consola:</strong> en Windows las apps GUI no abren ventana de consola. Si necesitás ver los errores, pon <code>consola: verdadero</code> en <code>forja.yaml</code> y compilá con <code><span class="cmd">forja</span> <span class="sub">compilar</span>  app.fa</code>. Los logs del runtime están apagados por defecto: activalos con <code>FORJA_GUI_DEBUG=1</code>.
   </div>
 
   <h2>Diseños predeterminados</h2>
@@ -317,7 +317,7 @@ import Layout from '../../layouts/Layout.astro';
   <div class="code-block-wrapper">
     <div class="code-header"><span>Comandos</span></div>
     <pre><code><span class="co"># Native runner (AST directo a Xilem, sin compilar Rust)</span>
-# forja.yaml: backend: nativo
+# forja.yaml: destino: nativo
 cargo run --features gui --bin forja -- run ejemplos/208_gui_galeria.fa
 
 <span class="co"># Transpilado a Rust (genera .exe autónomo)</span>
