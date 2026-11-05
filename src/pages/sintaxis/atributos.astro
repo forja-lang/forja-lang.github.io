@@ -8,7 +8,7 @@ import Layout from '../../layouts/Layout.astro';
 
   <h2><code>@test</code></h2>
 
-  <p>Marca una función como test. Podés agrupar tests en un archivo y ejecutarlos con <code>forja test archivo.fa</code>.</p>
+  <p>Marca una función como test. Podés agrupar tests en un archivo y ejecutarlos con <code><span class="cmd">forja</span> <span class="sub">test</span>  archivo.fa</code>.</p>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-flask-conical"/></svg> Tests</span></div>
@@ -36,19 +36,19 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg> Derive</span></div>
-    <pre><code><span class="kw">@derive</span>(Mostrar, Igual)
+    <pre><code>@<span class="fn">derive</span>(Mostrar, Igual)
 <span class="kw">clase</span> Punto &lbrace;
     x
-    y
-    <span class="kw">constructor</span>(x, y) &lbrace;
+    <span class="kw">y</span>
+    <span class="kw">constructor</span>(x, <span class="kw">y</span>) &lbrace;
         <span class="kw">este</span>.x = x
-        <span class="kw">este</span>.y = y
+        <span class="kw">este</span>.<span class="kw">y</span> = <span class="kw">y</span>
     &rbrace;
 &rbrace;
 
-<span class="kw">variable</span> a = <span class="kw">nuevo</span> Punto(1, 2)
-<span class="kw">variable</span> b = <span class="kw">nuevo</span> Punto(1, 2)
-<span class="fn">asegurar</span>(a == b) <span class="co">// Igual deriva ==</span></code></pre>
+<span class="kw">variable</span> a = <span class="kw">nuevo</span> <span class="fn">Punto</span>(<span class="nu">1</span>, <span class="nu">2</span>)
+<span class="kw">variable</span> b = <span class="kw">nuevo</span> <span class="fn">Punto</span>(<span class="nu">1</span>, <span class="nu">2</span>)
+<span class="fn">escribir</span>(a.x == b.x)   <span class="co">// los campos coinciden → verdadero</span></code></pre>
   </div>
 
   <h2>Uso combinado</h2>
