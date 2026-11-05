@@ -10,7 +10,7 @@ import Layout from '../../layouts/Layout.astro';
   <h2>Crear un proyecto</h2>
   <div class="code-block-wrapper">
     <div class="code-header"><span>terminal</span></div>
-    <pre><code>forja nuevo mi_proyecto
+    <pre><code><span class="cmd">forja</span> <span class="sub">nuevo</span> mi_proyecto
 cd mi_proyecto</code></pre>
   </div>
   <p>Esto genera un <code>forja.json</code> con los metadatos del paquete.</p>
@@ -18,15 +18,15 @@ cd mi_proyecto</code></pre>
   <h2>Añadir dependencias</h2>
   <div class="code-block-wrapper">
     <div class="code-header"><span>terminal</span></div>
-    <pre><code>forja add utilidades 1.2.0
-forja install</code></pre>
+    <pre><code><span class="cmd">forja</span> <span class="sub">add</span> utilidades 1.2.0
+<span class="cmd">forja</span> <span class="sub">install</span></code></pre>
   </div>
 
   <h2>Publicar</h2>
   <div class="code-block-wrapper">
     <div class="code-header"><span>terminal</span></div>
-    <pre><code>forja publish
-forja yank mi_paquete 1.0.0</code></pre>
+    <pre><code><span class="cmd">forja</span> <span class="sub">publish</span>
+<span class="cmd">forja</span> <span class="sub">yank</span> mi_paquete 1.0.0</code></pre>
   </div>
 
   <div class="info">
@@ -34,7 +34,7 @@ forja yank mi_paquete 1.0.0</code></pre>
   </div>
 
   <div class="warning">
-    <strong>Ejercicio del día:</strong> crea un proyecto con <code>forja nuevo</code>, añade una dependencia y ejecuta <code>forja install</code>.
+    <strong>Ejercicio del día:</strong> crea un proyecto con <code><span class="cmd">forja</span> <span class="sub">nuevo</span></code>, añade una dependencia y ejecuta <code><span class="cmd">forja</span> <span class="sub">install</span></code>. 
     <br /><a href="/curso/solucionario/#dia-28">Ver solución →</a>
   </div>
 
