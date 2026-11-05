@@ -9,71 +9,71 @@ import Layout from '../../layouts/Layout.astro';
   <p>Es el punto de entrada del compilador Forja: ejecutar programas, compilar a ejecutable autónomo, generar assembly, medir, formatear, lintar, transpilar y acceder al REPL.</p>
 
   <h2>Sin flags: todo se configura en <code>forja.yaml</code></h2>
-  <p>La CLI <strong>no acepta flags</strong> (<code>--x</code>). Cuando arranca, si el directorio actual no tiene <code>forja.yaml</code>, lo crea con <strong>todas</strong> las claves y sus valores por defecto. Cambiar el comportamiento es editar ese archivo:</p>
+  <p>La CLI <strong>no acepta flags</strong> (<code>--x</code>). Cuando arranca, si el directorio actual no tiene <code>forja.yaml</code>, lo crea con <strong>todas</strong> las claves y sus valores por defecto. Cambiar el comportamiento es editar ese archivo. Los booleanos se escriben <code>verdadero</code>/<code>falso</code> y las opciones usan palabras del idioma (<code>rapido</code>, <code>maquina</code>, <code>ensamblador</code>, <code>nativo</code>, <code>detallado</code>, <code>depuracion</code>, <code>traza</code>):</p>
   <pre><code># forja.yaml — se crea automáticamente
-motor: fast              # fast | jit | todas
-backend: vm              # vm | asm | nativo
-estricto: false          # modo estricto de tipos y ownership
-contratos: true          # requiere/asegura/invariantes
-backtrace: false         # pila de llamadas en errores de runtime
-fast_math: false         # aritmética flotante optimizada
-pgo: ''                  # '' | recoger | usar
-hot: false               # recarga de módulos (backend: nativo)
-allow_net: ''            # hosts del sandbox de red (coma)
-allow_port: ''           # puertos del sandbox de red (coma)
-max_archivo_mb: 10       # límite del archivo fuente
-arch: ''                 # '' | x86_64-windows | x86_64-linux | arm64 | riscv64
-iters: 100               # iteraciones de `medir`
-consola: false           # consola visible en el .exe de `compilar`
-fmt_check: false         # `formatear` sólo verifica (CI)
-lint_deny: false         # `lint`: advertencias = errores
-nivel: ''                # '' | verbose | debug | trace
-json: false              # diagnósticos en JSON
-color: true              # color en la salida
-registry_port: 8787      # servidor del registry</code></pre>
+motor: rapido              # rapido | vm | jit | todas
+destino: maquina           # maquina | ensamblador | nativo
+estricto: falso            # modo estricto de tipos y ownership
+contratos: verdadero       # requiere/asegura/invariantes
+pila: falso                # pila de llamadas en errores
+matematica_rapida: falso   # aritmética rápida
+perfil: ''                 # '' | recoger | usar
+recarga: falso             # recarga de módulos (destino: nativo)
+permitir_red: ''           # hosts del sandbox de red (coma)
+permitir_puertos: ''       # puertos del sandbox de red (coma)
+max_archivo_mb: 10         # límite del archivo fuente
+arquitectura: ''           # '' | x86_64-windows | x86_64-linux | arm64 | riscv64
+iteraciones: 100           # iteraciones de `medir`
+consola: falso             # consola visible en el .exe
+verificar_formato: falso   # `formatear` sólo verifica
+lint_estricto: falso       # `lint`: advertencias = errores
+nivel: ''                  # '' | detallado | depuracion | traza
+json: falso                # diagnósticos JSON
+color: verdadero           # color en la salida
+puerto_registry: 8787      # servidor del registry</code></pre>
   <div class="info"><strong>Nota:</strong> el token del registry (<code>FORJA_REGISTRY_TOKEN</code>) y las rutas internas (<code>FORJA_ORIGINAL_EXE</code>) siguen por entorno porque son secretos o los pone el runtime, no el usuario.</div>
 
   <h2>Comandos</h2>
-  <pre><code>forja &lt;archivo.fa>                       ejecutar directo
-forja ejecutar &lt;archivo.fa>
-forja compilar &lt;archivo.fa> [salida]     ejecutable autónomo
-forja asm &lt;archivo.fa> [salida]          assembly nativo
-forja medir &lt;archivo.fa>                 benchmark de VMs
-forja formatear &lt;ruta> [salida]
-forja transpilar &lt;archivo.fa> [dir]      proyecto Rust
-forja diagrama &lt;archivo.fa> [salida]
-forja documentar &lt;archivo.fa> [salida]
-forja lint &lt;ruta>
-forja test [archivo]
-forja repl
-forja nuevo &lt;nombre> · iniciar · add · remove · install
-forja publish [ruta] · yank &lt;paquete> &lt;version>
-forja registry-serve [dir] [puerto]
-forja aprender · palabras · explicar &lt;palabra> · colorear &lt;archivo>
-forja version · ayuda [tema]</code></pre>
+  <pre><code><span class="cmd">forja</span> <span class="arg">&lt;archivo.fa&gt;</span>                       ejecutar directo
+<span class="cmd">forja</span> <span class="sub">ejecutar</span> <span class="arg">&lt;archivo.fa&gt;</span>
+<span class="cmd">forja</span> <span class="sub">compilar</span> <span class="arg">&lt;archivo.fa&gt;</span> <span class="arg">[salida]</span>     ejecutable autónomo
+<span class="cmd">forja</span> <span class="sub">asm</span> <span class="arg">&lt;archivo.fa&gt;</span> <span class="arg">[salida]</span>          assembly nativo
+<span class="cmd">forja</span> <span class="sub">medir</span> <span class="arg">&lt;archivo.fa&gt;</span>                 benchmark de VMs
+<span class="cmd">forja</span> <span class="sub">formatear</span> <span class="arg">&lt;ruta&gt;</span> <span class="arg">[salida]</span>
+<span class="cmd">forja</span> <span class="sub">transpilar</span> <span class="arg">&lt;archivo.fa&gt;</span> <span class="arg">[dir]</span>      proyecto Rust
+<span class="cmd">forja</span> <span class="sub">diagrama</span> <span class="arg">&lt;archivo.fa&gt;</span> <span class="arg">[salida]</span>
+<span class="cmd">forja</span> <span class="sub">documentar</span> <span class="arg">&lt;archivo.fa&gt;</span> <span class="arg">[salida]</span>
+<span class="cmd">forja</span> <span class="sub">lint</span> <span class="arg">&lt;ruta&gt;</span>
+<span class="cmd">forja</span> <span class="sub">test</span> <span class="arg">[archivo]</span>
+<span class="cmd">forja</span> <span class="sub">repl</span>
+<span class="cmd">forja</span> <span class="sub">nuevo</span> <span class="arg">&lt;nombre&gt;</span> · iniciar · add · remove · install
+<span class="cmd">forja</span> <span class="sub">publish</span> <span class="arg">[ruta]</span> · yank <span class="arg">&lt;paquete&gt;</span> <span class="arg">&lt;version&gt;</span>
+<span class="cmd">forja</span> <span class="sub">registry-serve</span> <span class="arg">[dir]</span> <span class="arg">[puerto]</span>
+<span class="cmd">forja</span> <span class="sub">aprender</span> · palabras · explicar <span class="arg">&lt;palabra&gt;</span> · colorear <span class="arg">&lt;archivo&gt;</span>
+<span class="cmd">forja</span> <span class="sub">version</span> · ayuda <span class="arg">[tema]</span></code></pre>
 
   <h2>¿Cómo funciona?</h2>
   <ul>
     <li>Al arrancar llama a <code>config::asegurar()</code> (crea <code>forja.yaml</code> con defaults si falta) y <code>config::recargar()</code>.</li>
     <li>Parsea <strong>sólo</strong> el subcomando y sus argumentos posicionales; si aparece algo que empieza con <code>-</code>, avisa y sale con error.</li>
     <li>Delega en los módulos correspondientes: <code>compiler_asm.rs</code>, <code>vm_fast</code>, <code>aot.rs</code>, <code>fprofiler.rs</code>, etc.</li>
-    <li>El manejo de errores es centralizado: <code>ErrorForja</code> se formatea (texto o JSON según <code>json: true</code>) y define el código de salida.</li>
+    <li>El manejo de errores es centralizado: <code>ErrorForja</code> se formatea (texto o JSON según <code>json: verdadero</code>) y define el código de salida.</li>
   </ul>
 
   <h2>Ejemplos</h2>
-  <pre><code>forja ejemplos/01_hola.fa
-forja compilar ejemplos/01_hola.fa programa.exe
+  <pre><code><span class="cmd">forja</span> <span class="sub">ejemplos/01_hola.fa</span>
+<span class="cmd">forja</span> <span class="sub">compilar</span> ejemplos/01_hola.fa programa.exe
 
-# Cambiar de motor o de backend: editar forja.yaml
+# Cambiar de motor o de destino: editar forja.yaml
 #   motor: jit
-#   backend: asm
-forja ejecutar ejemplos/01_hola.fa
+#   destino: ensamblador
+<span class="cmd">forja</span> <span class="sub">ejecutar</span> ejemplos/01_hola.fa
 
 # Otra arquitectura para asm
-#   arch: arm64
-forja asm ejemplos/01_hola.fa programa
+#   arquitectura: arm64
+<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa programa
 
 # Verificación de formato en CI
-#   fmt_check: true
-forja formatear ejemplos</code></pre>
+#   verificar_formato: verdadero
+<span class="cmd">forja</span> <span class="sub">formatear</span> ejemplos</code></pre>
 </Layout>
