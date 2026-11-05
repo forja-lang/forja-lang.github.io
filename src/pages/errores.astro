@@ -77,7 +77,7 @@ import Layout from '../layouts/Layout.astro';
   <ul>
     <li><strong>¿Por qué?:</strong> Permite integraciones sencillas con extensiones de editores (como VS Code) u otros servicios web sin añadir dependencias pesadas de serialización.</li>
     <li><strong>¿Cómo?:</strong> Formatea manualmente un string crudo interpolando las propiedades del error. Llama internamente a <code>escape_json</code> para asegurar la validez sintáctica del JSON final.</li>
-    <li><strong>¿Para qué?:</strong> Formatear la salida de errores en JSON cuando <code>json: true</code> está en <code>forja.yaml</code>.</li>
+    <li><strong>¿Para qué?:</strong> Formatear la salida de errores en JSON cuando <code>json: verdadero</code> está en <code>forja.yaml</code>.</li>
   </ul>
 
   <h3><code>fn escape_json(&self, s: &str) -> String</code></h3>
