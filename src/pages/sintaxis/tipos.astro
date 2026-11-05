@@ -27,10 +27,22 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-circle"/></svg> Valores booleanos</span></div>
-    <pre><code><span class="kw">variable</span> activo = <span class="kw">verdadero</span>
+    <pre><code><span class="kw">variable</span> edad = <span class="nu">20</span>
+<span class="kw">variable</span> activo = <span class="kw">verdadero</span>
 <span class="kw">variable</span> inactivo = <span class="kw">falso</span>
-<span class="kw">variable</span> es_mayor = edad >= 18  <span class="co">// resultado: verdadero o falso</span></code></pre>
+<span class="kw">variable</span> es_mayor = edad &gt;= <span class="nu">18</span>  <span class="co">// resultado: verdadero o falso</span>
+<span class="fn">escribir</span>(es_mayor)</code></pre>
   </div>
+
+  <p>También se aceptan <code>v</code> y <code>f</code> como atajos de <code>verdadero</code> y <code>falso</code>:</p>
+
+  <div class="code-block-wrapper">
+    <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-circle"/></svg> Atajos v / f</span></div>
+    <pre><code><span class="kw">variable</span> activo = v
+<span class="kw">si</span> (v y no f) &#123; escribir(<span class="st">"sí"</span>) &#125;</code></pre>
+  </div>
+
+  <div class="note"><strong>No son palabras reservadas:</strong> si el programa declara una variable, parámetro o campo llamado <code>v</code> o <code>f</code>, ese nombre sigue siendo un identificador normal en todo el programa (ahí <code>v</code> no es <code>verdadero</code>).</div>
 
   <h2>Literales numéricos</h2>
 
