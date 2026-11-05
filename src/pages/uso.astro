@@ -5,19 +5,18 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="Uso (CLI) — Forja">
   <h1>Uso del CLI</h1>
 
-  <p>Forja tiene <strong>20+ comandos</strong> organizados en 5 categorías: ejecución, compilación, gestión de paquetes, utilidades y proyectos. Todos los comandos aceptan su nombre en español e inglés.</p>
+  <p>Forja tiene <strong>20+ comandos</strong> organizados en 5 categorías: compilación, pruebas, gestión de paquetes, utilidades y proyectos. Todos los comandos aceptan su nombre en español e inglés.</p>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-clipboard-list"/></svg> Ayuda completa</span></div>
     <pre><code>🔨 Forja (fa) — Lenguaje educativo con VM propia
 
 COMANDOS:
-  ejecutar &lt;archivo>         Ejecutar .fa en la VM
-  test [archivo]            Ejecutar tests (funciones con @test)
+  test [archivo]            Tests (funciones con @test)
   repl                       Modo interactivo
   diagrama &lt;archivo>         Generar diagrama HTML del código
   compilar &lt;archivo>         Generar .exe autónomo
-  asm &lt;archivo> [salida]     Compilar a assembly nativo (arch en forja.yaml)
+  asm &lt;archivo> [salida]     Compilar a assembly nativo (arquitectura en forja.yaml)
   formatear &lt;archivo> [salida]  Formatear código .fa
   transpilar &lt;archivo> [dir] Exportar a proyecto Rust
   nuevo &lt;nombre>             Crear nuevo proyecto
@@ -25,7 +24,7 @@ COMANDOS:
   add &lt;paquete> [version]   Añadir dependencia
   remove &lt;paquete>           Eliminar dependencia
   install                    Instalar todas las dependencias
-  medir &lt;archivo>            Benchmark de VMs (forja.yaml: iters, motor, backend)
+  medir &lt;archivo>            Benchmark de VMs (forja.yaml: iteraciones, motor, destino)
   aprender                   Tutorial interactivo
   palabras                   Lista de palabras clave
   colorear &lt;archivo>         Colorear código en terminal
@@ -35,23 +34,22 @@ COMANDOS:
   ayuda [tema]               Mostrar esta ayuda
 
 Los comandos también aceptan su nombre en inglés:
-  run, build, transpile, build-asm, asm, new, init, add, remove, install,
+  build, transpile, build-asm, asm, new, init, add, remove, install,
   learn, keywords, highlight, explain, help, fmt, format, doc, test, bench
 
 EJEMPLOS:
-   forja ejecutar ejemplos/01_hola.fa
-   forja compilar ejemplos/01_hola.fa programa.exe
-   forja asm ejemplos/01_hola.fa
-   forja asm ejemplos/01_hola.fa programa     (arch: arm64 en forja.yaml)
-   forja repl
-    forja formatear ejemplos/01_hola.fa
-    forja colorear ejemplos/01_hola.fa
-    forja test ejemplos/mis_pruebas.fa
-    forja nuevo mi_programa
+   <span class="cmd">forja</span> <span class="sub">compilar</span> ejemplos/01_hola.fa programa.exe
+   <span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa
+   <span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa programa     (arquitectura: arm64 en forja.yaml)
+   <span class="cmd">forja</span> <span class="sub">repl</span>
+    <span class="cmd">forja</span> <span class="sub">formatear</span> ejemplos/01_hola.fa
+    <span class="cmd">forja</span> <span class="sub">colorear</span> ejemplos/01_hola.fa
+    <span class="cmd">forja</span> <span class="sub">test</span> ejemplos/mis_pruebas.fa
+    <span class="cmd">forja</span> <span class="sub">nuevo</span> mi_programa
 
 PGO (Profile-Guided Optimization):
-   pgo: recoger  en forja.yaml → recolecta el perfil (.forjaprof)
-   pgo: usar     en forja.yaml → aplica el perfil existente</code></pre>
+   perfil: recoger  en forja.yaml → recolecta el perfil (.forjaprof)
+   perfil: usar     en forja.yaml → aplica el perfil existente</code></pre>
   </div>
 
   <h2><code>transpile|t|transpilar</code> — Forja → Rust</h2>
@@ -63,86 +61,60 @@ PGO (Profile-Guided Optimization):
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-file"/></svg> Ejemplos de transpilación</span></div>
     <pre><code><span class="co"># Automático (default si el arg termina en .fa)</span>
-forja ejemplos/01_hola.fa
+<span class="cmd">forja</span> <span class="sub">ejemplos/01_hola.fa</span>
 
 <span class="co"># Con salida personalizada</span>
-forja transpilar ejemplos/01_hola.fa salida_rs
+<span class="cmd">forja</span> <span class="sub">transpilar</span> ejemplos/01_hola.fa salida_rs
 
 <span class="co"># Atajo 't'</span>
-forja t ejemplos/10_clases.fa
+<span class="cmd">forja</span> <span class="sub">t</span> ejemplos/10_clases.fa
 
-<span class="co"># Errores en JSON (ideal para IDEs): json: true en forja.yaml</span>
-forja transpilar ejemplos/10_clases.fa</code></pre>
+<span class="co"># Errores en JSON (ideal para IDEs): json: verdadero en forja.yaml</span>
+<span class="cmd">forja</span> <span class="sub">transpilar</span> ejemplos/10_clases.fa</code></pre>
   </div>
 
-  <h2><code>run|ejecutar|correr</code> — Ejecutar en VM</h2>
-
-  <p>Compila y ejecuta el <strong>bytecode</strong> directamente en la Máquina Virtual. No necesitás Rust instalado para ejecutar programas. La VM usada es <strong>ForjaFast v5</strong> (la más rápida de las VMs). <strong>Motor y backend se eligen en <code>forja.yaml</code></strong> (<code>motor</code> y <code>backend</code>).</p>
-
-  <div class="code-block-wrapper">
-    <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg> Ejemplos de ejecución</span></div>
-    <pre><code>forja run ejemplos/01_hola.fa
-<span class="co">// → ¡Hola, mundo desde Forja!</span>
-
-forja run ejemplos/10_clases.fa
-<span class="co">// → Hola, soy Ana y tengo 20 años</span>
-<span class="co">// → Es mayor de edad</span>
-
-forja run ejemplos/14_adivina.fa
-<span class="co">// → Juego: adivina el número</span>
-
-<span class="co"># Seleccionar VM (fast | jit): motor en forja.yaml</span>
-forja run ejemplos/01_hola.fa
-
-<span class="co"># Compilar a assembly y ejecutar con gcc -O2: backend: asm</span>
-forja run ejemplos/01_hola.fa
-
-<span class="co"># Fast math (aritmética flotante optimizada): fast_math: true</span>
-forja run ejemplos/01_hola.fa</code></pre>
-  </div>
-
-  <h3>Configuración de <code>run</code> / <code>medir</code> / <code>compilar</code></h3>
+  <h3>Configuración de <code>medir</code> / <code>compilar</code></h3>
   <p>La CLI no usa flags. Al arrancar crea <code>forja.yaml</code> en el directorio de ejecución con estos valores; editá el archivo para cambiar el comportamiento.</p>
-  <pre><code>motor: fast              # fast | jit | todas
-backend: vm              # vm | asm | nativo
-estricto: false          # modo estricto de tipos y ownership
-contratos: true          # requiere/asegura/invariantes
-backtrace: false         # pila de llamadas en errores
-fast_math: false         # aritmética rápida
-pgo: ''                  # '' | recoger | usar
-hot: false               # hot reload (backend: nativo)
-allow_net: ''            # hosts del sandbox (coma)
-allow_port: ''           # puertos del sandbox (coma)
-max_archivo_mb: 10       # límite del fuente
-arch: ''                 # arquitectura de asm
-iters: 100               # iteraciones de medir
-consola: false           # consola visible en el .exe
-fmt_check: false         # formatear sólo verifica
-lint_deny: false         # lint: advertencias = errores
-nivel: ''                # '' | verbose | debug | trace
-json: false              # diagnósticos JSON
-color: true              # color en la salida
-registry_port: 8787      # servidor del registry</code></pre>
+  <pre><code>motor: rapido              # rapido | vm | jit | todas
+destino: maquina           # maquina | ensamblador | nativo
+estricto: falso            # modo estricto de tipos y ownership
+contratos: verdadero       # requiere/asegura/invariantes
+pila: falso                # pila de llamadas en errores
+matematica_rapida: falso   # aritmética rápida
+perfil: ''                 # '' | recoger | usar
+recarga: falso             # recarga de módulos (destino: nativo)
+permitir_red: ''           # hosts del sandbox de red (coma)
+permitir_puertos: ''       # puertos del sandbox de red (coma)
+max_archivo_mb: 10         # límite del archivo fuente
+arquitectura: ''           # '' | x86_64-windows | x86_64-linux | arm64 | riscv64
+iteraciones: 100           # iteraciones de `medir`
+consola: falso             # consola visible en el .exe
+verificar_formato: falso   # `formatear` sólo verifica
+lint_estricto: falso       # `lint`: advertencias = errores
+nivel: ''                  # '' | detallado | depuracion | traza
+json: falso                # diagnósticos JSON
+color: verdadero           # color en la salida
+puerto_registry: 8787      # servidor del registry</code></pre>
   <table>
     <tr><th>Clave</th><th>Efecto</th></tr>
-    <tr><td><code>motor</code></td><td>Motor de ejecución / benchmark (default: <code>fast</code>; <code>medir</code> usa <code>todas</code> si no se cambia)</td></tr>
-    <tr><td><code>backend</code></td><td><code>vm</code>, <code>asm</code> (gcc -O2) o <code>nativo</code> (GUI con Xilem)</td></tr>
+    <tr><td><code>motor</code></td><td><code>rapido</code> o <code>vm</code> (ForjaFast), <code>jit</code> o <code>todas</code> (<code>medir</code>)</td></tr>
+    <tr><td><code>destino</code></td><td><code>maquina</code> (VM), <code>ensamblador</code> (gcc -O2) o <code>nativo</code> (GUI con Xilem)</td></tr>
     <tr><td><code>estricto</code></td><td><code>nulo</code> sólo en <code>Opcion&lt;T&gt;</code>, <code>Opcion</code> sólo con <code>Algo</code>/<code>Nada</code>, funciones declaradas y ownership estricto</td></tr>
     <tr><td><code>contratos</code></td><td>Activa/desactiva <code>requiere</code>/<code>asegura</code>/invariantes</td></tr>
-    <tr><td><code>backtrace</code></td><td>Pila de llamadas en errores de runtime</td></tr>
-    <tr><td><code>fast_math</code></td><td>Aritmética flotante optimizada</td></tr>
-    <tr><td><code>pgo</code></td><td><code>recoger</code> o <code>usar</code> un perfil (<code>.forjaprof</code>)</td></tr>
-    <tr><td><code>hot</code></td><td>Recarga módulos en caliente (con <code>backend: nativo</code>)</td></tr>
-    <tr><td><code>allow_net</code> / <code>allow_port</code></td><td>Hosts / puertos permitidos en el sandbox de red (coma)</td></tr>
+    <tr><td><code>pila</code></td><td>Pila de llamadas en errores de runtime</td></tr>
+    <tr><td><code>matematica_rapida</code></td><td>Aritmética flotante optimizada</td></tr>
+    <tr><td><code>perfil</code></td><td><code>recoger</code> o <code>usar</code> un perfil (<code>.forjaprof</code>)</td></tr>
+    <tr><td><code>recarga</code></td><td>Recarga módulos en caliente (con <code>destino: nativo</code>)</td></tr>
+    <tr><td><code>permitir_red</code> / <code>permitir_puertos</code></td><td>Hosts / puertos permitidos en el sandbox de red (coma)</td></tr>
     <tr><td><code>max_archivo_mb</code></td><td>Límite de tamaño del archivo fuente</td></tr>
-    <tr><td><code>arch</code></td><td>Arquitectura de <code>asm</code> (<code>x86_64-windows</code>, <code>x86_64-linux</code>, <code>arm64</code>, <code>riscv64</code>)</td></tr>
-    <tr><td><code>iters</code></td><td>Iteraciones de <code>medir</code></td></tr>
+    <tr><td><code>arquitectura</code></td><td>Arquitectura de <code>ensamblador</code> (<code>x86_64-windows</code>, <code>x86_64-linux</code>, <code>arm64</code>, <code>riscv64</code>)</td></tr>
+    <tr><td><code>iteraciones</code></td><td>Iteraciones de <code>medir</code></td></tr>
     <tr><td><code>consola</code></td><td>Consola visible en el <code>.exe</code> de <code>compilar</code></td></tr>
-    <tr><td><code>fmt_check</code></td><td><code>formatear</code> sólo verifica (CI)</td></tr>
-    <tr><td><code>lint_deny</code></td><td><code>lint</code> trata las advertencias como errores</td></tr>
-    <tr><td><code>nivel</code></td><td><code>verbose</code>, <code>debug</code> o <code>trace</code></td></tr>
+    <tr><td><code>verificar_formato</code></td><td><code>formatear</code> sólo verifica (CI)</td></tr>
+    <tr><td><code>lint_estricto</code></td><td><code>lint</code> trata las advertencias como errores</td></tr>
+    <tr><td><code>nivel</code></td><td><code>detallado</code>, <code>depuracion</code> o <code>traza</code></td></tr>
     <tr><td><code>json</code> / <code>color</code></td><td>Diagnósticos JSON / color en la salida</td></tr>
-    <tr><td><code>registry_port</code></td><td>Puerto del servidor del registry</td></tr>
+    <tr><td><code>puerto_registry</code></td><td>Puerto del servidor del registry</td></tr>
   </table>
 
   <h2><code>repl</code> — Modo interactivo</h2>
@@ -165,44 +137,44 @@ Hola Gaucho
 👋 ¡Hasta luego!</code></pre>
   </div>
 
-  <h2><code>build|compilar|construir</code> — Ejecutable autónomo</h2>
+  <h2><code>build|compilar|construir</code> — Binario autónomo</h2>
 
   <p>Genera un <code>.exe</code> que contiene la VM + bytecode incrustado. Funciona en <strong>cualquier PC</strong> sin Rust, sin scripts, sin dependencias.</p>
 
-  <div class="tip"><strong><svg class="ico" aria-hidden="true"><use href="#i-wrench"/></svg> ¿Cómo funciona?</strong> Forja se copia a sí mismo (AOT compiler) y le agrega el bytecode al final del .exe. Al ejecutarlo, el módulo <code>selfrun</code> detecta el bytecode, lo deserializa y lo ejecuta en la VM. ¡Un solo archivo que es compilador y runtime a la vez!</div>
+  <div class="tip"><strong><svg class="ico" aria-hidden="true"><use href="#i-wrench"/></svg> ¿Cómo funciona?</strong> Forja se copia a sí mismo (AOT compiler) y le agrega el bytecode al final del .exe. Al abrirlo, el módulo <code>selfrun</code> detecta el bytecode, lo deserializa y lo procesa en la VM. ¡Un solo archivo que es compilador y runtime a la vez!</div>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-package"/></svg> Ejemplo de build</span></div>
-    <pre><code>forja compilar ejemplos/01_hola.fa hola.exe
-<span class="co">// → OK Ejecutable generado: hola.exe (1234 bytes)</span>
+    <pre><code><span class="cmd">forja</span> <span class="sub">compilar</span> ejemplos/01_hola.fa hola.exe
+<span class="co">// → Binario generado: hola.exe (1234 bytes)</span>
 
-<span class="co">// Ahora cualquiera puede ejecutarlo, sin Rust:</span>
+<span class="co">// Ahora cualquiera lo puede usar, sin Rust:</span>
 ./hola.exe
 <span class="co">// → ¡Hola, mundo desde Forja!</span></code></pre>
   </div>
 
   <h2><code>build-asm|compilar-asm|asm</code> — Assembly nativo (<svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg> el más rápido)</h2>
 
-  <p>Genera código <strong>assembly x86-64 o ARM64</strong> directamente desde tu <code>.fa</code> y lo compila con <code>gcc -O2</code>. Es la forma <strong>más rápida</strong> de ejecutar Forja — velocidad nativa, igual que C o Rust compilado.</p>
+  <p>Genera código <strong>assembly x86-64 o ARM64</strong> directamente desde tu <code>.fa</code> y lo compila con <code>gcc -O2</code>. Es la forma <strong>más rápida</strong> de correr Forja — velocidad nativa, igual que C o Rust compilado.</p>
 
   <div class="info"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg> <strong>Rendimiento:</strong> El assembly nativo es ~<strong>1,750x más rápido</strong> que la VM de Forja, y ~<strong>30x más rápido</strong> que Python.</div>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-wrench"/></svg> Ejemplos de build-asm</span></div>
-    <pre><code><span class="co"># Mínimo: genera el ejecutable automáticamente (target = plataforma actual)</span>
-forja asm ejemplos/01_hola.fa
+    <pre><code><span class="co"># Mínimo: genera el binario automáticamente (target = plataforma actual)</span>
+<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa
 
 <span class="co"># Con nombre de salida personalizado</span>
-forja asm ejemplos/01_hola.fa programa.exe
+<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa programa.exe
 
 <span class="co"># Especificar arquitectura destino</span>
-forja asm ejemplos/01_hola.fa programa      # arch: arm64 en forja.yaml
+<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa programa      # arquitectura: arm64 en forja.yaml
 
 <span class="co"># Especificar Linux x86-64</span>
-forja asm ejemplos/01_hola.fa prog          # arch: x86_64-linux
+<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa prog          # arquitectura: x86_64-linux
 
 <span class="co"># El assembly generado se puede compilar manualmente</span>
-forja asm ejemplos/01_hola.fa prog          # arch: x86_64-windows
+<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa prog          # arquitectura: x86_64-windows
 gcc -O2 -o prog.exe prog.s</code></pre>
   </div>
 
@@ -214,9 +186,9 @@ gcc -O2 -o prog.exe prog.s</code></pre>
       </thead>
       <tbody>
         <tr><td><em>(ninguno)</em></td><td>Detección automática</td><td>Según SO y CPU</td><td>—</td></tr>
-        <tr><td><code>arch: x86_64-windows</code></td><td>x86-64</td><td>Microsoft x64</td><td>RCX, RDX, R8, R9 + 32B shadow</td></tr>
-        <tr><td><code>arch: x86_64-linux</code></td><td>x86-64</td><td>System V AMD64</td><td>RDI, RSI, RDX, RCX, R8, R9</td></tr>
-        <tr><td><code>arch: arm64</code></td><td>ARM64 AArch64</td><td>ARM64</td><td>X0..X7</td></tr>
+        <tr><td><code>arquitectura: x86_64-windows</code></td><td>x86-64</td><td>Microsoft x64</td><td>RCX, RDX, R8, R9 + 32B shadow</td></tr>
+        <tr><td><code>arquitectura: x86_64-linux</code></td><td>x86-64</td><td>System V AMD64</td><td>RDI, RSI, RDX, RCX, R8, R9</td></tr>
+        <tr><td><code>arquitectura: arm64</code></td><td>ARM64 AArch64</td><td>ARM64</td><td>X0..X7</td></tr>
       </tbody>
     </table>
   </details>
@@ -229,7 +201,7 @@ gcc -O2 -o prog.exe prog.s</code></pre>
       </thead>
       <tbody>
         <tr><td><code>build-asm</code> (gcc -O2)</td><td>~51 μs</td><td><strong>~80x más rápido que Python</strong></td></tr>
-        <tr><td><code>motor: fast</code> (ForjaFast v5 <svg class="ico" aria-hidden="true"><use href="#i-trophy"/></svg>)</td><td>~9,544 μs</td><td>~2.3x más lento que Python</td></tr>
+        <tr><td><code>motor: rapido</code> (ForjaFast v5 <svg class="ico" aria-hidden="true"><use href="#i-trophy"/></svg>)</td><td>~9,544 μs</td><td>~2.3x más lento que Python</td></tr>
         <tr><td>Python (CPython 3.11)</td><td>~4,117 μs</td><td>— referencia</td></tr>
         <tr><td><code>motor: jit</code> (VM v3 Direct Threading)</td><td>~34,864 μs</td><td>~8.5x más lento que Python</td></tr>
       </tbody>
@@ -243,20 +215,18 @@ gcc -O2 -o prog.exe prog.s</code></pre>
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-palette"/></svg> Ejemplo</span></div>
     <pre><code><span class="co"># Antes (desordenado)</span>
-forja fmt ejemplos/01_hola.fa
+<span class="cmd">forja</span> <span class="sub">fmt</span> ejemplos/01_hola.fa
 
 <span class="co"># Después: código formateado con estilo consistente</span></code></pre>
   </div>
 
-  <h2><code>backend: nativo</code> — GUI nativa con Xilem</h2>
+  <h2><code>destino: nativo</code> — GUI nativa con Xilem</h2>
 
-  <p>Ejecuta archivos <code>.fa</code> que usen <code>importar gui</code> en una ventana nativa, ya sea compilando el proyecto a Rust+Xilem o usando el runtime de GUI nativa sin cargo previo (si compilaste Forja con <code>--features gui</code>).</p>
+  <p>Corre archivos <code>.fa</code> que usen <code>importar gui</code> en una ventana nativa, ya sea compilando el proyecto a Rust+Xilem o usando el runtime de GUI nativa sin cargo previo (si compilaste Forja con <code>--features gui</code>).</p>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-image"/></svg> Ejemplo</span></div>
     <pre><code><span class="co"># Native runner (AST directo a Xilem, sin compilar Rust)</span>
-cargo run --features gui --bin forja -- run ejemplos/204_login_final.fa   # con backend: nativo
-
 <span class="co"># Transpilado a Rust (genera .exe autónomo)</span>
 cargo run --features gui --bin forja -- transpile ejemplos/204_login_final.fa
 cd .forja_gui_cache && cargo run --release
@@ -272,7 +242,7 @@ cargo build --features gui
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg> Ejemplo</span></div>
-    <pre><code>forja highlight ejemplos/01_hola.fa
+    <pre><code><span class="cmd">forja</span> <span class="sub">highlight</span> ejemplos/01_hola.fa
 <span class="co">// Muestra el código con keywords en amarillo,</span>
 <span class="co">// funciones en verde, tipos en cian, strings en brillante</span></code></pre>
   </div>
@@ -283,7 +253,7 @@ cargo build --features gui
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-library"/></svg> Salida</span></div>
-    <pre><code>forja keywords
+    <pre><code><span class="cmd">forja</span> <span class="sub">keywords</span>
   📚 Palabras clave de Forja
 
   PALABRA         QUÉ HACE
@@ -329,7 +299,7 @@ cargo build --features gui
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-book-open"/></svg> Ejemplo</span></div>
-    <pre><code>forja explicar funcion
+    <pre><code><span class="cmd">forja</span> <span class="sub">explicar</span> funcion
 📖 'funcion' agrupa código para reutilizarlo.
    Ej: funcion suma(a, b) &lbrace; retornar a + b &rbrace;</code></pre>
 </div>
@@ -340,9 +310,9 @@ cargo build --features gui
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg> Estructura generada</span></div>
-    <pre><code>forja nuevo mi_programa
+    <pre><code><span class="cmd">forja</span> <span class="sub">nuevo</span> mi_programa
 OK Proyecto 'mi_programa' creado
-   cd mi_programa && forja run main.fa
+   cd mi_programa
 
 mi_programa/
 ├── main.fa          # Punto de entrada
@@ -357,7 +327,7 @@ mi_programa/
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg> Ejemplo</span></div>
     <pre><code>mkdir mi_proyecto && cd mi_proyecto
-forja init</code></pre>
+<span class="cmd">forja</span> <span class="sub">init</span></code></pre>
   </div>
 
   <h2><code>learn|aprender</code> — Tutorial interactivo</h2>
@@ -366,7 +336,7 @@ forja init</code></pre>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-graduation-cap"/></svg> Salida</span></div>
-    <pre><code>forja learn
+    <pre><code><span class="cmd">forja</span> <span class="sub">learn</span>
 🎓 Forja — Aprendé a programar
 
 Lección 1: Mostrar mensajes
@@ -382,7 +352,7 @@ Para mostrar algo en pantalla, usamos:
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-tree-pine"/></svg> Ejemplo</span></div>
-    <pre><code>forja diagrama ejemplos/07_funciones.fa
+    <pre><code><span class="cmd">forja</span> <span class="sub">diagrama</span> ejemplos/07_funciones.fa
 <span class="co">// Genera: ejemplos/funciones.html</span>
 <span class="co">// Abrí el HTML en el navegador para ver el árbol</span></code></pre>
   </div>
@@ -393,20 +363,20 @@ Para mostrar algo en pantalla, usamos:
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-file"/></svg> Ejemplo</span></div>
-    <pre><code>forja doc ejemplos/10_clases.fa</code></pre>
+    <pre><code><span class="cmd">forja</span> <span class="sub">doc</span> ejemplos/10_clases.fa</code></pre>
   </div>
 
-  <h2><code>test|tests|probar [archivo]</code> — Ejecutar tests</h2>
+  <h2><code>test|tests|probar [archivo]</code> — Tests</h2>
 
-  <p>Ejecuta funciones marcadas con <code>@test</code> en archivos <code>.fa</code>. Sin argumento, busca y ejecuta todos los tests en <code>ejemplos/</code>.</p>
+  <p>Corre funciones marcadas con <code>@test</code> en archivos <code>.fa</code>. Sin argumento, busca y corre todos los tests en <code>ejemplos/</code>.</p>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-flask-conical"/></svg> Ejemplos</span></div>
-    <pre><code><span class="co"># Ejecutar tests de un archivo específico</span>
-forja test ejemplos/mis_pruebas.fa
+    <pre><code><span class="co"># Tests de un archivo específico</span>
+<span class="cmd">forja</span> <span class="sub">test</span> ejemplos/mis_pruebas.fa
 
-<span class="co"># Ejecutar todos los tests en ejemplos/</span>
-forja test</code></pre>
+<span class="co"># Todos los tests en ejemplos/</span>
+<span class="cmd">forja</span> <span class="sub">test</span></code></pre>
   </div>
 
   <h2><code>medir|bench|benchmark &lt;archivo></code> — Benchmark de VMs</h2>
@@ -416,16 +386,16 @@ forja test</code></pre>
   <div class="code-block-wrapper">
     <div class="code-header"><span>⏱ Ejemplos</span></div>
     <pre><code><span class="co"># Medir en todas las VMs</span>
-forja medir ejemplos/bench_fib.fa
+<span class="cmd">forja</span> <span class="sub">medir</span> ejemplos/bench_fib.fa
 
-<span class="co"># Medir en una VM específica: motor: fast en forja.yaml</span>
-forja medir ejemplos/bench_fib.fa
+<span class="co"># Medir en una VM específica: motor: rapido en forja.yaml</span>
+<span class="cmd">forja</span> <span class="sub">medir</span> ejemplos/bench_fib.fa
 
-<span class="co"># Con iteraciones personalizadas: iters: 10 en forja.yaml</span>
-forja medir ejemplos/bench_fib.fa
+<span class="co"># Con iteraciones personalizadas: iteraciones: 10 en forja.yaml</span>
+<span class="cmd">forja</span> <span class="sub">medir</span> ejemplos/bench_fib.fa
 
-<span class="co"># Modo ASM nativo: backend: asm en forja.yaml</span>
-forja medir ejemplos/bench_fib.fa</code></pre>
+<span class="co"># Modo ASM nativo: destino: ensamblador en forja.yaml</span>
+<span class="cmd">forja</span> <span class="sub">medir</span> ejemplos/bench_fib.fa</code></pre>
   </div>
 
   <h2><code>PGO — Profile-Guided Optimization</code></h2>
@@ -434,11 +404,8 @@ forja medir ejemplos/bench_fib.fa</code></pre>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-trending-up"/></svg> Ejemplos de PGO</span></div>
-    <pre><code><span class="co"># Recolectar perfil (genera .forjaprof): pgo: recoger en forja.yaml</span>
-forja ejecutar programa.fa
-
-<span class="co"># Aplicar un perfil existente: pgo: usar en forja.yaml</span>
-forja ejecutar programa.fa</code></pre>
+    <pre><code><span class="co"># Recolectar perfil (genera .forjaprof): perfil: recoger en forja.yaml</span>
+<span class="co"># Aplicar un perfil existente: perfil: usar en forja.yaml</span></code></pre>
   </div>
 
   <h2><code>add|agregar|remove|remover|install|instalar</code> — Gestión de paquetes</h2>
@@ -448,16 +415,16 @@ forja ejecutar programa.fa</code></pre>
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-package"/></svg> Ejemplos</span></div>
     <pre><code><span class="co"># Añadir dependencia</span>
-forja add json-util
+<span class="cmd">forja</span> <span class="sub">add</span> json-util
 
 <span class="co"># Añadir con versión específica</span>
-forja add json-util 0.2.0
+<span class="cmd">forja</span> <span class="sub">add</span> json-util 0.2.0
 
 <span class="co"># Eliminar dependencia</span>
-forja remove json-util
+<span class="cmd">forja</span> <span class="sub">remove</span> json-util
 
 <span class="co"># Instalar todas las dependencias del proyecto</span>
-forja install</code></pre>
+<span class="cmd">forja</span> <span class="sub">install</span></code></pre>
   </div>
 
   <h2><code>help|ayuda [tema]</code> — Ayuda detallada</h2>
@@ -466,9 +433,9 @@ forja install</code></pre>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-circle-help"/></svg> Ejemplos</span></div>
-    <pre><code>forja ayuda
-forja help funcion
-forja --help</code></pre>
+    <pre><code><span class="cmd">forja</span> <span class="sub">ayuda</span>
+<span class="cmd">forja</span> <span class="sub">help</span> funcion
+<span class="cmd">forja</span> <span class="sub">--help</span></code></pre>
   </div>
 
   <h2>Compilar el Rust generado</h2>
@@ -481,7 +448,7 @@ forja --help</code></pre>
 ./hola_mundo</code></pre>
   </div>
 
-  <h2>Ejecutar benchmarks</h2>
+  <h2>Benchmarks</h2>
 
   <p>Forja incluye varios benchmarks para medir rendimiento:</p>
 
