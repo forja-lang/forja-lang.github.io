@@ -76,8 +76,22 @@ alumno.presentarse()
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-rocket"/></svg> Instanciación posicional</span></div>
-    <pre><code><span class="kw">variable</span> p = <span class="kw">nuevo</span> Persona(<span class="st">"Juan"</span>)    <span class="co">// con constructor posicional</span>
-<span class="kw">variable</span> q = <span class="kw">nuevo</span> Punto()               <span class="co">// sin constructor</span></code></pre>
+    <pre><code><span class="kw">clase</span> Persona &lbrace;
+    nombre
+    <span class="kw">constructor</span>(nombre) &lbrace;
+        <span class="kw">este</span>.nombre = nombre
+    &rbrace;
+&rbrace;
+
+<span class="kw">clase</span> Punto &lbrace;
+    x
+    <span class="kw">y</span>
+&rbrace;
+
+<span class="kw">variable</span> p = <span class="kw">nuevo</span> <span class="fn">Persona</span>(<span class="st">&quot;Juan&quot;</span>)    <span class="co">// constructor posicional</span>
+<span class="kw">variable</span> q = <span class="kw">nuevo</span> <span class="fn">Punto</span>()            <span class="co">// sin constructor</span>
+<span class="fn">escribir</span>(p.nombre)
+<span class="fn">escribir</span>(q.x)                         <span class="co">// nulo (sin inicializar)</span></code></pre>
   </div>
 
   <h2>Inicialización struct-literal</h2>
