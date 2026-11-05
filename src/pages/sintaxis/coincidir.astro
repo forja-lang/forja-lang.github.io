@@ -13,12 +13,17 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-ruler"/></svg> Estructura</span></div>
-    <pre><code><span class="kw">coincidir</span> (expresión) &lbrace;
-    <span class="kw">caso</span> patrón1 -> &lbrace;
-        <span class="co">// código si coincide con patrón1</span>
+    <pre><code><span class="kw">variable</span> dia = <span class="nu">3</span>
+
+<span class="kw">coincidir</span> (dia) &lbrace;
+    <span class="kw">caso</span> <span class="nu">1</span> -&gt; &lbrace;
+        <span class="fn">escribir</span>(<span class="st">&quot;Lunes&quot;</span>)
     &rbrace;
-    <span class="kw">caso</span> patrón2 -> &lbrace;
-        <span class="co">// código si coincide con patrón2</span>
+    <span class="kw">caso</span> <span class="nu">3</span> -&gt; &lbrace;
+        <span class="fn">escribir</span>(<span class="st">&quot;Miércoles&quot;</span>)
+    &rbrace;
+    <span class="kw">caso</span> _ -&gt; &lbrace;
+        <span class="fn">escribir</span>(<span class="st">&quot;Otro día&quot;</span>)
     &rbrace;
 &rbrace;</code></pre>
   </div>
@@ -76,15 +81,17 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-shuffle"/></svg> Pipes y wildcard</span></div>
-    <pre><code><span class="kw">coincidir</span> (nota) &lbrace;
-    <span class="kw">caso</span> 10 | 9 -> &lbrace;
-        <span class="fn">escribir</span>(<span class="st">"Excelente"</span>)
+    <pre><code><span class="kw">variable</span> nota = <span class="nu">9</span>
+
+<span class="kw">coincidir</span> (nota) &lbrace;
+    <span class="kw">caso</span> <span class="nu">10</span> | <span class="nu">9</span> -&gt; &lbrace;
+        <span class="fn">escribir</span>(<span class="st">&quot;Excelente&quot;</span>)
     &rbrace;
-    <span class="kw">caso</span> 8 | 7 -> &lbrace;
-        <span class="fn">escribir</span>(<span class="st">"Bueno"</span>)
+    <span class="kw">caso</span> <span class="nu">8</span> | <span class="nu">7</span> -&gt; &lbrace;
+        <span class="fn">escribir</span>(<span class="st">&quot;Bueno&quot;</span>)
     &rbrace;
-    <span class="kw">caso</span> _ -> &lbrace;
-        <span class="fn">escribir</span>(<span class="st">"Reprobar"</span>)
+    <span class="kw">caso</span> _ -&gt; &lbrace;
+        <span class="fn">escribir</span>(<span class="st">&quot;Reprobar&quot;</span>)
     &rbrace;
 &rbrace;</code></pre>
   </div>
