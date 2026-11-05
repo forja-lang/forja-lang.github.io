@@ -89,8 +89,8 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      # Publica `dist/` en la rama gh-pages; Pages sirve esa rama en
-      # https://forja-lang.github.io/docs/ (base '/docs' del astro.config).
+      # Publica `dist/` en la rama gh-pages; Pages sirve esa rama en la raíz
+      # de https://forja-lang.github.io/ (base '/' del astro.config).
       - name: Deploy a gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
