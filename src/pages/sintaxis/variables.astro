@@ -111,8 +111,14 @@ contador = contador + 1  <span class="co">// OK Se puede reasignar con expresion
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-package"/></svg> Destructuring de arreglo</span></div>
-    <pre><code><span class="kw">variable</span> [primero, segundo] = [1, 2, 3]
-<span class="co">// primero = 1, segundo = 2</span></code></pre>
+    <pre><code><span class="kw">funcion</span> <span class="fn">par</span>() -&gt; <span class="ty">Arreglo</span> &lbrace;
+    <span class="kw">retornar</span> [<span class="nu">1</span>, <span class="nu">2</span>]
+&rbrace;
+
+<span class="kw">variable</span> primero, segundo = <span class="fn">par</span>()
+
+<span class="fn">escribir</span>(primero)   <span class="co">// 1</span>
+<span class="fn">escribir</span>(segundo)   <span class="co">// 2</span></code></pre>
   </div>
 
   <div class="info"><svg class="ico" aria-hidden="true"><use href="#i-lightbulb"/></svg> El destructuring con tuplas se usa frecuentemente con <code>canal()</code> para obtener el emisor y receptor en una sola línea.</div>
@@ -149,13 +155,14 @@ ref = 100                 <span class="co">// OK se puede modificar a través de
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-pencil"/></svg> Parámetro prestado mutable</span></div>
-    <pre><code><span class="kw">funcion</span> incrementar(<span class="kw">prestado</span> <span class="kw">mut</span> valor) &lbrace;
-    valor = valor + 1   <span class="co">// OK se puede modificar porque es prestado mut</span>
+    <pre><code><span class="kw">funcion</span> <span class="fn">incrementar</span>(<span class="kw">prestado</span> <span class="kw">mut</span> valor) -&gt; <span class="ty">Entero</span> &lbrace;
+    valor = valor + <span class="nu">1</span>
+    <span class="kw">retornar</span> valor
 &rbrace;
 
-<span class="kw">variable</span> x = 5
-incrementar(&mut x)     <span class="co">// pasamos una referencia mutable</span>
-<span class="fn">escribir</span>(x)              <span class="co">// → 6</span></code></pre>
+<span class="kw">variable</span> x = <span class="nu">5</span>
+<span class="fn">escribir</span>(<span class="fn">incrementar</span>(&amp;<span class="kw">mut</span> x))   <span class="co">// → 6</span>
+<span class="fn">escribir</span>(x)                     <span class="co">// la original sigue en 5</span></code></pre>
   </div>
 
   <p>Combinaciones posibles de parámetros:</p>
