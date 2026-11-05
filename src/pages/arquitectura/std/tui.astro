@@ -11,7 +11,9 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/tui.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>raw_mode(activar: Booleano)</code></td><td>Activa o desactiva el modo raw de la terminal. En modo raw, las teclas se leen inmediatamente sin esperar Enter. activar: verdadero para activar, falso para restaurar modo normal</td></tr>
+    <tr><td><code>leer_tecla()</code></td><td>Lee una tecla de la terminal (requiere modo raw activado). Retorna el caracter o la secuencia de escape.</td></tr>
+    <tr><td><code>tamano_terminal()</code></td><td>Retorna el tamaño de la terminal como (columnas, filas). Internamente parsea el texto "cols,rows" retornado por la native.</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

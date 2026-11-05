@@ -11,7 +11,47 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/hex.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>validar_hex(s: Texto)</code></td><td>Valida si un string es un número hexadecimal válido (0-9, A-F, a-f)</td></tr>
+    <tr><td><code>validar_binario(s: Texto)</code></td><td>Valida si un string es un número binario válido (solo 0 y 1)</td></tr>
+    <tr><td><code>validar_octal(s: Texto)</code></td><td>Valida si un string es un número octal válido (0-7)</td></tr>
+    <tr><td><code>validar_base_n(s: Texto, base: Entero)</code></td><td>Valida si un string es válido en una base dada (2-36)</td></tr>
+    <tr><td><code>base_n_a_decimal(numero: Texto, base: Entero)</code></td><td>Convierte un string en cualquier base (2-36) a entero Dígitos: 0-9, A-Z/a-z Retorna Error si el string está vacío, la base es inválida, o hay caracteres no válidos</td></tr>
+    <tr><td><code>decimal_a_base_n(n: Entero, base: Entero)</code></td><td>Convierte un entero a string en cualquier base (2-36) Los dígitos &gt; 9 se representan con letras mayúsculas (A-Z)</td></tr>
+    <tr><td><code>a_decimal(hex: Texto)</code></td><td>Convierte hexadecimal a entero decimal</td></tr>
+    <tr><td><code>a_binario(hex: Texto)</code></td><td>Convierte hexadecimal a string binario</td></tr>
+    <tr><td><code>a_octal(hex: Texto)</code></td><td>Convierte hexadecimal a string octal</td></tr>
+    <tr><td><code>decimal_a_hex(n: Entero)</code></td><td>Convierte entero decimal a hexadecimal</td></tr>
+    <tr><td><code>decimal_a_binario(n: Entero)</code></td><td>Convierte entero decimal a binario</td></tr>
+    <tr><td><code>decimal_a_octal(n: Entero)</code></td><td>Convierte entero decimal a octal</td></tr>
+    <tr><td><code>binario_a_decimal(bin: Texto)</code></td><td>Convierte binario a entero decimal</td></tr>
+    <tr><td><code>binario_a_hex(bin: Texto)</code></td><td>Convierte binario a hexadecimal</td></tr>
+    <tr><td><code>binario_a_octal(bin: Texto)</code></td><td>Convierte binario a octal</td></tr>
+    <tr><td><code>octal_a_decimal(oct: Texto)</code></td><td>Convierte octal a entero decimal</td></tr>
+    <tr><td><code>octal_a_hex(oct: Texto)</code></td><td>Convierte octal a hexadecimal</td></tr>
+    <tr><td><code>octal_a_binario(oct: Texto)</code></td><td>Convierte octal a binario</td></tr>
+    <tr><td><code>texto_a_hex(texto: Texto)</code></td><td>Convierte un texto a su representación hexadecimal (cada byte → 2 dígitos hex) Ejemplo: hex.texto_a_hex("Hola") -&gt; "486F6C61"</td></tr>
+    <tr><td><code>hex_a_texto(hex: Texto)</code></td><td>Convierte un string hexadecimal a su texto original (2 dígitos hex → 1 byte) Retorna Error si la longitud del hex es impar o contiene caracteres inválidos</td></tr>
+    <tr><td><code>y_bits(a: Texto, b: Texto)</code></td><td>Operación Y bit a bit (AND) entre dos strings hex</td></tr>
+    <tr><td><code>o_bits(a: Texto, b: Texto)</code></td><td>Operación O bit a bit (OR) entre dos strings hex</td></tr>
+    <tr><td><code>xor_bits(a: Texto, b: Texto)</code></td><td>Operación O exclusiva (XOR) bit a bit entre dos strings hex</td></tr>
+    <tr><td><code>complemento(a: Texto)</code></td><td>Operación complemento (NOT) sobre un string hex Invierte todos los bits del valor</td></tr>
+    <tr><td><code>desplazar_izquierda(a: Texto, n: Entero)</code></td><td>Desplaza los bits a la izquierda n posiciones</td></tr>
+    <tr><td><code>desplazar_derecha(a: Texto, n: Entero)</code></td><td>Desplaza los bits a la derecha n posiciones</td></tr>
+    <tr><td><code>sumar(a: Texto, b: Texto)</code></td><td>Suma dos números hexadecimales</td></tr>
+    <tr><td><code>restar(a: Texto, b: Texto)</code></td><td>Resta dos números hexadecimales (a - b)</td></tr>
+    <tr><td><code>multiplicar(a: Texto, b: Texto)</code></td><td>Multiplica dos números hexadecimales</td></tr>
+    <tr><td><code>dividir(a: Texto, b: Texto)</code></td><td>Divide dos números hexadecimales (cociente entero)</td></tr>
+    <tr><td><code>modulo(a: Texto, b: Texto)</code></td><td>Módulo entre dos números hexadecimales</td></tr>
+    <tr><td><code>potencia(a: Texto, exp: Texto)</code></td><td>Potencia: a^exp (exponente entero no negativo)</td></tr>
+    <tr><td><code>mcd(a: Texto, b: Texto)</code></td><td>Máximo Común Divisor (algoritmo de Euclides)</td></tr>
+    <tr><td><code>mcm(a: Texto, b: Texto)</code></td><td>Mínimo Común Múltiplo</td></tr>
+    <tr><td><code>cero()</code></td><td>Retorna "0" (string hex para el valor 0)</td></tr>
+    <tr><td><code>medir(a: Texto)</code></td><td>Retorna la cantidad de dígitos hex (sin prefijo ni espacios)</td></tr>
+    <tr><td><code>iguales(a: Texto, b: Texto)</code></td><td>Compara si dos strings hex representan el mismo valor</td></tr>
+    <tr><td><code>mayor_que(a: Texto, b: Texto)</code></td><td>Verdadero si a &gt; b</td></tr>
+    <tr><td><code>menor_que(a: Texto, b: Texto)</code></td><td>Verdadero si a &lt; b</td></tr>
+    <tr><td><code>_digito_a_valor(c: Texto)</code></td><td>Convierte un caracter (0-9, A-Z, a-z) a su valor numérico (0-35) Retorna -1 si el caracter no es válido</td></tr>
+    <tr><td><code>_valor_a_digito(v: Entero)</code></td><td>Convierte un valor numérico (0-35) a su caracter 0-9 → '0'-'9', 10-35 → 'A'-'Z'</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

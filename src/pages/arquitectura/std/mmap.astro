@@ -11,7 +11,13 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/mmap.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>abrir(ruta: Texto, offset: Entero, longitud: Entero, modo: Texto)</code></td><td>Mapea un archivo en memoria virtual. ruta: ruta al archivo offset: desplazamiento inicial en bytes (se redondea automáticamente) longitud: 0 = mapear todo el archivo desde offset modo: "r" (solo lectura) o "rw" (lectura/escritura) Retorna: Entero (handle opaco para usar en las demás funciones)</td></tr>
+    <tr><td><code>cerrar(handle: Entero)</code></td><td>Cierra un mapping y libera el handle. handle: el handle obtenido de abrir()</td></tr>
+    <tr><td><code>leer(handle: Entero, offset_local: Entero, longitud: Entero)</code></td><td>Lee bytes de la región mapeada. handle: handle del mapping offset_local: offset dentro de la región mapeada longitud: cantidad de bytes a leer</td></tr>
+    <tr><td><code>escribir(handle: Entero, offset_local: Entero, datos: Texto)</code></td><td>Escribe datos en la región mapeada (requiere modo "rw"). handle: handle del mapping offset_local: offset dentro de la región mapeada datos: texto a escribir</td></tr>
+    <tr><td><code>sincronizar(handle: Entero)</code></td><td>Fuerza la escritura de los cambios a disco. Necesario después de escribir para asegurar persistencia.</td></tr>
+    <tr><td><code>tamano_archivo(ruta: Texto)</code></td><td>Retorna el tamaño del archivo en bytes.</td></tr>
+    <tr><td><code>tamano_pagina()</code></td><td>Retorna el tamaño de página de memoria del sistema (típicamente 4096).</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

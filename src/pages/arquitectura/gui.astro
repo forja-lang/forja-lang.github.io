@@ -73,7 +73,8 @@ import Layout from '../../layouts/Layout.astro';
 &#125;</code></pre>
 
   <p>Ejecutar:</p>
-  <pre><code class="language-bash">forja ejecutar --native app.fa</code></pre>
+  <pre><code class="language-bash"># forja.yaml: backend: nativo
+forja ejecutar app.fa</code></pre>
 
   <hr />
 
@@ -524,17 +525,17 @@ import Layout from '../../layouts/Layout.astro';
 <span class="co">// (child, variable_bool, duración_ms)</span></code></pre>
 
   <h3>Easing Curves (API Rust)</h3>
-  <pre><code>EASE_STANDARD     // (0.2, 0.0, 0.0, 1.0)
-EASE_EMPHASIZED   // (0.3, 0.0, 0.0, 1.0)
-EASE_DECELERATE   // (0.0, 0.0, 0.0, 1.0)
-EASE_ACCELERATE   // (0.3, 0.0, 1.0, 1.0)
-EASE_EXPRESSIVE   // (0.34, 1.56, 0.64, 1.0)</code></pre>
+  <pre><code><span class="ty">EASE_STANDARD</span>     <span class="co">// (0.2, 0.0, 0.0, 1.0)</span>
+<span class="ty">EASE_EMPHASIZED</span>   <span class="co">// (0.3, 0.0, 0.0, 1.0)</span>
+<span class="ty">EASE_DECELERATE</span>   <span class="co">// (0.0, 0.0, 0.0, 1.0)</span>
+<span class="ty">EASE_ACCELERATE</span>   <span class="co">// (0.3, 0.0, 1.0, 1.0)</span>
+<span class="ty">EASE_EXPRESSIVE</span>   <span class="co">// (0.34, 1.56, 0.64, 1.0)</span></code></pre>
 
   <h3>AnimationPresets (API Rust)</h3>
-  <pre><code>AnimationPresets::button_ripple()    // 150ms
-AnimationPresets::card_elevate()     // 200ms
-AnimationPresets::page_transition()  // 300ms
-AnimationPresets::spinner_loop()     // 800ms</code></pre>
+  <pre><code><span class="ty">AnimationPresets</span><span class="op">::</span><span class="fn">button_ripple</span>()    <span class="co">// 150ms</span>
+<span class="ty">AnimationPresets</span><span class="op">::</span><span class="fn">card_elevate</span>()     <span class="co">// 200ms</span>
+<span class="ty">AnimationPresets</span><span class="op">::</span><span class="fn">page_transition</span>()  <span class="co">// 300ms</span>
+<span class="ty">AnimationPresets</span><span class="op">::</span><span class="fn">spinner_loop</span>()     <span class="co">// 800ms</span></code></pre>
 
   <hr />
 

@@ -4,22 +4,22 @@ export const siteTitle = "Forja";
 export const siteTagline = "Lenguaje en español";
 
 export const headerNav = [
-  { title: "Curso", href: "/docs/curso/" },
-  { title: "Sintaxis", href: "/docs/sintaxis/variables/" },
-  { title: "Arquitectura", href: "/docs/arquitectura/pipeline/" },
-  { title: "Playground", href: "/docs/playground/" },
-  { title: "Blog", href: "/docs/blog/" },
+  { title: "Curso", href: "/curso/" },
+  { title: "Sintaxis", href: "/sintaxis/variables/" },
+  { title: "Arquitectura", href: "/arquitectura/pipeline/" },
+  { title: "Playground", href: "/playground/" },
+  { title: "Blog", href: "/blog/" },
 ];
 
 export const footerNav = [
   {
     title: "Documentación",
     links: [
-      { title: "¿Qué es Forja?", href: "/docs/" },
-      { title: "Instalación", href: "/docs/instalacion/" },
-      { title: "Uso (CLI)", href: "/docs/uso/" },
-      { title: "Curso en 30 días", href: "/docs/curso/" },
-      { title: "Ejemplos", href: "/docs/ejemplos/" },
+      { title: "¿Qué es Forja?", href: "/" },
+      { title: "Instalación", href: "/instalacion/" },
+      { title: "Uso (CLI)", href: "/uso/" },
+      { title: "Curso en 30 días", href: "/curso/" },
+      { title: "Ejemplos", href: "/ejemplos/" },
     ],
   },
   {
@@ -28,7 +28,7 @@ export const footerNav = [
       { title: "Repositorio", href: repoUrl },
       { title: "Releases", href: `${repoUrl}/releases` },
       { title: "Issues", href: `${repoUrl}/issues` },
-      { title: "Roadmap", href: "/docs/roadmap/" },
+      { title: "Roadmap", href: "/roadmap/" },
       { title: "Licencia GPL-3.0", href: `${repoUrl}/blob/main/LICENSE.md` },
     ],
   },

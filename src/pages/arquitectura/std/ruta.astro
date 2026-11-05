@@ -11,7 +11,15 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/ruta.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>normalizar(ruta: Texto)</code></td><td>Normaliza una ruta</td></tr>
+    <tr><td><code>unir(base: Texto, partes: Texto)</code></td><td>Une partes de una ruta</td></tr>
+    <tr><td><code>extension(archivo: Texto)</code></td><td>Devuelve la extensión del archivo</td></tr>
+    <tr><td><code>sin_extension(archivo: Texto)</code></td><td>Devuelve el nombre sin extensión</td></tr>
+    <tr><td><code>nombre_archivo(ruta: Texto)</code></td><td>Devuelve el nombre del archivo</td></tr>
+    <tr><td><code>dir_padre(ruta: Texto)</code></td><td>Devuelve el directorio padre</td></tr>
+    <tr><td><code>absoluta(ruta: Texto)</code></td><td>Convierte una ruta a absoluta</td></tr>
+    <tr><td><code>es_absoluta(ruta: Texto)</code></td><td>Verifica si una ruta es absoluta</td></tr>
+    <tr><td><code>sep()</code></td><td>Devuelve el separador de rutas del sistema</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

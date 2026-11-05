@@ -10,13 +10,16 @@ import Layout from '../../../layouts/Layout.astro';
 
   <h2>Funciones principales</h2>
   <table>
-    <tr><th>Función</th><th>Parámetros</th><th>Descripción</th></tr>
-    <tr><td><code>escribir</code></td><td>valor</td><td>Imprime un valor en la consola (sin salto de línea al final)</td></tr>
-    <tr><td><code>escribir_linea</code></td><td>valor</td><td>Imprime un valor con salto de línea al final</td></tr>
-    <tr><td><code>leer_linea</code></td><td>()</td><td>Lee una línea completa desde la entrada estándar (stdin)</td></tr>
-    <tr><td><code>leer_tecla</code></td><td>()</td><td>Lee una tecla individual sin esperar Enter (requiere modo raw)</td></tr>
-    <tr><td><code>imprimir</code></td><td>valor</td><td>Alias de <code>escribir</code></td></tr>
-    <tr><td><code>mostrar</code></td><td>valor</td><td>Alias de <code>escribir_linea</code></td></tr>
+    <tr><th>Función</th><th>Descripción</th></tr>
+    <tr><td><code>imprimir(mensaje)</code></td><td>Imprime un valor en stdout</td></tr>
+    <tr><td><code>imprimir_sin_salto(mensaje)</code></td><td>Imprime sin salto de línea final</td></tr>
+    <tr><td><code>imprimir_varios(arr)</code></td><td>Imprime varios valores</td></tr>
+    <tr><td><code>imprimir_linea()</code></td><td>Imprime una línea en stdout</td></tr>
+    <tr><td><code>pedir_texto(mensaje)</code></td><td>Lee una línea de texto desde stdin</td></tr>
+    <tr><td><code>pedir_numero(mensaje)</code></td><td>Lee un número desde stdin</td></tr>
+    <tr><td><code>mostrar_error(mensaje)</code></td><td>Muestra un error</td></tr>
+    <tr><td><code>mostrar_advertencia(mensaje)</code></td><td>Muestra una advertencia</td></tr>
+    <tr><td><code>mostrar_info(mensaje)</code></td><td>Muestra un mensaje informativo</td></tr>
   </table>
 
   <h2>Uso básico</h2>

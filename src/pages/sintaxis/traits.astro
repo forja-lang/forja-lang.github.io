@@ -11,7 +11,7 @@ import Layout from '../../layouts/Layout.astro';
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-ruler"/></svg> Sintaxis</span></div>
     <pre><code><span class="kw">rasgo</span> NombreRasgo &lbrace;
-    <span class="kw">funcion</span> metodo1(param1: <span class="ty">Tipo</span>) &rarr; <span class="ty">Retorno</span>
+    <span class="kw">funcion</span> metodo1(param1: <span class="ty">Tipo</span>) -> <span class="ty">Retorno</span>
     <span class="kw">funcion</span> metodo2() <span class="co">// opcional: cuerpo por defecto</span>
 &rbrace;</code></pre>
   </div>
@@ -21,7 +21,7 @@ import Layout from '../../layouts/Layout.astro';
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-dna"/></svg> Implementación</span></div>
     <pre><code><span class="kw">implementa</span> NombreRasgo <span class="kw">para</span> MiClase &lbrace;
-    <span class="kw">funcion</span> metodo1(param1: <span class="ty">Tipo</span>) &rarr; <span class="ty">Retorno</span> &lbrace;
+    <span class="kw">funcion</span> metodo1(param1: <span class="ty">Tipo</span>) -> <span class="ty">Retorno</span> &lbrace;
         <span class="kw">retornar</span> ...
     &rbrace;
 &rbrace;</code></pre>
@@ -32,7 +32,7 @@ import Layout from '../../layouts/Layout.astro';
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-graduation-cap"/></svg> Rasgos + Clases</span></div>
     <pre><code><span class="kw">rasgo</span> Volador &lbrace;
-    <span class="kw">funcion</span> <span class="fn">volar</span>() &rarr; <span class="ty">Texto</span>
+    <span class="kw">funcion</span> <span class="fn">volar</span>() -> <span class="ty">Texto</span>
     <span class="kw">funcion</span> <span class="fn">aterrizar</span>() <span class="co">// default vacío</span>
 &rbrace;
 
@@ -42,7 +42,7 @@ import Layout from '../../layouts/Layout.astro';
 &rbrace;
 
 <span class="kw">implementa</span> Volador <span class="kw">para</span> Pajaro &lbrace;
-    <span class="kw">funcion</span> <span class="fn">volar</span>() &rarr; <span class="ty">Texto</span> &lbrace;
+    <span class="kw">funcion</span> <span class="fn">volar</span>() -> <span class="ty">Texto</span> &lbrace;
         <span class="kw">retornar</span> <span class="kw">este</span>.nombre + <span class="st">" está volando..."</span>
     &rbrace;
 &rbrace;

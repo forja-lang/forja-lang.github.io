@@ -11,7 +11,28 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/servidor_h2.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>_cabeceras_a_texto(cabeceras)</code></td><td> cabeceras a texto</td></tr>
+    <tr><td><code>_texto_a_mapa(texto: Texto)</code></td><td> texto a mapa</td></tr>
+    <tr><td><code>_h2_enviar_frame(conn, tipo: Entero, flags: Entero, stream_id: Entero, payload_b64: Texto)</code></td><td> h2 enviar frame</td></tr>
+    <tr><td><code>_h2_enviar_headers(conn, stream_id: Entero, cabeceras, end_stream: Logico)</code></td><td> h2 enviar headers</td></tr>
+    <tr><td><code>_h2_enviar_data(conn, stream_id: Entero, datos: Texto, end_stream: Logico)</code></td><td> h2 enviar data</td></tr>
+    <tr><td><code>_h2_negociar_h2c_conexion(servidor, socket, datos_raw: Texto)</code></td><td> h2 negociar h2c conexion</td></tr>
+    <tr><td><code>_h2_establecer_h2c_directo(servidor, socket)</code></td><td> h2 establecer h2c directo</td></tr>
+    <tr><td><code>_h2_procesar_frame(servidor, conn, tipo: Entero, flags: Entero, stream_id: Entero, payload_b64: Texto)</code></td><td> h2 procesar frame</td></tr>
+    <tr><td><code>_h2_procesar_headers(servidor, conn, flags: Entero, stream_id: Entero, payload_b64: Texto)</code></td><td> h2 procesar headers</td></tr>
+    <tr><td><code>_h2_procesar_data(conn, stream_id: Entero, payload_b64: Texto)</code></td><td> h2 procesar data</td></tr>
+    <tr><td><code>_h2_resolver_ruta(servidor, solicitud, conn)</code></td><td> h2 resolver ruta</td></tr>
+    <tr><td><code>_h2_enviar_respuesta(conn, stream_id: Entero, respuesta, end_stream: Logico)</code></td><td> h2 enviar respuesta</td></tr>
+    <tr><td><code>_registrar_ruta_h2(servidor, metodo: Texto, ruta: Texto, manejador)</code></td><td> registrar ruta h2</td></tr>
+    <tr><td><code>obtener(servidor, ruta: Texto, manejador)</code></td><td>Obtiene una variable de entorno</td></tr>
+    <tr><td><code>enviar(servidor, ruta: Texto, manejador)</code></td><td>Envía datos por la conexión TLS</td></tr>
+    <tr><td><code>actualizar(servidor, ruta: Texto, manejador)</code></td><td>Reemplaza un recurso con PUT</td></tr>
+    <tr><td><code>eliminar(servidor, ruta: Texto, manejador)</code></td><td>Realiza una petición DELETE</td></tr>
+    <tr><td><code>modificar_parcial(servidor, ruta: Texto, manejador)</code></td><td>Modifica parcialmente un recurso con PATCH</td></tr>
+    <tr><td><code>usar(servidor, middleware)</code></td><td>Registra un middleware/handler</td></tr>
+    <tr><td><code>iniciar(servidor)</code></td><td>Inicia el perfilador</td></tr>
+    <tr><td><code>_h2_bucle_conexion(servidor, conn)</code></td><td> h2 bucle conexion</td></tr>
+    <tr><td><code>detener(servidor)</code></td><td>Detiene el perfilador</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

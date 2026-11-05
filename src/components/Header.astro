@@ -2,14 +2,14 @@
 import Sidebar from "./Sidebar.astro";
 import { headerNav, repoUrl, siteTagline, siteTitle } from "../data/site";
 
-const current = Astro.url.pathname.replace(/\/+$/, "") || "/docs";
+const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const isCurrent = (href: string) => current.startsWith(href.replace(/\/+$/, ""));
 ---
 
 <header class="site-header">
   <div class="header-inner container-wide">
-    <a class="brand" href="/docs/" aria-label={`${siteTitle} — inicio`}>
-      <img class="brand-mark" src="/docs/logo.png" alt="" width="34" height="34" />
+    <a class="brand" href="/" aria-label={`${siteTitle} — inicio`}>
+      <img class="brand-mark" src="/logo.png" alt="" width="34" height="34" />
       <span class="brand-text">
         <span class="brand-name">{siteTitle}</span>
         <span class="brand-tag">{siteTagline}</span>
@@ -25,7 +25,7 @@ const isCurrent = (href: string) => current.startsWith(href.replace(/\/+$/, ""))
     </nav>
 
     <div class="header-actions">
-      <a class="btn btn-primary btn-sm" href="/docs/instalacion/">Instalar</a>
+      <a class="btn btn-primary btn-sm" href="/instalacion/">Instalar</a>
 
       <a class="icon-btn" href={repoUrl} target="_blank" rel="noreferrer" aria-label="Repositorio en GitHub">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

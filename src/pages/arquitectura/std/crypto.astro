@@ -11,7 +11,20 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/crypto.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>bytes_aleatorios(n: Entero)</code></td><td>Genera n bytes criptográficamente aleatorios</td></tr>
+    <tr><td><code>sal(n: Entero)</code></td><td>Genera n bytes de sal criptográfico (alias)</td></tr>
+    <tr><td><code>igualdad_tiempo_constante(a: Texto, b: Texto)</code></td><td>Compara dos textos en tiempo constante (protege contra timing attacks)</td></tr>
+    <tr><td><code>aes_encriptar(clave: Texto, iv: Texto, datos: Texto)</code></td><td>Cifra datos con AES-256-CBC clave: 32 bytes, iv: 16 bytes</td></tr>
+    <tr><td><code>aes_desencriptar(clave: Texto, iv: Texto, cifrado: Texto)</code></td><td>Descifra datos con AES-256-CBC clave: 32 bytes, iv: 16 bytes</td></tr>
+    <tr><td><code>aes_gcm_encriptar(clave: Texto, nonce: Texto, datos: Texto, ad: Texto)</code></td><td>Cifra autenticado con AES-256-GCM clave: 32 bytes, nonce: 12 bytes, datos: mensaje, ad: datos asociados (puede ser "") Retorna: cifrado || tag (últimos 16 bytes)</td></tr>
+    <tr><td><code>aes_gcm_desencriptar(clave: Texto, nonce: Texto, cifrado: Texto, ad: Texto)</code></td><td>Descifra y verifica con AES-256-GCM Retorna Error si el tag es inválido (datos alterados)</td></tr>
+    <tr><td><code>chacha20(clave: Texto, nonce: Texto, datos: Texto)</code></td><td>Cifra/descifra datos con ChaCha20 (XOR keystream) clave: 32 bytes, nonce: 12 bytes</td></tr>
+    <tr><td><code>aead_encriptar(clave: Texto, nonce: Texto, datos: Texto, ad: Texto)</code></td><td>Cifra autenticado con ChaCha20-Poly1305 clave: 32 bytes, nonce: 12 bytes, datos: mensaje, ad: datos asociados (puede ser "") Retorna: cifrado || tag (últimos 16 bytes)</td></tr>
+    <tr><td><code>aead_desencriptar(clave: Texto, nonce: Texto, cifrado: Texto, ad: Texto)</code></td><td>Descifra y verifica con ChaCha20-Poly1305 Retorna Error si el tag es inválido (datos alterados)</td></tr>
+    <tr><td><code>scrypt(password: Texto, sal: Texto, n: Entero, r: Entero, longitud: Entero)</code></td><td>scrypt: memory-hard KDF (RFC 7914), resistente a ataques con ASIC/GPU password: contraseña sal: sal criptográfico n: costo de CPU/memoria (potencia de 2, ej: 16384) r: tamaño de bloque (ej: 8) longitud: longitud deseada en bytes de la clave derivada</td></tr>
+    <tr><td><code>pbkdf2(password: Texto, sal: Texto, iteraciones: Entero, longitud: Entero)</code></td><td>PBKDF2-HMAC-SHA256: deriva una clave a partir de una contraseña y sal password: contraseña sal: sal criptográfico iteraciones: número de iteraciones (recomendado &gt;= 600000) longitud: longitud deseada en bytes de la clave derivada</td></tr>
+    <tr><td><code>hash_password(password: Texto)</code></td><td>Genera un hash de contraseña seguro con sal aleatorio automático Formato: $pbkdf2-sha256$iteraciones$sal_hex$hash_hex</td></tr>
+    <tr><td><code>verificar_password(password: Texto, hash: Texto)</code></td><td>Verifica una contraseña contra un hash generado por hash_password</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

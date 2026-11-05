@@ -11,7 +11,14 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/codificacion.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>base64_codificar(texto: Texto)</code></td><td>Codifica un texto a Base64 Implementación nativa Rust (crate base64)</td></tr>
+    <tr><td><code>base64_decodificar(texto: Texto)</code></td><td>Decodifica un texto desde Base64 Retorna Error si el texto no es Base64 válido</td></tr>
+    <tr><td><code>hex_codificar(texto: Texto)</code></td><td>Codifica un texto a hexadecimal (cada byte → 2 dígitos hex) Usa dígitos en mayúscula (A-F)</td></tr>
+    <tr><td><code>hex_decodificar(hex: Texto)</code></td><td>Decodifica un texto hexadecimal a texto plano Implementación nativa Rust (rápida) — reemplaza la versión Forja que iteraba char por char Retorna Error si el texto no es hexadecimal válido</td></tr>
+    <tr><td><code>url_codificar(texto: Texto)</code></td><td>Codifica un texto a URL (percent-encoding) Caracteres seguros (no se codifican): letras, dígitos, _, -, ., ~ Todo lo demás se codifica como %XX</td></tr>
+    <tr><td><code>url_decodificar(texto: Texto)</code></td><td>Decodifica un texto desde URL (percent-encoding) Convierte %XX a su caracter correspondiente y + a espacio Retorna Error si encuentra un % sin 2 dígitos hex válidos</td></tr>
+    <tr><td><code>_digito_hex(d: Entero)</code></td><td>Convierte un dígito (0-15) a su caracter hexadecimal en mayúscula 0-9 → '0'-'9', 10-15 → 'A'-'F'</td></tr>
+    <tr><td><code>_hex_a_valor(c: Texto)</code></td><td>Convierte un caracter hexadecimal a su valor numérico (0-15) Acepta mayúsculas y minúsculas Retorna -1 si el caracter no es un dígito hex válido</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

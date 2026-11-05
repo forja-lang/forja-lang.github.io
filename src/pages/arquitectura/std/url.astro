@@ -11,7 +11,11 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/url.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>parsear(url: Texto)</code></td><td>Parsea una URL en sus componentes</td></tr>
+    <tr><td><code>construir(esquema: Texto, host: Texto, puerto: Entero, ruta: Texto, query: Texto)</code></td><td>Construye una URL desde componentes</td></tr>
+    <tr><td><code>codificar(texto: Texto)</code></td><td>Codifica una URL</td></tr>
+    <tr><td><code>decodificar(texto: Texto)</code></td><td>Decodifica una URL</td></tr>
+    <tr><td><code>query_parsear(query: Texto)</code></td><td>Parsea la query string en un mapa</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

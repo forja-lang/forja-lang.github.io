@@ -39,8 +39,8 @@ import Layout from '../../layouts/Layout.astro';
 
   <h2>Cómo se integra</h2>
   <p>La VM ForjaFast lo usa para la gestión de memoria del runtime. La integración exige que la VM llame a <code>write_barrier</code> en cualquier <code>SetField</code>, <code>SetIndex</code>, asignación de variables que contengan referencias GC, y en retornos de punteros GC desde FFI. El patrón típico es mutar primero y notificar después:</p>
-  <pre><code>set_field(obj, offset, new_value); // mutar primero
-gc.write_barrier(&amp;obj, offset);    // notificar al GC</code></pre>
+  <pre><code><span class="fn">set_field</span>(obj, offset, new_value); <span class="co">// mutar primero</span>
+<span class="fn">gc.write_barrier</span>(<span class="op">&amp;</span>obj, offset);    <span class="co">// notificar al GC</span></code></pre>
 
   <div class="warning"><strong><svg class="ico" aria-hidden="true"><use href="#i-triangle-alert"/></svg></strong> Sin write barriers, una referencia old→young que se cree durante la ejecución hace que la young collection libere objetos vivos: <code>use-after-free</code>.</div>
 

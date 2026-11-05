@@ -11,7 +11,18 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/cliente_http.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>_respuesta_error(mensaje)</code></td><td> respuesta error</td></tr>
+    <tr><td><code>_cabeceras_a_texto(cabeceras)</code></td><td> cabeceras a texto</td></tr>
+    <tr><td><code>_texto_a_mapa(texto: Texto)</code></td><td> texto a mapa</td></tr>
+    <tr><td><code>_resolver_url(url: Texto)</code></td><td> resolver url</td></tr>
+    <tr><td><code>_realizar_solicitud(metodo: Texto, url: Texto, cuerpo: Texto, opciones)</code></td><td> realizar solicitud</td></tr>
+    <tr><td><code>obtener(url: Texto)</code></td><td>Obtiene una variable de entorno</td></tr>
+    <tr><td><code>obtener_con_opciones(url: Texto, opciones)</code></td><td>GET con opciones (cabeceras, timeout, etc.)</td></tr>
+    <tr><td><code>enviar(url: Texto, cuerpo: Texto)</code></td><td>Envía datos por la conexión TLS</td></tr>
+    <tr><td><code>enviar_con_opciones(url: Texto, cuerpo: Texto, opciones)</code></td><td>POST con opciones (cabeceras, timeout, etc.)</td></tr>
+    <tr><td><code>actualizar(url: Texto, cuerpo: Texto)</code></td><td>Reemplaza un recurso con PUT</td></tr>
+    <tr><td><code>eliminar(url: Texto)</code></td><td>Realiza una petición DELETE</td></tr>
+    <tr><td><code>modificar_parcial(url: Texto, cuerpo: Texto)</code></td><td>Modifica parcialmente un recurso con PATCH</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

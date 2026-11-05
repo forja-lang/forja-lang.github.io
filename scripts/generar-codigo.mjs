@@ -77,9 +77,9 @@ const OVERRIDES = {
   "http": { repo: "forja-lang/forja-stdlib-std", path: "cliente_http.fa" },
 };
 
-// extraer nombre del slug: /docs/arquitectura/std/archivo/ -> archivo (o std/archivo)
+// extraer nombre del slug: /arquitectura/std/archivo/ -> archivo (o std/archivo)
 function nombreDe(slug) {
-  return slug.replace(/^\/docs\/arquitectura\//, "").replace(/\/+$/, "");
+  return slug.replace(/^\/arquitectura\//, "").replace(/\/+$/, "");
 }
 
 // ---- parsear nav.ts para slugs+títulos de Arquitectura + std ----
@@ -173,7 +173,7 @@ for (const r of resultados) {
 out.push("];");
 out.push("");
 out.push(`export function fuentePara(ruta: string): FuenteCodigo | undefined {`);
-out.push(`  const slug = ruta.replace(/\\/+$/, "") || "/docs";`);
+out.push(`  const slug = ruta.replace(/\\/+$/, "") || "/";`);
 out.push(`  return fuentesCodigo.find((f) => f.slug.replace(/\\/+$/, "") === slug);`);
 out.push(`}`);
 out.push("");

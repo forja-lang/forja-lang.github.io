@@ -282,27 +282,27 @@ import Layout from '../../layouts/Layout.astro';
   </ol>
 
   <h2>Ejemplo de salida formateada</h2>
-  <pre><code>importar math
+  <pre><code><span class="kw">importar</span> math
 
-clase Persona &#123;
-    nombre: Texto
-    edad: Entero
+<span class="kw">clase</span> <span class="ty">Persona</span> &#123;
+    nombre: <span class="ty">Texto</span>
+    edad: <span class="ty">Entero</span>
 
-    constructor(nombre: Texto, edad: Entero)
-        requiere edad >= 0, "La edad no puede ser negativa"
+    <span class="kw">constructor</span>(nombre: <span class="ty">Texto</span>, edad: <span class="ty">Entero</span>)
+        <span class="kw">requiere</span> edad <span class="op">>=</span> <span class="nu">0</span>, <span class="st">"La edad no puede ser negativa"</span>
     &#123;
-        este.nombre = nombre
-        este.edad = edad
+        <span class="kw">este</span>.nombre <span class="op">=</span> nombre
+        <span class="kw">este</span>.edad <span class="op">=</span> edad
     &#125;
 
-    funcion es_mayor_de_edad() -> Booleano &#123;
-        retornar este.edad >= 18
+    <span class="kw">funcion</span> <span class="fn">es_mayor_de_edad</span>() <span class="op">-&gt;</span> <span class="ty">Booleano</span> &#123;
+        <span class="kw">retornar</span> <span class="kw">este</span>.edad <span class="op">>=</span> <span class="nu">18</span>
     &#125;
 &#125;
 
-funcion main() &#123;
-    variable p = nuevo Persona("Ana", 25)
-    escribir(p.es_mayor_de_edad())
+<span class="kw">funcion</span> <span class="fn">main</span>() &#123;
+    <span class="kw">variable</span> p <span class="op">=</span> <span class="kw">nuevo</span> <span class="ty">Persona</span>(<span class="st">"Ana"</span>, <span class="nu">25</span>)
+    <span class="fn">escribir</span>(p.<span class="fn">es_mayor_de_edad</span>())
 &#125;</code></pre>
 
   <h2>Relación con el resto del compilador</h2>

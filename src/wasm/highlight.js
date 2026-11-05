@@ -21,19 +21,23 @@ const FORJA_TOKENS = [
   ["fn", /\b(escribir|leer)\b/],
   ["ty", /\b(Booleano|Decimal|Entero|Exacto|Texto|Nulo)\b/],
   ["kw", /\b(constructor|seleccionar|implementa|coincidir|resultado|constante|importar|mientras|prestado|variable|anterior|asegura|externo|externa|funcion|recibir|repetir|romper|continuar|requiere|retornar|siempre|enviar|tiempo|cuando|clase|nuevo|rasgo|donde|canal|caso|este|hilo|otro|para|sino|tipo|unir|mut|no|si|o)\b/],
-  ["kw", /\b(verdadero|falso|nulo)\b/],
+  ["kw", /\b(verdadero|falso|nulo|Alguno|Ninguno|Ok|Error|Algo|Some|None|Nada)\b/],
+  ["fn", /\b[a-z_][a-zA-Z0-9_]*(?=\s*\()/],
   ["nu", /\b\d+(?:\.\d+)?\b/],
   ["op", /(->|=>|==|!=|>=|<=|&&|\|\||[+\-*\/<>=!&|])/],
 ];
 
 export function resaltarForja(code) {
-  const fuente = FORJA_TOKENS.map(([, re]) => `(${re.source})`).join("|");
+  // Grupos con nombre: los regex de tokens tienen grupos propios (ej. `(a|b)`),
+  // así que usar índices posicionales (m[i+1]) los corrompía.
+  const fuente = FORJA_TOKENS.map(([, re], i) => `(?<g${i}>${re.source})`).join("|");
   const master = new RegExp(fuente, "g");
   let out = "";
   let last = 0;
   for (const m of code.matchAll(master)) {
     out += esc(code.slice(last, m.index));
-    const clase = FORJA_TOKENS.find((_, i) => m[i + 1] !== undefined)?.[0] ?? "";
+    const idx = Object.keys(m.groups ?? {}).find((k) => m.groups[k] !== undefined);
+    const clase = idx ? FORJA_TOKENS[parseInt(idx.slice(1), 10)][0] : "";
     out += `<span class="${clase}">${esc(m[0])}</span>`;
     last = m.index + m[0].length;
   }

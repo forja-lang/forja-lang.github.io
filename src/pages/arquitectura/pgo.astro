@@ -9,9 +9,10 @@ import Layout from '../../layouts/Layout.astro';
   <p>Recolecta <strong>perfiles de ejecución</strong> reales y recompila guiada por perfil para optimizar las rutas que el programa realmente ejecuta. En lugar de optimizar a ciegas, PGO identifica funciones calientes, branches con patrón claro y loops con muchas iteraciones, y conduce decisiones como inlining, layout lineal de branches, unrolling agresivo y optimización tier-2.</p>
 
   <h2>Flujo CLI</h2>
-  <pre><code>forja run --pgo=recoger programa.fa   → genera .forjaprof
-forja build --pgo=usar programa.fa    → recompila con el perfil</code></pre>
-  <p>La primera corrida ejecuta instrumentada y guarda el perfil en <code>.forjaprof</code> (en la raíz del proyecto). Las corridas posteriores con <code>--pgo=usar</code> cargan el perfil existente y lo aplican sin volver a recolectar. En la VM ForjaFast, el flujo conecta <code>ProfileManager</code> (persistencia) → <code>aplicar_pgo</code> (guía la ejecución) → instrumentación → <code>ProfileManager::save</code> (merge del perfil nuevo con el previo).</p>
+  <pre><code># forja.yaml: pgo: recoger   → genera .forjaprof
+# forja.yaml: pgo: usar      → aplica el perfil
+forja ejecutar programa.fa</code></pre>
+  <p>La primera corrida ejecuta instrumentada y guarda el perfil en <code>.forjaprof</code> (en la raíz del proyecto). Las corridas posteriores con <code>pgo: usar</code> en <code>forja.yaml</code> cargan el perfil existente y lo aplican sin volver a recolectar. En la VM ForjaFast, el flujo conecta <code>ProfileManager</code> (persistencia) → <code>aplicar_pgo</code> (guía la ejecución) → instrumentación → <code>ProfileManager::save</code> (merge del perfil nuevo con el previo).</p>
 
   <h2>Datos recolectados</h2>
   <table>

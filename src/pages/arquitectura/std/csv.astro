@@ -11,7 +11,10 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/csv.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>parsear(texto: Texto)</code></td><td>Parsea una URL en sus componentes</td></tr>
+    <tr><td><code>parsear_con_cabeceras(texto: Texto)</code></td><td>Parsea CSV usando la primera fila como cabeceras</td></tr>
+    <tr><td><code>generar(filas: Arreglo&lt;Arreglo&lt;Texto&gt;&gt;)</code></td><td>Genera texto TOML desde un valor</td></tr>
+    <tr><td><code>generar_con_cabeceras(cabeceras: Arreglo&lt;Texto&gt;, filas: Arreglo&lt;Arreglo&lt;Texto&gt;&gt;)</code></td><td>Genera CSV incluyendo cabeceras</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

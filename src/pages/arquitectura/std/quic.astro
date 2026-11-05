@@ -11,7 +11,7 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/quic.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>quic_conectar(host: Texto, puerto: Entero)</code></td><td>Establece una conexión QUIC segura sobre UDP con un servidor.  Parámetros: host: IP o nombre de dominio (ej: "ejemplo.com") puerto: número de puerto (ej: 443)  Retorna: Ok(ConexionQUIC) o Error(mensaje)</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

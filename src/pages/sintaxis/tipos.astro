@@ -153,8 +153,8 @@ persona[<span class="st">"edad"</span>] = 31</code></pre>
     <pre><code><span class="co">// Opción: puede ser Algo (con valor) o Nada</span>
 <span class="kw">tipo</span> Opcion = Algo | Nada
 
-<span class="co">// Resultado: Exito con valor, o Error con mensaje</span>
-<span class="kw">tipo</span> Resultado = Exito(Entero) | Error(Texto)
+<span class="co">// Resultado: Ok con valor, o Error con mensaje</span>
+<span class="kw">tipo</span> Resultado = Ok(Entero) | Error(Texto)
 
 <span class="co">// Color: variantes sin datos extra</span>
 <span class="kw">tipo</span> Color = Rojo | Verde | Azul</code></pre>
@@ -168,8 +168,8 @@ persona[<span class="st">"edad"</span>] = 31</code></pre>
     <tr><th>Tipo Forja</th><th>Descripción</th><th>Ejemplo</th></tr>
     <tr><td><code>Arreglo[T]</code></td><td>Arreglo dinámico de elementos <code>T</code></td><td><code>[1, 2, 3]</code></td></tr>
     <tr><td><code>Mapa&lbrace;K: V&rbrace;</code></td><td>Mapa / diccionario con claves <code>K</code> y valores <code>V</code></td><td><code>&lbrace;"clave": "valor"&rbrace;</code></td></tr>
-    <tr><td><code>Resultado&lt;T, E&gt;</code></td><td>Operación que puede ser <code>Exito(T)</code> o <code>Error(E)</code></td><td><code>Resultado&lt;Entero, Texto&gt;</code></td></tr>
-    <tr><td><code>Opcion&lt;T&gt;</code></td><td>Valor opcional: <code>Algun(T)</code> o <code>Ninguno</code></td><td><code>Opcion&lt;Texto&gt;</code></td></tr>
+    <tr><td><code>Resultado&lt;T, E&gt;</code></td><td>Operación que puede ser <code>Ok(T)</code> o <code>Error(E)</code></td><td><code>Resultado&lt;Entero, Texto&gt;</code></td></tr>
+    <tr><td><code>Opcion&lt;T&gt;</code></td><td>Valor opcional: <code>Alguno(T)</code> o <code>Ninguno</code></td><td><code>Opcion&lt;Texto&gt;</code></td></tr>
   </table>
 
   <h2>Anotaciones explícitas</h2>

@@ -164,16 +164,16 @@ alumno.presentarse()
     <pre><code><span class="kw">variable</span> dia = 3
 
 <span class="kw">coincidir</span> (dia) &lbrace;
-    <span class="kw">caso</span> 1 &rarr; &lbrace;
+    <span class="kw">caso</span> 1 -> &lbrace;
         <span class="fn">escribir</span>(<span class="st">"Lunes"</span>)
     &rbrace;
-    <span class="kw">caso</span> 2 &rarr; &lbrace;
+    <span class="kw">caso</span> 2 -> &lbrace;
         <span class="fn">escribir</span>(<span class="st">"Martes"</span>)
     &rbrace;
-    <span class="kw">caso</span> 3 &rarr; &lbrace;
+    <span class="kw">caso</span> 3 -> &lbrace;
         <span class="fn">escribir</span>(<span class="st">"Miércoles"</span>)
     &rbrace;
-    <span class="kw">caso</span> _ &rarr; &lbrace;
+    <span class="kw">caso</span> _ -> &lbrace;
         <span class="fn">escribir</span>(<span class="st">"Otro día"</span>)
     &rbrace;
 &rbrace;</code></pre>
@@ -183,23 +183,23 @@ alumno.presentarse()
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-file"/></svg> ejemplos/111_match_enum.fa</span></div>
-    <pre><code><span class="kw">tipo</span> Resultado = Exito(Entero) | Error(Texto)
+    <pre><code><span class="kw">tipo</span> Resultado = Ok(Entero) | Error(Texto)
 
 <span class="kw">funcion</span> dividir(a, b) &lbrace;
     <span class="kw">si</span> (b == 0) &lbrace;
         <span class="kw">retornar</span> Error(<span class="st">"No se puede dividir por cero"</span>)
     &rbrace; <span class="kw">sino</span> &lbrace;
-        <span class="kw">retornar</span> Exito(a / b)
+        <span class="kw">retornar</span> Ok(a / b)
     &rbrace;
 &rbrace;
 
 <span class="kw">variable</span> res = dividir(10, 2)
 
 <span class="kw">coincidir</span> (res) &lbrace;
-    <span class="kw">caso</span> Exito(valor) &rarr; &lbrace;
+    <span class="kw">caso</span> Ok(valor) -> &lbrace;
         <span class="fn">escribir</span>(<span class="st">"Resultado: "</span> + valor)
     &rbrace;
-    <span class="kw">caso</span> Error(msg) &rarr; &lbrace;
+    <span class="kw">caso</span> Error(msg) -> &lbrace;
         <span class="fn">escribir</span>(<span class="st">"Error: "</span> + msg)
     &rbrace;
 &rbrace;
@@ -309,7 +309,7 @@ persona[<span class="st">"edad"</span>] = 31
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-file"/></svg> ejemplos/91_trait_simple.fa</span></div>
     <pre><code><span class="kw">trait</span> Volador &lbrace;
-    <span class="kw">funcion</span> <span class="fn">volar</span>() &rarr; <span class="ty">Texto</span>
+    <span class="kw">funcion</span> <span class="fn">volar</span>() -> <span class="ty">Texto</span>
 &rbrace;
 
 <span class="kw">clase</span> Pajaro &lbrace;
@@ -318,7 +318,7 @@ persona[<span class="st">"edad"</span>] = 31
 &rbrace;
 
 <span class="kw">implementa</span> Volador <span class="kw">para</span> Pajaro &lbrace;
-    <span class="kw">funcion</span> <span class="fn">volar</span>() &rarr; <span class="ty">Texto</span> &lbrace;
+    <span class="kw">funcion</span> <span class="fn">volar</span>() -> <span class="ty">Texto</span> &lbrace;
         <span class="kw">retornar</span> <span class="st">"</span><span class="kw">este</span>.nombre <span class="st"> está volando"</span>
     &rbrace;
 &rbrace;</code></pre>
@@ -387,6 +387,7 @@ forja run ejemplos/14_adivina.fa
 <span class="co"># Avanzados (traits, concurrencia, GUI)</span>
 forja run ejemplos/91_trait_simple.fa
 forja run ejemplos/70_concurrencia.fa
-cargo run --features gui --bin forja -- run --native ejemplos/204_login_final.fa</code></pre>
+# forja.yaml: backend: nativo
+cargo run --features gui --bin forja -- run ejemplos/204_login_final.fa</code></pre>
   </div>
 </Layout>

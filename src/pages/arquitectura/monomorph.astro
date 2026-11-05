@@ -9,11 +9,11 @@ import Layout from '../../layouts/Layout.astro';
   <p>Detecta todas las <strong>instanciaciones concretas de genéricos</strong> en un programa y genera versiones especializadas para cada tipo concreto. Esto elimina el dispatch dinámico (sin boxing ni vtables en las llamadas) y habilita optimizaciones como inlining y dead code elimination sobre cada versión tipada. Es la técnica clásica de C++/Rust aplicada al compilador de Forja.</p>
 
   <h2>Ejemplo</h2>
-  <pre><code>clase Caja&lt;T&gt; &#123; valor: T &#125;
-funcion obtener&lt;T&gt;(c: Caja&lt;T&gt;) -&gt; T &#123; retornar c.valor &#125;
+  <pre><code><span class="kw">clase</span> <span class="ty">Caja</span><span class="op">&lt;</span>T<span class="op">&gt;</span> &#123; valor: <span class="ty">T</span> &#125;
+<span class="kw">funcion</span> <span class="fn">obtener</span><span class="op">&lt;</span>T<span class="op">&gt;</span>(c: <span class="ty">Caja</span><span class="op">&lt;</span>T<span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ty">T</span> &#123; <span class="kw">retornar</span> c.valor &#125;
 
-variable c1 = nueva Caja&lt;Entero&gt; &#123; valor: 42 &#125;
-variable c2 = nueva Caja&lt;Texto&gt; &#123; valor: "hola" &#125;</code></pre>
+<span class="kw">variable</span> c1 <span class="op">=</span> <span class="kw">nueva</span> <span class="ty">Caja</span><span class="op">&lt;</span><span class="ty">Entero</span><span class="op">&gt;</span> &#123; valor: <span class="nu">42</span> &#125;
+<span class="kw">variable</span> c2 <span class="op">=</span> <span class="kw">nueva</span> <span class="ty">Caja</span><span class="op">&lt;</span><span class="ty">Texto</span><span class="op">&gt;</span> &#123; valor: <span class="st">"hola"</span> &#125;</code></pre>
   <p>Se genera:</p>
   <ul>
     <li><code>Caja_Entero &#123; valor: Entero &#125;</code> — clase especializada</li>

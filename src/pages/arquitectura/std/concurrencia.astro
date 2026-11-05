@@ -11,14 +11,15 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Módulo <code>concurrencia</code> — Hilos y Canales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td><code>hilo_crear(funcion)</code></td><td>Crea un nuevo hilo que ejecuta la función dada</td></tr>
-    <tr><td><code>hilo_dormir(ms)</code></td><td>Duerme el hilo actual por milisegundos</td></tr>
-    <tr><td><code>hilo_unir(handle)</code></td><td>Espera a que un hilo termine (join)</td></tr>
-    <tr><td><code>canal_crear()</code></td><td>Crea un canal de comunicación (retorna (tx, rx))</td></tr>
-    <tr><td><code>canal_enviar(tx, mensaje)</code></td><td>Envía un mensaje por el canal</td></tr>
-    <tr><td><code>canal_recibir(rx)</code></td><td>Recibe un mensaje del canal (bloqueante)</td></tr>
-    <tr><td><code>canal_intentar_recibir(rx)</code></td><td>Intenta recibir sin bloquear (no bloqueante)</td></tr>
-    <tr><td><code>seleccionar(rx1, rx2, ...)</code></td><td>Espera mensajes de múltiples canales (select)</td></tr>
+    <tr><td><code>pool_trabajadores(num_trabajadores: Entero, procesar)</code></td><td>============================================================ WORKER POOL (clásico) ============================================================  Crea un pool de N workers que procesan tareas en paralelo. Las tareas se envían vía canal; los workers compiten por procesarlas.  Retorna [tx_tareas, rx_resultados]: - tx_tareas:      canal para enviar tareas - rx_resultados:  canal para recibir resultados</td></tr>
+    <tr><td><code>paralelo_for(inicio: Entero, fin: Entero, num_workers: Entero, callback)</code></td><td>============================================================ PARALLEL FOR (clásico) ============================================================  Ejecuta N iteraciones en paralelo usando M workers. Retorna arreglo con resultados.</td></tr>
+    <tr><td><code>mapa_paralelo(arr, num_workers: Entero, callback)</code></td><td>============================================================ MAPA PARALELO (clásico) ============================================================  Aplica una función a cada elemento de un arreglo en paralelo. Retorna arreglo con resultados.</td></tr>
+    <tr><td><code>con_limite_tiempo(ms: Entero, callback)</code></td><td>============================================================ TIMEOUT (clásico) ============================================================  Ejecuta una función con límite de tiempo. Retorna Ok(valor) si terminó, Error("Tiempo agotado") si excede el tiempo.</td></tr>
+    <tr><td><code>reintentar(max_intentos: Entero, callback)</code></td><td>============================================================ RETRY ============================================================  Ejecuta una función hasta N veces hasta que tenga éxito. El callback debe retornar un Resultado (Ok o Error).</td></tr>
+    <tr><td><code>mapa_async(arr: Arreglo, callback: Funcion)</code></td><td>============================================================ MAPA ASYNC ============================================================  Aplica un callback a cada elemento usando hilos reales. Retorna un arreglo con los resultados (orden original).</td></tr>
+    <tr><td><code>paralelo_for_async(inicio: Entero, fin: Entero, callback: Funcion)</code></td><td>============================================================ PARALLEL FOR ASYNC ============================================================  Ejecuta un callback en paralelo para cada índice en [inicio, fin) usando hilos reales. Retorna arreglo con resultados.</td></tr>
+    <tr><td><code>pool_async(num_trabajadores: Entero, procesar: Funcion)</code></td><td>============================================================ POOL DE TRABAJADORES ASYNC ============================================================  Crea un pool de N workers que procesan tareas en paralelo real. Cada worker ejecuta tareas en su propio hilo.  Retorna [tx_tareas, rx_resultados]: - tx_tareas:      canal para enviar tareas - rx_resultados:  canal para recibir resultados</td></tr>
+    <tr><td><code>con_timeout_async(ms: Entero, callback: Funcion)</code></td><td>============================================================ TIMEOUT ASYNC ============================================================  Ejecuta una función asincrónicamente con límite de tiempo. Retorna Ok(valor) si terminó, Error("Tiempo agotado") si excede.  Usa un hilo real y espera con timeout.</td></tr>
   </table>
 
   <h2>Módulo <code>atomicos</code> — Operaciones Atómicas</h2>

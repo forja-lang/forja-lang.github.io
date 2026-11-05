@@ -175,6 +175,6 @@ import Layout from '../../layouts/Layout.astro';
     <li>Depende de <code>lexer.rs</code>, <code>parser.rs</code>, <code>bytecode.rs</code> para el pipeline de compilación</li>
     <li>Ejecuta el código en <code>vm_fast.rs</code> (ForjaFast)</li>
     <li>Utiliza <code>module.rs</code> (ModuleResolver) para recarga de módulos</li>
-    <li>Se invoca desde la CLI (<code>main.rs</code>) con el flag <code>--repl</code></li>
+    <li>Se invoca con <code>forja repl</code> (el motor se elige con <code>motor</code> en <code>forja.yaml</code>; dentro del REPL, <code>motor &lt;fast|jit&gt;</code>)</li>
   </ul>
 </Layout>

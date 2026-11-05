@@ -11,7 +11,38 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/ansi.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>limpiar_pantalla()</code></td><td>Limpia toda la pantalla del terminal</td></tr>
+    <tr><td><code>limpiar_linea()</code></td><td>Limpia la línea actual</td></tr>
+    <tr><td><code>limpiar_desde_cursor()</code></td><td>Limpia desde el cursor hasta el final</td></tr>
+    <tr><td><code>mover_cursor(fila: Entero, columna: Entero)</code></td><td>Mueve el cursor a una posición (fila, columna)</td></tr>
+    <tr><td><code>guardar_cursor()</code></td><td>Guarda la posición actual del cursor</td></tr>
+    <tr><td><code>restaurar_cursor()</code></td><td>Restaura la posición guardada del cursor</td></tr>
+    <tr><td><code>mostrar_cursor(visible: Booleano)</code></td><td>Muestra el cursor del terminal</td></tr>
+    <tr><td><code>subir(n: Entero)</code></td><td>Mueve el cursor hacia arriba</td></tr>
+    <tr><td><code>bajar(n: Entero)</code></td><td>Mueve el cursor hacia abajo</td></tr>
+    <tr><td><code>adelante(n: Entero)</code></td><td>Mueve el cursor hacia adelante</td></tr>
+    <tr><td><code>atras(n: Entero)</code></td><td>Mueve el cursor hacia atrás</td></tr>
+    <tr><td><code>_con_color(codigo: Texto, texto: Texto)</code></td><td> con color</td></tr>
+    <tr><td><code>negro(texto: Texto)</code></td><td>Pinta el texto de negro</td></tr>
+    <tr><td><code>rojo(texto: Texto)</code></td><td>Pinta el texto de rojo</td></tr>
+    <tr><td><code>verde(texto: Texto)</code></td><td>Pinta el texto de verde</td></tr>
+    <tr><td><code>amarillo(texto: Texto)</code></td><td>Pinta el texto de amarillo</td></tr>
+    <tr><td><code>azul(texto: Texto)</code></td><td>Pinta el texto de azul</td></tr>
+    <tr><td><code>magenta(texto: Texto)</code></td><td>Pinta el texto de magenta</td></tr>
+    <tr><td><code>cyan(texto: Texto)</code></td><td>Pinta el texto de cyan</td></tr>
+    <tr><td><code>blanco(texto: Texto)</code></td><td>Pinta el texto de blanco</td></tr>
+    <tr><td><code>negro_fondo(texto: Texto)</code></td><td>Pinta el fondo de negro</td></tr>
+    <tr><td><code>rojo_fondo(texto: Texto)</code></td><td>Pinta el fondo de rojo</td></tr>
+    <tr><td><code>verde_fondo(texto: Texto)</code></td><td>Pinta el fondo de verde</td></tr>
+    <tr><td><code>amarillo_fondo(texto: Texto)</code></td><td>Pinta el fondo de amarillo</td></tr>
+    <tr><td><code>azul_fondo(texto: Texto)</code></td><td>Pinta el fondo de azul</td></tr>
+    <tr><td><code>magenta_fondo(texto: Texto)</code></td><td>Pinta el fondo de magenta</td></tr>
+    <tr><td><code>cyan_fondo(texto: Texto)</code></td><td>Pinta el fondo de cyan</td></tr>
+    <tr><td><code>blanco_fondo(texto: Texto)</code></td><td>Pinta el fondo de blanco</td></tr>
+    <tr><td><code>color(r: Entero, g: Entero, b: Entero, texto: Texto)</code></td><td>Aplica un color de texto por nombre</td></tr>
+    <tr><td><code>color_fondo(r: Entero, g: Entero, b: Entero, texto: Texto)</code></td><td>Aplica un color de fondo por nombre</td></tr>
+    <tr><td><code>titulo(texto: Texto)</code></td><td>Cambia el título de la ventana del terminal</td></tr>
+    <tr><td><code>beep()</code></td><td>Emite un sonido de alerta</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

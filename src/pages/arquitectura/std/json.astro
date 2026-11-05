@@ -11,7 +11,10 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td colspan="2"><em>Consultar el archivo <code>stdlib/std/json.fa</code> para la lista completa de funciones.</em></td></tr>
+    <tr><td><code>parsear(texto: Texto)</code></td><td>Parsea un texto JSON y retorna el valor Forja correspondiente. El resultado puede ser un Arreglo, Mapa, Texto, Entero, Decimal, Booleano o Nulo.</td></tr>
+    <tr><td><code>serializar(valor)</code></td><td>Convierte un valor Forja a texto JSON.</td></tr>
+    <tr><td><code>leer_json(ruta: Texto)</code></td><td>Lee un archivo JSON y lo parsea. Retorna Error si el archivo no existe o el JSON es inválido.</td></tr>
+    <tr><td><code>escribir_json(ruta: Texto, valor)</code></td><td>Convierte un valor Forja a JSON y lo escribe en un archivo.</td></tr>
   </table>
 
   <h2>Casos de uso</h2>

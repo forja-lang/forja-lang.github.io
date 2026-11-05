@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="Día 29 · Rendimiento — Curso Forja">
-  <p class="breadcrumb"><a href="/docs/curso/">← Curso: Forja en 30 días</a></p>
+  <p class="breadcrumb"><a href="/curso/">← Curso: Forja en 30 días</a></p>
   <h1>Día 29 · Rendimiento</h1>
   <p class="lead">Forja ofrece varias estrategias de ejecución: VM, JIT y compilación AOT. Aprende a medir y elegir la mejor.</p>
 
@@ -16,15 +16,15 @@ import Layout from '../../layouts/Layout.astro';
   <h2>Modos de ejecución</h2>
   <div class="code-block-wrapper">
     <div class="code-header"><span>terminal</span></div>
-    <pre><code>forja ejecutar app.fa            <span class="co"># VM canónica</span>
-forja ejecutar --jit app.fa      <span class="co"># JIT por niveles</span>
+    <pre><code>forja ejecutar app.fa            <span class="co"># VM canónica (motor: fast)</span>
+forja ejecutar app.fa            <span class="co"># JIT por niveles si motor: jit en forja.yaml</span>
 forja compilar app.fa            <span class="co"># compilación AOT</span></code></pre>
   </div>
 
   <h2>Consejos de optimización</h2>
   <ul>
     <li>Prefiere operaciones sobre tipos concretos (evita conversiones en bucles calientes).</li>
-    <li>Usa <code>fast_math</code> cuando trabajes con decimales y no necesites comprobaciones estrictas.</li>
+    <li>Pone <code>fast_math: true</code> en <code>forja.yaml</code> cuando trabajes con decimales y no necesites comprobaciones estrictas.</li>
     <li>Reutiliza arreglos y evita asignaciones dentro de bucles intensivos.</li>
   </ul>
 
@@ -34,8 +34,8 @@ forja compilar app.fa            <span class="co"># compilación AOT</span></cod
 
   <div class="warning">
     <strong>Ejercicio del día:</strong> escribe un bucle que sume los primeros 1.000.000 de enteros y compáralo con <code>forja bench</code>.
-    <br /><a href="/docs/curso/solucionario/#dia-29">Ver solución →</a>
+    <br /><a href="/curso/solucionario/#dia-29">Ver solución →</a>
   </div>
 
-  <p class="nav-siguiente"><a href="/docs/curso/30-proyecto-final/">Día 30 · Proyecto final →</a></p>
+  <p class="nav-siguiente"><a href="/curso/30-proyecto-final/">Día 30 · Proyecto final →</a></p>
 </Layout>

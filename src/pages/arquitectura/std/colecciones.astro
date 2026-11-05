@@ -11,18 +11,22 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Funciones sobre Arreglos</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td><code>longitud(arr)</code></td><td>Retorna la cantidad de elementos</td></tr>
-    <tr><td><code>empujar(arr, valor)</code></td><td>Agrega un elemento al final (push)</td></tr>
-    <tr><td><code>sacar(arr)</code></td><td>Quita y retorna el último elemento (pop)</td></tr>
-    <tr><td><code>insertar(arr, idx, valor)</code></td><td>Inserta un elemento en una posición específica</td></tr>
-    <tr><td><code>eliminar(arr, idx)</code></td><td>Elimina el elemento en una posición</td></tr>
-    <tr><td><code>contiene(arr, valor)</code></td><td>Verifica si un valor existe en el arreglo</td></tr>
-    <tr><td><code>indice_de(arr, valor)</code></td><td>Busca el índice de un valor</td></tr>
-    <tr><td><code>ordenar(arr)</code></td><td>Ordena el arreglo in-place</td></tr>
-    <tr><td><code>invertir(arr)</code></td><td>Invierte el orden del arreglo</td></tr>
-    <tr><td><code>mapa(arr, fn)</code></td><td>Aplica una función a cada elemento (map)</td></tr>
-    <tr><td><code>filtrar(arr, fn)</code></td><td>Filtra elementos según un predicado (filter)</td></tr>
-    <tr><td><code>reducir(arr, fn, inicial)</code></td><td>Acumula valores (reduce/fold)</td></tr>
+    <tr><td><code>mapa(arr, callback)</code></td><td>Aplica una función a cada elemento del arreglo y retorna un nuevo arreglo. Ejemplo: mapa([1,2,3], func(x) &lbrace; x * 2 &rbrace;) → [2,4,6]</td></tr>
+    <tr><td><code>filtrar(arr, callback)</code></td><td>Filtra elementos que cumplen una condición. Retorna un nuevo arreglo solo con los elementos para los cuales callback retorna verdadero. Ejemplo: filtrar([1,2,3,4], func(x) &lbrace; x &gt; 2 &rbrace;) → [3,4]</td></tr>
+    <tr><td><code>reducir(arr, callback, valor_inicial)</code></td><td>Reduce (pliega) un arreglo a un valor acumulativo. Aplica callback(acumulador, elemento) a cada elemento, donde acumulador comienza siendo valor_inicial. Ejemplo: reducir([1,2,3], func(acc, x) &lbrace; acc + x &rbrace;, 0) → 6</td></tr>
+    <tr><td><code>encontrar(arr, callback)</code></td><td>Retorna el primer elemento que cumple la condición. Si ningún elemento cumple, retorna nulo. Ejemplo: encontrar([1,2,3,4], func(x) &lbrace; x &gt; 2 &rbrace;) → 3</td></tr>
+    <tr><td><code>alguno(arr, callback)</code></td><td>Retorna verdadero si ALGÚN elemento cumple la condición. Ejemplo: alguno([1,2,3], func(x) &lbrace; x &gt; 2 &rbrace;) → verdadero</td></tr>
+    <tr><td><code>todos(arr, callback)</code></td><td>Retorna verdadero si TODOS los elementos cumplen la condición. Ejemplo: todos([2,4,6], func(x) &lbrace; x % 2 == 0 &rbrace;) → verdadero</td></tr>
+    <tr><td><code>ordenar(arr)</code></td><td>Retorna el arreglo ordenado (nuevo arreglo, no modifica el original). Implementa ordenamiento de burbuja O(n²). Funciona con números (enteros, flotantes). Ejemplo: ordenar([3,1,4,1,5]) → [1,1,3,4,5]</td></tr>
+    <tr><td><code>aplanar(arr)</code></td><td>Retorna un arreglo aplanado (1 nivel de profundidad). Si un elemento es un arreglo, sus elementos se agregan individualmente. Ejemplo: aplanar([[1,2],[3,[4]]]) → [1,2,3,[4]]</td></tr>
+    <tr><td><code>unico(arr)</code></td><td>Retorna un arreglo sin elementos duplicados. Conserva el orden de primera aparición. Ejemplo: unico([1,2,2,3,1]) → [1,2,3]</td></tr>
+    <tr><td><code>invertir(arr)</code></td><td>Invierte el orden del arreglo. Retorna un nuevo arreglo con los elementos en orden inverso. Ejemplo: invertir([1,2,3]) → [3,2,1]</td></tr>
+    <tr><td><code>segmento(arr, inicio, fin)</code></td><td>Retorna un segmento (rebanada) del arreglo desde 'inicio' hasta 'fin' (exclusivo). Ejemplo: segmento([1,2,3,4,5], 1, 3) → [2,3]</td></tr>
+    <tr><td><code>claves(mapa)</code></td><td>Retorna las claves del mapa como un arreglo. Ejemplo: claves(&lbrace;"a":1, "b":2&rbrace;) → ["a", "b"]</td></tr>
+    <tr><td><code>valores(mapa)</code></td><td>Retorna los valores del mapa como un arreglo. Ejemplo: valores(&lbrace;"a":1, "b":2&rbrace;) → [1, 2]</td></tr>
+    <tr><td><code>pares(mapa)</code></td><td>Retorna los pares [clave, valor] como arreglo de arreglos. Ejemplo: pares(&lbrace;"a":1, "b":2&rbrace;) → [["a",1], ["b",2]]</td></tr>
+    <tr><td><code>fusionar(mapa1, mapa2)</code></td><td>Combina dos mapas en uno nuevo. Si ambos mapas tienen la misma clave, el valor de mapa2 prevalece. Ejemplo: fusionar(&lbrace;"a":1&rbrace;, &lbrace;"b":2&rbrace;) → &lbrace;"a":1, "b":2&rbrace;</td></tr>
+    <tr><td><code>filtrar_claves(mapa, callback)</code></td><td>Filtra un mapa por sus claves. Retorna un nuevo mapa solo con las claves para las cuales callback(clave) retorna verdadero. Ejemplo: filtrar_claves(&lbrace;"a":1, "b":2, "c":3&rbrace;, func(k) &lbrace; k != "b" &rbrace;) → &lbrace;"a":1, "c":3&rbrace;</td></tr>
   </table>
 
   <h2>Funciones sobre Mapas</h2>

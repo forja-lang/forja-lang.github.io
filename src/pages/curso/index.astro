@@ -64,8 +64,8 @@ const totalCapitulos = modulos.reduce((acc, m) => acc + m.capitulos.length, 0);
 
   <h2>Requisitos</h2>
   <ul>
-    <li>Forja instalado (ver <a href="/docs/instalacion/">Instalación</a>).</li>
-    <li>Un editor de texto (recomendado: <a href="/docs/arquitectura/vscode/">extensión VSCode</a>).</li>
+    <li>Forja instalado (ver <a href="/instalacion/">Instalación</a>).</li>
+    <li>Un editor de texto (recomendado: <a href="/arquitectura/vscode/">extensión VSCode</a>).</li>
     <li>Ganas de escribir código todos los días. <svg class="ico" aria-hidden="true"><use href="#i-rocket"/></svg></li>
   </ul>
 
@@ -77,7 +77,7 @@ const totalCapitulos = modulos.reduce((acc, m) => acc + m.capitulos.length, 0);
       <p class="modulo-desc">{modulo.descripcion}</p>
       <div class="capitulos">
         {modulo.capitulos.map((cap) => (
-          <a class="capitulo" href={`/docs/curso/${cap.slug}/`}>
+          <a class="capitulo" href={`/curso/${cap.slug}/`}>
             <span class="cap-num">{String(cap.n).padStart(2, '0')}</span>
             <span class="cap-body">
               <span class="cap-titulo">{cap.titulo}</span>
@@ -90,7 +90,7 @@ const totalCapitulos = modulos.reduce((acc, m) => acc + m.capitulos.length, 0);
   ))}
 
   <h2>Solucionario</h2>
-  <p>Todas las soluciones de los ejercicios están disponibles en el <a href="/docs/curso/solucionario/">solucionario</a>, con el código completo y la salida esperada de cada capítulo.</p>
+  <p>Todas las soluciones de los ejercicios están disponibles en el <a href="/curso/solucionario/">solucionario</a>, con el código completo y la salida esperada de cada capítulo.</p>
 
   <div class="info"><svg class="ico" aria-hidden="true"><use href="#i-lightbulb"/></svg> <strong>Consejo:</strong> si te trabás, ejecutá <code>forja learn</code> en la terminal para practicar los conceptos base de forma interactiva.</div>
 

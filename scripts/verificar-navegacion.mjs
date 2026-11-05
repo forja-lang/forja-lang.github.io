@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(raiz, 'dist');
-const BASE = '/docs';
+const BASE = '';
 const PUERTO = 4600 + Math.floor(Math.random() * 200);
 const PUERTO_CDP = 9400 + Math.floor(Math.random() * 200);
 
@@ -118,7 +118,7 @@ if (await evaluar(`!!${chip}`)) {
 }
 
 // 1) Navegar al playground con un click, como un usuario
-await evaluar(`document.querySelector('[data-nav] a[href="/docs/playground/"]').click(); true`);
+await evaluar(`document.querySelector('[data-nav] a[href="/playground/"]').click(); true`);
 await new Promise((r) => setTimeout(r, 4000));
 
 const estado = await evaluar(`
@@ -156,7 +156,6 @@ if (hayEjemploGui) {
   gui = await evaluar(`
     (() => {
       const c = document.getElementById('forja-canvas');
-      const seccion = document.getElementById('guiSection');
       const status = document.getElementById('status');
       let colores = 0;
       if (c) {
@@ -167,16 +166,19 @@ if (hayEjemploGui) {
         colores = vistos.size;
       }
       return {
-        visible: seccion ? getComputedStyle(seccion).display !== 'none' : false,
+        visible: c ? !c.hidden && getComputedStyle(c).display !== 'none' : false,
+        enOutput: c ? c.parentElement?.classList.contains('output-panel') : false,
         colores,
         status: status ? status.textContent.trim() : null,
       };
     })()
   `);
   console.log('Ejemplo GUI →', JSON.stringify(gui));
-  if (!gui.visible) fallos.push('la sección del canvas GUI no se mostró');
+  if (!gui.visible) fallos.push('el canvas GUI no se mostró');
+  if (!gui.enOutput) fallos.push('el canvas GUI no está dentro del panel de output');
   if (gui.colores < 3) fallos.push(`el canvas GUI quedó vacío (${gui.colores} colores)`);
   if (/error|no disponible|⛔/i.test(gui.status || '')) fallos.push(`estado del GUI: ${gui.status}`);
+  if (!/\d+\.?\d*\s*ms/.test(gui.status || '')) fallos.push(`estado del GUI no muestra tiempo: ${gui.status}`);
 }
 
 // 3) Volver atrás: no deben quedar estilos huérfanos del playground
@@ -184,7 +186,10 @@ await evaluar('history.back(); true');
 await new Promise((r) => setTimeout(r, 3000));
 const atras = await evaluar(`({ url: location.pathname, quedoCssPlayground: [...document.querySelectorAll('head style')].some(s => s.textContent.includes('.playground-layout')) })`);
 console.log('Tras volver atrás →', JSON.stringify(atras));
-if (atras.quedoCssPlayground) fallos.push('quedaron estilos del playground tras navegar atrás');
+// El playground ahora es un componente compartido (index + /playground/), así
+// que sus estilos globales viven en el <head> de ambas páginas: es esperado
+// que persistan al volver a la portada. La comprobación queda solo informativa.
+if (atras.quedoCssPlayground) console.log('ℹ estilos del playground presentes en la portada (componente compartido)');
 
 // 4) Entrar directo por URL (sin navegación client-side)
 await cdp('Page.navigate', { url: `http://127.0.0.1:${PUERTO}${BASE}/playground/` });
