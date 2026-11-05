@@ -13,7 +13,16 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-package"/></svg> Definición</span></div>
-    <pre><code><span class="kw">tipo</span> Opcion&lt;T&gt; = Alguno(T) | Ninguno</code></pre>
+    <pre><code><span class="kw">variable</span> <span class="kw">o</span>: <span class="ty">Opcion</span>&lt;<span class="ty">Entero</span>&gt; = <span class="ty">Alguno</span>(<span class="nu">5</span>)
+
+<span class="kw">coincidir</span> (<span class="kw">o</span>) &lbrace;
+    <span class="kw">caso</span> <span class="ty">Alguno</span>(v) -&gt; &lbrace;
+        <span class="fn">escribir</span>(<span class="st">&quot;Hay valor: &quot;</span> + v)
+    &rbrace;
+    <span class="kw">caso</span> <span class="ty">Ninguno</span>() -&gt; &lbrace;
+        <span class="fn">escribir</span>(<span class="st">&quot;No hay valor&quot;</span>)
+    &rbrace;
+&rbrace;</code></pre>
   </div>
 
   <div class="code-block-wrapper">
@@ -39,7 +48,21 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-package"/></svg> Definición</span></div>
-    <pre><code><span class="kw">tipo</span> Resultado&lt;T, E&gt; = Ok(T) | Error(E)</code></pre>
+    <pre><code><span class="kw">funcion</span> <span class="fn">dividir</span>(a: <span class="ty">Entero</span>, b: <span class="ty">Entero</span>) -&gt; <span class="ty">Resultado</span>&lt;<span class="ty">Entero</span>, <span class="ty">Texto</span>&gt; &lbrace;
+    <span class="kw">si</span> (b == <span class="nu">0</span>) &lbrace;
+        <span class="kw">retornar</span> <span class="ty">Error</span>(<span class="st">&quot;división por cero&quot;</span>)
+    &rbrace;
+    <span class="kw">retornar</span> <span class="ty">Ok</span>(a / b)
+&rbrace;
+
+<span class="kw">coincidir</span> (<span class="fn">dividir</span>(<span class="nu">10</span>, <span class="nu">2</span>)) &lbrace;
+    <span class="kw">caso</span> <span class="ty">Ok</span>(v) -&gt; &lbrace;
+        <span class="fn">escribir</span>(<span class="st">&quot;Resultado: &quot;</span> + v)
+    &rbrace;
+    <span class="kw">caso</span> <span class="ty">Error</span>(e) -&gt; &lbrace;
+        <span class="fn">escribir</span>(<span class="st">&quot;Error: &quot;</span> + e)
+    &rbrace;
+&rbrace;</code></pre>
   </div>
 
   <div class="code-block-wrapper">
