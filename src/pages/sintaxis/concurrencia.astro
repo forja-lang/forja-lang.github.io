@@ -50,20 +50,24 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-radio-tower"/></svg> seleccionar</span></div>
-    <pre><code><span class="kw">seleccionar</span> &lbrace;
-    <span class="kw">caso</span> rx1 -> dato -> &lbrace;
-        <span class="fn">escribir</span>(<span class="st">"Canal 1: "</span> + dato)
+    <pre><code><span class="kw">variable</span> tx1, rx1 = <span class="kw">canal</span>()
+<span class="kw">variable</span> tx2, rx2 = <span class="kw">canal</span>()
+
+<span class="kw">variable</span> h = <span class="kw">hilo</span> &lbrace;
+    tx1.<span class="kw">enviar</span>(<span class="st">&quot;Mensaje 1&quot;</span>)
+    <span class="kw">retornar</span> <span class="nu">0</span>
+&rbrace;
+
+<span class="kw">seleccionar</span> &lbrace;
+    <span class="kw">caso</span> dato = rx1 &lbrace;
+        <span class="fn">escribir</span>(<span class="st">&quot;Canal 1: &quot;</span> + dato)
     &rbrace;
-    <span class="kw">caso</span> rx2 -> dato -> &lbrace;
-        <span class="fn">escribir</span>(<span class="st">"Canal 2: "</span> + dato)
+    <span class="kw">caso</span> dato = rx2 &lbrace;
+        <span class="fn">escribir</span>(<span class="st">&quot;Canal 2: &quot;</span> + dato)
     &rbrace;
-    <span class="kw">tiempo</span> 1000 -> &lbrace;
-        <span class="fn">escribir</span>(<span class="st">"Timeout"</span>)
-    &rbrace;
-    <span class="kw">otro</span> -> &lbrace;
-        <span class="fn">escribir</span>(<span class="st">"Sin datos"</span>)
-    &rbrace;
-&rbrace;</code></pre>
+&rbrace;
+
+h.<span class="kw">unir</span>()</code></pre>
   </div>
 
   <p>El bloque <code>seleccionar</code> sondea los canales y ejecuta <strong>un solo</strong> cuerpo: el del primero que tenga datos disponibles. Sin <code>tiempo</code> ni <code>otro</code> espera hasta que alguno reciba; <code>tiempo ms</code> espera como máximo ese tiempo (y entonces ejecuta su cuerpo) y <code>otro</code> es el caso por defecto cuando ningún canal tiene datos en ese instante (no espera).</p>
@@ -88,29 +92,27 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg> función asincrónica</span></div>
-    <pre><code><span class="co">// Declaración con retorno</span>
-<span class="kw">funcion asincrona</span> tarea_lenta() -> Texto &lbrace;
-    <span class="fn">esperar</span>(2)
-    <span class="kw">retornar</span> <span class="st">"¡Listo!"</span>
+    <pre><code><span class="kw">funcion</span> <span class="fn">tarea_lenta</span>() -&gt; <span class="ty">Texto</span> &lbrace;
+    <span class="kw">esperar</span>(<span class="nu">1</span>)
+    <span class="kw">retornar</span> <span class="st">&quot;¡Listo!&quot;</span>
 &rbrace;
 
-<span class="co">// Declaración con parámetros</span>
-<span class="kw">funcion asincrona</span> suma(a: Entero, b: Entero) -> Entero &lbrace;
+<span class="kw">funcion</span> <span class="fn">suma</span>(a: <span class="ty">Entero</span>, b: <span class="ty">Entero</span>) -&gt; <span class="ty">Entero</span> &lbrace;
     <span class="kw">retornar</span> a + b
 &rbrace;
 
-<span class="kw">funcion</span> main() &lbrace;
-    <span class="co">// Llamar a función async → retorna un Future/Hilo</span>
-    <span class="kw">variable</span> h = <span class="fn">tarea_lenta</span>()
+<span class="kw">variable</span> h = <span class="kw">hilo</span> &lbrace;
+    <span class="kw">retornar</span> <span class="fn">tarea_lenta</span>()
+&rbrace;
 
-    <span class="co">// await = h.unir() (syntactic sugar)</span>
-    <span class="kw">variable</span> resultado = <span class="kw">await</span> h
-    <span class="fn">escribir</span>(resultado) <span class="co">// → ¡Listo!</span>
+<span class="co">// unir() espera el resultado del hilo</span>
+<span class="kw">variable</span> <span class="kw">resultado</span> = h.<span class="kw">unir</span>()
+<span class="fn">escribir</span>(<span class="kw">resultado</span>)
 
-    <span class="co">// También funciona con .unir()</span>
-    <span class="kw">variable</span> r2 = <span class="fn">suma</span>(3, 4).<span class="fn">unir</span>()
-    <span class="fn">escribir</span>(r2) <span class="co">// → 7</span>
-&rbrace;</code></pre>
+<span class="kw">variable</span> h2 = <span class="kw">hilo</span> &lbrace;
+    <span class="kw">retornar</span> <span class="fn">suma</span>(<span class="nu">3</span>, <span class="nu">4</span>)
+&rbrace;
+<span class="fn">escribir</span>(h2.<span class="kw">unir</span>())</code></pre>
   </div>
 
   <h3>Múltiples llamadas async</h3>
@@ -191,11 +193,19 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-factory"/></svg> Pool de Workers</span></div>
-    <pre><code><span class="kw">importar</span> <span class="st">"std/concurrencia"</span>
+    <pre><code><span class="kw">importar</span> <span class="st">&quot;std/concurrencia&quot;</span>
 
-<span class="kw">variable</span> pool = <span class="fn">pool_trabajadores</span>(3, duplicar)
-<span class="kw">variable</span> e = pool[0]  <span class="co">// canal para enviar tareas</span>
-<span class="kw">variable</span> r = pool[1]  <span class="co">// canal para recibir resultados</span></code></pre>
+<span class="kw">funcion</span> <span class="fn">duplicar</span>(n: <span class="ty">Entero</span>) -&gt; <span class="ty">Entero</span> &lbrace;
+    <span class="kw">retornar</span> n * <span class="nu">2</span>
+&rbrace;
+
+<span class="co">// 3 trabajadores que aplican `duplicar` a cada tarea</span>
+<span class="kw">variable</span> pool = <span class="fn">pool_trabajadores</span>(<span class="nu">3</span>, duplicar)
+<span class="kw">variable</span> e = pool[<span class="nu">0</span>]  <span class="co">// canal para enviar tareas</span>
+<span class="kw">variable</span> r = pool[<span class="nu">1</span>]  <span class="co">// canal para recibir resultados</span>
+
+<span class="fn">escribir</span>(<span class="st">&quot;pool creado&quot;</span>)
+<span class="fn">escribir</span>(<span class="fn">longitud</span>(pool))</code></pre>
   </div>
 
   <h3><code>paralelo_for(inicio, fin, num_workers, callback)</code></h3>
