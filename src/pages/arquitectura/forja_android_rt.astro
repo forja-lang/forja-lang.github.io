@@ -69,16 +69,16 @@ import Layout from '../../layouts/Layout.astro';
   <p>Con <code>target_os = "android"</code>, <code>android_main(app: AndroidApp)</code> inicializa el logger a <strong>Logcat</strong> (tag <code>ForjaRuntime</code>), abre <code>assets/main.fa</code> desde el <code>AssetManager</code>, lo tokeniza/parsea con el lexer y parser de Forja, y lanza la UI dinámica con <code>forja_gui_rt::gui_nativa::build_and_run_android(&amp;programa, None, None, true, app)</code> — la misma GUI Xilem/Masonry del runtime nativo.</p>
 
   <h2>Template de app Android</h2>
-  <p>El directorio <code>android/template/</code> es el proyecto Gradle que genera <code>forja construir-apk</code>:</p>
+  <p>El directorio <code>android/template/</code> es el proyecto Gradle que genera <code><span class="cmd">forja</span> <span class="sub">construir-apk</span></code>:</p> 
   <table>
     <tr><th>Archivo</th><th>Contenido</th></tr>
     <tr><td><code>build.gradle.kts</code> (raíz)</td><td>Android Gradle Plugin <code>8.7.0</code> + Kotlin <code>2.1.0</code></td></tr>
-    <tr><td><code>app/build.gradle.kts</code></td><td><code>namespace com.forja.app</code>, <code>compileSdk/targetSdk 35</code>, <code>minSdk 26</code>, ABI filters <code>arm64-v8a</code> + <code>x86_64</code>, Java/Kotlin 17; depende de <code>libs/forja-android-rt-0.9.6.aar</code>, appcompat y activity-ktx</td></tr>
+    <tr><td><code>app/build.gradle.kts</code></td><td><code>namespace com.forja.app</code>, <code>compileSdk/targetSdk 35</code>, <code>minSdk 26</code>, ABI filters <code>arm64-v8a</code> + <code>x86_64</code>, Java/Kotlin 17; depende de <code>libs/forja-android-rt-0.9.7.aar</code>, appcompat y activity-ktx</td></tr>
     <tr><td><code>app/src/main/java/com/forja/app/MainActivity.kt</code></td><td>Activity genérica: intenta cargar <code>assets/main.fbc</code> (bytecode) o <code>assets/main.fa</code> (fuente), crea una sesión, ejecuta en un hilo background y muestra el output en un <code>TextView</code> dentro de un <code>ScrollView</code></td></tr>
     <tr><td><code>app/src/main/assets/main.fa</code></td><td>Código Forja de la app (editado por el usuario)</td></tr>
     <tr><td><code>android/AndroidManifest.xml</code></td><td><code>package com.forja</code>, <code>minSdkVersion 26</code>, sin permisos especiales (el <code>.so</code> se carga dinámicamente)</td></tr>
   </table>
-  <p>Flujo del build: el fuente <code>.fa</code> se compila a bytecode (<code>.fbc</code>) con <code>forja construir-apk</code> → la app carga <code>forja-android-rt.so</code> y ejecuta el bytecode → el output de <code>escribir()</code> se muestra en pantalla.</p>
+  <p>Flujo del build: el fuente <code>.fa</code> se compila a bytecode (<code>.fbc</code>) con <code><span class="cmd">forja</span> <span class="sub">construir-apk</span></code>  → la app carga <code>forja-android-rt.so</code> y ejecuta el bytecode → el output de <code>escribir()</code> se muestra en pantalla.</p>
 
   <h2>Integración con la VM de Forja</h2>
   <p>La sesión crea una <code>ForjaFast</code> del crate <code>forja</code> (<code>path = "../../.."</code>), le setea el límite de instrucciones y reemplaza <code>vm.native_registry</code> con <code>crear_registry_android()</code>. Compilación, serialización de bytecode y ejecución usan las APIs públicas de <code>forja</code>: <code>compilar_pipeline</code>, <code>bytecode::serializar/deserializar_bytecode</code>, <code>cargar_bytecode</code> y <code>ejecutar</code>.</p>
