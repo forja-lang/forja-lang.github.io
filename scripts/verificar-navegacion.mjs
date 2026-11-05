@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(raiz, 'dist');
-const BASE = '/docs';
+const BASE = '';
 const PUERTO = 4600 + Math.floor(Math.random() * 200);
 const PUERTO_CDP = 9400 + Math.floor(Math.random() * 200);
 
@@ -118,7 +118,7 @@ if (await evaluar(`!!${chip}`)) {
 }
 
 // 1) Navegar al playground con un click, como un usuario
-await evaluar(`document.querySelector('[data-nav] a[href="/docs/playground/"]').click(); true`);
+await evaluar(`document.querySelector('[data-nav] a[href="/playground/"]').click(); true`);
 await new Promise((r) => setTimeout(r, 4000));
 
 const estado = await evaluar(`

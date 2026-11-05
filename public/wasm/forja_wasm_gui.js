@@ -331,7 +331,7 @@ function debugString(val) {
             return className;
         }
         // Per MDN: 'This list of values is exhaustive.'
-        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#description
+        // https://developer.mozilla.org/en-US/Web/JavaScript/Reference/Operators/typeof#description
     }
 }
 
