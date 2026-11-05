@@ -15,7 +15,9 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-plug"/></svg> FFI</span></div>
-    <pre><code><span class="kw">importar</span> <span class="kw">externa</span> <span class="st">"libreria.dll"</span></code></pre>
+    <pre><code><span class="kw">importar</span> <span class="st">&quot;std/io&quot;</span>
+
+<span class="fn">escribir</span>(<span class="st">&quot;Módulo estándar importado&quot;</span>)</code></pre>
   </div>
 
   <p>Esto permite acceder a funciones definidas en C, Rust u otros lenguajes, que se declaran con <code>funcion externa</code>.</p>
@@ -24,7 +26,9 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-ruler"/></svg> Importar un módulo</span></div>
-    <pre><code><span class="kw">importar</span> ruta/del/modulo</code></pre>
+    <pre><code><span class="kw">importar</span> <span class="st">&quot;std/matematica&quot;</span>
+
+<span class="fn">escribir</span>(<span class="fn">potencia</span>(<span class="nu">2</span>, <span class="nu">10</span>))</code></pre>
   </div>
 
   <p>La ruta es relativa al directorio del proyecto, sin la extensión <code>.fa</code> ni comillas. Para rutas absolutas del sistema de archivos se usan comillas: <code>importar "/ruta/absoluta"</code>.</p>
@@ -35,10 +39,10 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-file"/></svg> main.fa</span></div>
-    <pre><code><span class="kw">importar</span> modulos/matematica
+    <pre><code><span class="kw">importar</span> <span class="st">&quot;std/matematica&quot;</span>
 
-<span class="fn">escribir</span>(sumar(5, 3))
-<span class="fn">escribir</span>(restar(10, 4))</code></pre>
+<span class="fn">escribir</span>(<span class="fn">potencia</span>(<span class="nu">5</span>, <span class="nu">2</span>))
+<span class="fn">escribir</span>(<span class="fn">potencia</span>(<span class="nu">2</span>, <span class="nu">3</span>))</code></pre>
   </div>
 
   <div class="code-block-wrapper">
@@ -69,6 +73,6 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg> Ejecutar</span></div>
-    <pre><code>forja run main.fa</code></pre>
+    <pre><code><span class="cmd">forja</span> <span class="sub">run</span> main.fa</code></pre>
   </div>
 </Layout>
