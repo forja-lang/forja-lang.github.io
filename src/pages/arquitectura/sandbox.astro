@@ -27,28 +27,28 @@ import Layout from '../../layouts/Layout.astro';
   </table>
 
   <h2>Control desde CLI</h2>
-  <p>El sandbox se configura en <code>forja.yaml</code> (<code>allow_net</code> y <code>allow_port</code>) antes de ejecutar un programa Forja:</p>
+  <p>El sandbox se configura en <code>forja.yaml</code> (<code>permitir_red</code> y <code>permitir_puertos</code>) antes de ejecutar un programa Forja:</p>
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg> Configuración del sandbox</span></div>
     <pre><code><span class="co"># Modo air-gapped (por defecto): no hace falta tocar nada</span>
-forja ejecutar script.fa
+<span class="cmd">forja</span> <span class="sub">ejecutar</span> script.fa
 
 <span class="co"># forja.yaml: permitir hosts específicos</span>
-#   allow_net: localhost,127.0.0.1
-forja ejecutar script.fa
+#   permitir_red: localhost,127.0.0.1
+<span class="cmd">forja</span> <span class="sub">ejecutar</span> script.fa
 
 <span class="co"># forja.yaml: permitir todos los hosts</span>
-#   allow_net: "*"
-forja ejecutar script.fa
+#   permitir_red: "*"
+<span class="cmd">forja</span> <span class="sub">ejecutar</span> script.fa
 
 <span class="co"># forja.yaml: restringir puertos</span>
-#   allow_port: 80,443
-forja ejecutar script.fa
+#   permitir_puertos: 80,443
+<span class="cmd">forja</span> <span class="sub">ejecutar</span> script.fa
 
-<span class="co"># forja.yaml: combinación (allow_net + allow_port)</span>
-#   allow_net: localhost
-#   allow_port: 3000
-forja ejecutar script.fa</code></pre>
+<span class="co"># forja.yaml: combinación (permitir_red + permitir_puertos)</span>
+#   permitir_red: localhost
+#   permitir_puertos: 3000
+<span class="cmd">forja</span> <span class="sub">ejecutar</span> script.fa</code></pre>
   </div>
 
   <div class="warning"><strong><svg class="ico" aria-hidden="true"><use href="#i-triangle-alert"/></svg> Seguridad:</strong> El sandbox de red es la primera línea de defensa. Se complementa con el sistema de módulos (que previene path traversal) y el diseño general de la VM que aísla la memoria entre programas.</div>
