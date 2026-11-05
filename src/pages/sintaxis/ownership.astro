@@ -67,13 +67,14 @@ mostrar(dato)                          <span class="co">// presta dato a la func
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg> Referencia mutable</span></div>
-    <pre><code><span class="kw">funcion</span> duplicar(<span class="kw">prestado</span> <span class="kw">mut</span> valor) &lbrace;
-    valor = valor * 2    <span class="co">// se puede modificar</span>
+    <pre><code><span class="kw">funcion</span> <span class="fn">duplicar</span>(<span class="kw">prestado</span> <span class="kw">mut</span> valor) -&gt; <span class="ty">Entero</span> &lbrace;
+    valor = valor * <span class="nu">2</span>    <span class="co">// se puede modificar</span>
+    <span class="kw">retornar</span> valor
 &rbrace;
 
-<span class="kw">variable</span> x = 5
-duplicar(&mut x)                     <span class="co">// pasamos &mut explicitamente</span>
-<span class="fn">escribir</span>(x)                           <span class="co">// right-arrow 10</span></code></pre>
+<span class="kw">variable</span> x = <span class="nu">5</span>
+<span class="fn">escribir</span>(<span class="fn">duplicar</span>(&amp;<span class="kw">mut</span> x))     <span class="co">// pasamos &amp;mut explícitamente → 10</span>
+<span class="fn">escribir</span>(x)                    <span class="co">// la variable original sigue en 5</span></code></pre>
   </div>
 
   <div class="warning"><svg class="ico" aria-hidden="true"><use href="#i-triangle-alert"/></svg> Cuando usás <code>prestado mut</code>, la llamada debe pasar una referencia mutable explícita con <code>&mut</code>. No podés tener otros préstamos activos mientras exista un préstamo mutable.</div>
