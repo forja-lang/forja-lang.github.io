@@ -17,10 +17,12 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-ruler"/></svg> Estructura básica</span></div>
-    <pre><code><span class="kw">si</span> (condición) &lbrace;
-    <span class="co">// se ejecuta si la condición es verdadera</span>
+    <pre><code><span class="kw">variable</span> edad = <span class="nu">20</span>
+
+<span class="kw">si</span> (edad &gt;= <span class="nu">18</span>) &lbrace;
+    <span class="fn">escribir</span>(<span class="st">&quot;Es mayor de edad&quot;</span>)
 &rbrace; <span class="kw">sino</span> &lbrace;
-    <span class="co">// se ejecuta si la condición es falsa</span>
+    <span class="fn">escribir</span>(<span class="st">&quot;Es menor de edad&quot;</span>)
 &rbrace;</code></pre>
   </div>
 
