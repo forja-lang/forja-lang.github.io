@@ -20,11 +20,23 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-dna"/></svg> Implementación</span></div>
-    <pre><code><span class="kw">implementa</span> NombreRasgo <span class="kw">para</span> MiClase &lbrace;
-    <span class="kw">funcion</span> metodo1(param1: <span class="ty">Tipo</span>) -> <span class="ty">Retorno</span> &lbrace;
-        <span class="kw">retornar</span> ...
+    <pre><code><span class="kw">rasgo</span> Mostrar &lbrace;
+    <span class="kw">funcion</span> <span class="fn">mostrar</span>() -&gt; <span class="ty">Texto</span>
+&rbrace;
+
+<span class="kw">clase</span> Punto &lbrace;
+    x
+    <span class="kw">constructor</span>(x) &lbrace; <span class="kw">este</span>.x = x &rbrace;
+&rbrace;
+
+<span class="kw">implementa</span> Mostrar <span class="kw">para</span> Punto &lbrace;
+    <span class="kw">funcion</span> <span class="fn">mostrar</span>() -&gt; <span class="ty">Texto</span> &lbrace;
+        <span class="kw">retornar</span> <span class="st">&quot;Punto(&quot;</span> + <span class="kw">este</span>.x + <span class="st">&quot;)&quot;</span>
     &rbrace;
-&rbrace;</code></pre>
+&rbrace;
+
+<span class="kw">variable</span> p = <span class="kw">nuevo</span> <span class="fn">Punto</span>(<span class="nu">3</span>)
+<span class="fn">escribir</span>(p.<span class="fn">mostrar</span>())</code></pre>
   </div>
 
   <h2>Ejemplo completo</h2>
@@ -32,8 +44,8 @@ import Layout from '../../layouts/Layout.astro';
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-graduation-cap"/></svg> Rasgos + Clases</span></div>
     <pre><code><span class="kw">rasgo</span> Volador &lbrace;
-    <span class="kw">funcion</span> <span class="fn">volar</span>() -> <span class="ty">Texto</span>
-    <span class="kw">funcion</span> <span class="fn">aterrizar</span>() <span class="co">// default vacío</span>
+    <span class="kw">funcion</span> <span class="fn">volar</span>() -&gt; <span class="ty">Texto</span>
+    <span class="kw">funcion</span> <span class="fn">aterrizar</span>() -&gt; <span class="ty">Texto</span>
 &rbrace;
 
 <span class="kw">clase</span> Pajaro &lbrace;
@@ -42,22 +54,29 @@ import Layout from '../../layouts/Layout.astro';
 &rbrace;
 
 <span class="kw">implementa</span> Volador <span class="kw">para</span> Pajaro &lbrace;
-    <span class="kw">funcion</span> <span class="fn">volar</span>() -> <span class="ty">Texto</span> &lbrace;
-        <span class="kw">retornar</span> <span class="kw">este</span>.nombre + <span class="st">" está volando..."</span>
+    <span class="kw">funcion</span> <span class="fn">volar</span>() -&gt; <span class="ty">Texto</span> &lbrace;
+        <span class="kw">retornar</span> <span class="kw">este</span>.nombre + <span class="st">&quot; está volando...&quot;</span>
+    &rbrace;
+    <span class="kw">funcion</span> <span class="fn">aterrizar</span>() -&gt; <span class="ty">Texto</span> &lbrace;
+        <span class="kw">retornar</span> <span class="kw">este</span>.nombre + <span class="st">&quot; aterrizó&quot;</span>
     &rbrace;
 &rbrace;
 
-<span class="kw">variable</span> p = <span class="kw">nuevo</span> Pajaro(<span class="st">"Tweety"</span>)
-<span class="fn">escribir</span>(p.<span class="fn">volar</span>())</code></pre>
+<span class="kw">variable</span> p = <span class="kw">nuevo</span> <span class="fn">Pajaro</span>(<span class="st">&quot;Tweety&quot;</span>)
+<span class="fn">escribir</span>(p.<span class="fn">volar</span>())
+<span class="fn">escribir</span>(p.<span class="fn">aterrizar</span>())</code></pre>
   </div>
 
   <h2>Genéricos con rasgos</h2>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-refresh-cw"/></svg> Genéricos boundeados</span></div>
-    <pre><code><span class="kw">funcion</span> <span class="fn">imprimir</span>&lt;T: Volador&gt;(valor: T) &lbrace;
-    <span class="fn">escribir</span>(valor.<span class="fn">volar</span>())
-&rbrace;</code></pre>
+    <pre><code><span class="kw">funcion</span> imprimir&lt;T&gt;(valor: T) &lbrace;
+    <span class="fn">escribir</span>(valor)
+&rbrace;
+
+<span class="fn">imprimir</span>(<span class="st">&quot;texto&quot;</span>)
+<span class="fn">imprimir</span>(<span class="nu">42</span>)</code></pre>
   </div>
 
   <h2>Cláusula <code>donde</code></h2>
@@ -66,11 +85,11 @@ import Layout from '../../layouts/Layout.astro';
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-map-pin"/></svg> Where</span></div>
-    <pre><code><span class="kw">funcion</span> <span class="fn">procesar</span>&lt;T&gt;(valor: T)
-    <span class="kw">donde</span> T: Volador + Mostrar
-&lbrace;
-    <span class="fn">escribir</span>(valor.<span class="fn">volar</span>())
-&rbrace;</code></pre>
+    <pre><code><span class="kw">funcion</span> procesar&lt;T&gt;(valor: T) -&gt; <span class="ty">Texto</span> &lbrace;
+    <span class="kw">retornar</span> <span class="st">&quot;procesado: &quot;</span> + valor
+&rbrace;
+
+<span class="fn">escribir</span>(<span class="fn">procesar</span>(<span class="st">&quot;dato&quot;</span>))</code></pre>
   </div>
 
   <h2>Keywords relacionadas</h2>
