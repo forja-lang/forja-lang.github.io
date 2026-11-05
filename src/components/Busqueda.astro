@@ -1,0 +1,36 @@
+---
+/**
+ * Buscador global de la documentación.
+ *
+ * El índice (`/buscar.json`) se genera en build desde `src/pages`; este
+ * componente sólo aporta la UI. La lógica vive en `src/scripts/busqueda.ts`.
+ */
+---
+<div class="search-overlay" data-search hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Buscar en la documentación">
+    <div class="search-field">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.5-3.5" />
+      </svg>
+      <input
+        type="search"
+        data-search-input
+        placeholder="Buscar en toda la documentación…"
+        aria-label="Buscar en toda la documentación"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button type="button" class="search-close" data-search-close aria-label="Cerrar búsqueda">Esc</button>
+    </div>
+    <div class="search-results" data-search-results></div>
+    <p class="search-empty" data-search-empty hidden>Sin resultados.</p>
+    <p class="search-hint">
+      <kbd>↑</kbd> <kbd>↓</kbd> para elegir · <kbd>Enter</kbd> para abrir · <kbd>Esc</kbd> para cerrar
+    </p>
+  </div>
+</div>
+
+<script>
+  import "../scripts/busqueda";
+</script>
