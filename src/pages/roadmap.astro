@@ -12,10 +12,10 @@ import Layout from '../layouts/Layout.astro';
     x86-64/ARM64, Rust, AOT, WASM, Android y GUI), <code>stdlib</code>, LSP/DAP, GC
     generacional y un frontend separado en crates reutilizables. Este roadmap
     refleja el estado <strong>verificable</strong> del repositorio.
-  </p>
+</p>
 
   <div class="info">
-    <svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg> <strong>Estado actual: Forja v0.9.6.</strong> ~142.185 líneas de Rust
+    <svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg> <strong>Estado actual: Forja v0.9.7.</strong> ~142.185 líneas de Rust
     (~72.000 en <code>src/</code> y ~36.000 en <code>crates/</code>), <strong>2 motores</strong>
     (<code>vm_fast</code> + <code>jit_tiered</code>), frontend en
     <code>forja-syntax</code> / <code>forja-types</code>, <strong>263 ejemplos</strong>,
@@ -23,7 +23,7 @@ import Layout from '../layouts/Layout.astro';
     GC generacional, IR-first para el subconjunto principal del lenguaje, registry
     remoto de desarrollo y releases precompilados.
     El trabajo restante está detallado en el roadmap y en el CHANGELOG.
-  </div>
+</div>
 
   <p><strong>Leyenda:</strong> <svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho · <svg class="ico" aria-hidden="true"><use href="#i-traffic-cone"/></svg> En progreso / parcial · <svg class="ico" aria-hidden="true"><use href="#i-map"/></svg> Planeado · <svg class="ico" aria-hidden="true"><use href="#i-database"/></svg> Archivado</p>
 
@@ -36,7 +36,7 @@ import Layout from '../layouts/Layout.astro';
     <tr><td><code>AOTCompiler</code> — genera .exe con bytecode</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td><code>selfrun</code> — detección de bytecode incrustado</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>Formato binario .fbc (serialización/deserialización)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Comando <code>forja build</code> / <code>compilar</code></td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Comando <code><span class="cmd">forja</span> <span class="sub">build</span></code>  / <code>compilar</code></td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
   </table>
 
   <h2><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hito B: JIT nativo x86-64 (tiered)</h2>
@@ -49,7 +49,7 @@ import Layout from '../layouts/Layout.astro';
     <tr><td>Aritmética entera y variables en JIT</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td><code>es_jiteable()</code> — detección de bloques JIT-compilables</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>OSR y deoptimización (<code>DeoptFrame</code>)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Endurecimiento con tests diferenciales + fuzzing (F4-T1)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Endurecimiento con tests diferenciales + fuzzing</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>Floats, strings y funciones en JIT</td><td><svg class="ico" aria-hidden="true"><use href="#i-traffic-cone"/></svg> Parcial</td></tr>
   </table>
 
@@ -80,7 +80,7 @@ import Layout from '../layouts/Layout.astro';
 
   <h2><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hito E: Optimizaciones de AST</h2>
 
-  <p>Transformaciones en tiempo de compilación, centralizadas en un único pipeline (F4-T3).</p>
+  <p>Transformaciones en tiempo de compilación, centralizadas en un único pipeline.</p>
 
   <table>
     <tr><th>Componente</th><th>Estado</th></tr>
@@ -90,7 +90,7 @@ import Layout from '../layouts/Layout.astro';
     <tr><td><code>FunctionInliner</code> — inline de funciones</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td><code>CsePass</code> — eliminación de sub-expresiones comunes</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td><code>LoopUnswitcher</code> — optimización de bucles</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td><code>optimizer_pipeline</code> — punto único y configurable (F4-T3)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td><code>optimizer_pipeline</code> — punto único y configurable</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>Desenrollado de bucles (unrolling)</td><td><svg class="ico" aria-hidden="true"><use href="#i-map"/></svg> Planeado</td></tr>
   </table>
 
@@ -131,7 +131,7 @@ import Layout from '../layouts/Layout.astro';
     <tr><td>Runtime assembly (print_int, print_str, …)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>Integración con <code>gcc -O2</code></td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>POO en assembly (objetos, métodos)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Suite de tests por target x86-64/ARM64 (F4-T6)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Suite de tests por target x86-64/ARM64</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>RISC-V / WASM nativo / GPU compute</td><td><svg class="ico" aria-hidden="true"><use href="#i-map"/></svg> Planeado</td></tr>
   </table>
 
@@ -143,8 +143,8 @@ import Layout from '../layouts/Layout.astro';
     <tr><td><code>forja_ejecutar()</code> — ejecutar código en VM vía WASM</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td><code>compilar()</code> — transpilar a Rust vía WASM</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td><code>forja_tokenizar()</code> — tokens como JSON</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Playground HTML + JS con editor y salida en vivo (F2-T2)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Demo embebida en la portada (F3-T6)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Playground HTML + JS con editor y salida en vivo</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Demo embebida en la portada</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
   </table>
 
   <h2><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hito J: Módulos e imports</h2>
@@ -164,19 +164,19 @@ import Layout from '../layouts/Layout.astro';
     <tr><td>TextMate grammar (<code>syntaxes/forja.tmLanguage.json</code>)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>Language configuration (comentarios, brackets)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>Resaltado de sintaxis para <code>.fa</code></td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Publicación en el Marketplace (F3-T4)</td><td><svg class="ico" aria-hidden="true"><use href="#i-traffic-cone"/></svg> Paquete `.vsix` listo; publicación externa pendiente (Plan 4 · F13-T4)</td></tr>
+    <tr><td>Publicación en el Marketplace</td><td><svg class="ico" aria-hidden="true"><use href="#i-traffic-cone"/></svg> Paquete `.vsix` listo; publicación externa pendiente (Plan 4 ·)</td></tr>
   </table>
 
   <h2><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hito L: Package Manager + Stdlib</h2>
 
   <table>
     <tr><th>Componente</th><th>Estado</th></tr>
-    <tr><td><code>forja add/remove/install</code> — gestión de dependencias</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td><code><span class="cmd">forja</span> <span class="sub">add/remove/install</span></code>  — gestión de dependencias</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td><code>forja.json</code> — configuración de proyecto</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td><code>PackageResolver</code> — resolución de dependencias</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>Stdlib (47 módulos: fs, json, sqlite, red, crypto, …)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Registry <strong>local/offline</strong> + <code>forja publish</code>/<code>yank</code> + firma (F3-T1)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Registry remoto (<code>registry.forja-lang.dev</code>)</td><td><svg class="ico" aria-hidden="true"><use href="#i-traffic-cone"/></svg> Cliente + servidor de desarrollo; TLS/auth de producción en Plan 4 · F12-T4</td></tr>
+    <tr><td>Registry <strong>local/offline</strong> + <code><span class="cmd">forja</span> <span class="sub">publish</span></code>/<code>yank</code>  + firma</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Registry remoto (<code>registry.forja-lang.dev</code>)</td><td><svg class="ico" aria-hidden="true"><use href="#i-traffic-cone"/></svg> Cliente + servidor de desarrollo; TLS/auth de producción en Plan 4 ·</td></tr>
   </table>
 
   <h2><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hito M: Debugger + LSP + Diagnósticos</h2>
@@ -186,7 +186,7 @@ import Layout from '../layouts/Layout.astro';
     <tr><td>LSP — diagnósticos en tiempo real</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>LSP — completado, hover, go-to-definition</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>DAP Debugger (<code>src/debugger.rs</code>)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Errores con span, código estable y sugerencia (F2-T1)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Errores con span, código estable y sugerencia</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>263 ejemplos en <code>ejemplos/</code></td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
   </table>
 
@@ -198,7 +198,7 @@ import Layout from '../layouts/Layout.astro';
     clases, enums, contratos, arreglos y mapas; todavía hay fallback a AST para
     closures, hilos/canales, <code>try</code>, traits/implementaciones y FFI.
     Cerrar esa brecha es el Plan 4 (<strong>F11</strong>).
-  </p>
+</p>
 
   <table>
     <tr><th>Componente</th><th>Estado</th></tr>
@@ -208,7 +208,7 @@ import Layout from '../layouts/Layout.astro';
     <tr><td><code>ir_to_bytecode.rs</code> — IR SSA → opcodes</td><td><svg class="ico" aria-hidden="true"><use href="#i-traffic-cone"/></svg> Cobertura principal</td></tr>
     <tr><td><code>stack_to_reg.rs</code> / <code>register_ir.rs</code> / <code>register_alloc.rs</code></td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td><code>codegen_reg.rs</code> — x86-64 con encoding REX</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Emisión de bytecode <strong>desde el IR</strong></td><td><svg class="ico" aria-hidden="true"><use href="#i-traffic-cone"/></svg> IR-first con fallback acotado (Plan 4 · F11-T5)</td></tr>
+    <tr><td>Emisión de bytecode <strong>desde el IR</strong></td><td><svg class="ico" aria-hidden="true"><use href="#i-traffic-cone"/></svg> IR-first con fallback acotado (Plan 4 ·)</td></tr>
   </table>
 
   <h2><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hito Ñ: GC generacional + Arena + Shapes</h2>
@@ -221,7 +221,7 @@ import Layout from '../layouts/Layout.astro';
     <tr><td>Write barriers + remembered set</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>Promotion por edad (survivor)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td><code>gc_intrinsics.rs</code> — safe points, stack maps</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Telemetría de pausas + stress tests (F4-T5)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Telemetría de pausas + stress tests</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td><code>arena.rs</code> / <code>shape.rs</code></td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
   </table>
 
@@ -230,7 +230,7 @@ import Layout from '../layouts/Layout.astro';
   <table>
     <tr><th>Componente</th><th>Estado</th></tr>
     <tr><td><code>monomorph.rs</code> — instanciación de genéricos + inferencia</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td><code>pgo.rs</code> — <code>pgo: recoger</code> / <code>pgo: usar</code> (forja.yaml)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td><code>pgo.rs</code> — <code>perfil: recoger</code> / <code>perfil: usar</code> (forja.yaml)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td><code>jit_tiered.rs</code> — tiers, OSR y deoptimización</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
   </table>
 
@@ -250,34 +250,34 @@ import Layout from '../layouts/Layout.astro';
   <table>
     <tr><th>Componente</th><th>Estado</th></tr>
     <tr><td><code>forja-gui-rt</code> — runtime nativo (Xilem)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td><code>forja-theme</code> — tema Material You extraído como crate (F3-T2)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td><code>forja-theme</code> — tema Material You extraído como crate</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td><code>forja-wasm-gui</code> — GUI Forja en Canvas 2D</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td><code>forja-gui-core</code> — signals + logging extraídos</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho (widgets/animation en Plan 4 · F14-T1)</td></tr>
+    <tr><td><code>forja-gui-core</code> — signals + logging extraídos</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho (widgets/animation en Plan 4 ·)</td></tr>
   </table>
 
   <h2><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hito R: Ecosistema y DX (Fases 2–3)</h2>
 
   <table>
     <tr><th>Componente</th><th>Estado</th></tr>
-    <tr><td>Errores con span + código + sugerencia (F2-T1)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Playground WASM público (F2-T2)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Formatter en CI (F2-T3)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Curso oficial "Forja en 30 días" (F3-T5)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Landing + demo embebida + blog (F3-T6)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Releases precompilados multi-plataforma + checksums (F3-T7)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Crates de frontend <code>forja-syntax</code> / <code>forja-types</code> (F3-T8)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Errores con span + código + sugerencia</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Playground WASM público</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Formatter en CI</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Curso oficial "Forja en 30 días"</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Landing + demo embebida + blog</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Releases precompilados multi-plataforma + checksums</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Crates de frontend <code>forja-syntax</code> / <code>forja-types</code></td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
   </table>
 
   <h2><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hito S: Rendimiento (Fase 4)</h2>
 
   <table>
     <tr><th>Componente</th><th>Estado</th></tr>
-    <tr><td>Pipeline único de optimización (F4-T3)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Inferencia de tipos completa (F4-T4)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>GC en producción: telemetría + stress tests (F4-T5)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>JIT estable: tests diferenciales + fuzzing (F4-T1)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>Regresión de rendimiento en CI (F4-T2)</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td>IR real: emisión AST→IR con paridad verificada (F4-T8)</td><td><svg class="ico" aria-hidden="true"><use href="#i-traffic-cone"/></svg> IR-first para funciones/clases/enums/contratos/colecciones; fallback acotado (Plan 4 · F11)</td></tr>
+    <tr><td>Pipeline único de optimización</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Inferencia de tipos completa</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>GC en producción: telemetría + stress tests</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>JIT estable: tests diferenciales + fuzzing</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>Regresión de rendimiento en CI</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td>IR real: emisión AST→IR con paridad verificada</td><td><svg class="ico" aria-hidden="true"><use href="#i-traffic-cone"/></svg> IR-first para funciones/clases/enums/contratos/colecciones; fallback acotado (Plan 4 · F11)</td></tr>
   </table>
 
   <h2><svg class="ico" aria-hidden="true"><use href="#i-map"/></svg> Planeado</h2>
@@ -288,16 +288,9 @@ import Layout from '../layouts/Layout.astro';
     <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg></span><h4>JIT tier 2 (SSA/SIMD)</h4><p>Optimizaciones SSA y SIMD en el tier superior del JIT, y POO/funciones completas.</p></div>
     <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-recycle"/></svg></span><h4>Optimizaciones avanzadas</h4><p>Desenrollado de bucles y más passes aplicados de forma uniforme en todos los backends.</p></div>
     <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-wind"/></svg></span><h4>GC activado por defecto</h4><p>Habilitar el GC generacional por defecto en ForjaFast con safe points completos.</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-library"/></svg></span><h4>Docs vivas</h4><p>Generar hitos y métricas del roadmap desde los planes y el código (F14-T4).</p></div>
-  </div>
+    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-library"/></svg></span><h4>Docs vivas</h4><p>Generar hitos y métricas del roadmap desde los planes y el código.</p></div>
+</div>
 
   <div class="tip"><strong><svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg> ¿Querés contribuir?</strong> Forja es software libre (licencia GPL-3.0-or-later). Si te interesa alguna de estas features, ¡podés empezar a implementarla! Mirá la <a href="/arquitectura/pipeline">arquitectura</a> para entender la base.</div>
-<!-- BEGIN plan4: generado por scripts/metricas.py -->
-  <div class="feature-grid">
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg></span><h4>F11 — IR completo y paridad</h4><p>HECHO</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-traffic-cone"/></svg></span><h4>F12 — Runtime, concurrencia y datos</h4><p>EN-CURSO — T1/T2/T5 hechos; T3 (259/260 compilan, 220/260 corren) y T4 (firmas/límites/auditoría hechos; falta OIDC/TLS/despliegue) parciales</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-lock"/></svg></span><h4>F13 — Distribución y CI real</h4><p>BLOQUEADO-EXTERNO (workflows corregidos y validados en local, nunca ejecutados en GitHub)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-traffic-cone"/></svg></span><h4>F14 — Calidad y ecosistema</h4><p>EN-CURSO — T2 (rendimiento AST vs IR) y T3 (firmas Ed25519) y T4 (docs vivas) hechos; T1 excluido por el usuario (GUI)</p></div>
-  </div>
-<!-- END plan4 -->
+
 </Layout>
