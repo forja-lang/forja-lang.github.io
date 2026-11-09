@@ -15,11 +15,12 @@ import Layout from '../layouts/Layout.astro';
 </p>
 
   <div class="info">
-    <svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg> <strong>Estado actual: Forja v0.9.7.</strong> ~142.185 líneas de Rust
-    (~72.000 en <code>src/</code> y ~36.000 en <code>crates/</code>), <strong>2 motores</strong>
+    <svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg> <strong>Estado actual: Forja v0.10.2.</strong> ~114.000 líneas de Rust
+    (~31.000 en <code>src/</code>, ~67.000 en <code>compiler/</code> y ~17.000 en
+    <code>tests/</code>), <strong>2 motores</strong>
     (<code>vm_fast</code> + <code>jit_tiered</code>), frontend en
     <code>forja-syntax</code> / <code>forja-types</code>, <strong>263 ejemplos</strong>,
-    <strong>47 módulos</strong> en <code>stdlib/std</code>, curso de 30 días, LSP + DAP,
+    <strong>47 módulos</strong> en <code>library/std</code>, curso de 30 días, LSP + DAP,
     GC generacional, IR-first para el subconjunto principal del lenguaje, registry
     remoto de desarrollo y releases precompilados.
     El trabajo restante está detallado en el roadmap y en el CHANGELOG.
@@ -53,7 +54,7 @@ import Layout from '../layouts/Layout.astro';
     <tr><td>Floats, strings y funciones en JIT</td><td><svg class="ico" aria-hidden="true"><use href="#i-traffic-cone"/></svg> Parcial</td></tr>
   </table>
 
-  <div class="info"><svg class="ico" aria-hidden="true"><use href="#i-lightbulb"/></svg> Los motores antiguos <code>jit.rs</code> y <code>jit_engine.rs</code> quedaron <strong>archivados</strong> en <code>src/legacy/</code> (no se compilan); su rol lo cubre <code>jit_tiered</code>.</div>
+  <div class="info"><svg class="ico" aria-hidden="true"><use href="#i-lightbulb"/></svg> Los motores antiguos <code>jit.rs</code> y <code>jit_engine.rs</code> se <strong>eliminaron</strong>; su rol lo cubre <code>jit_tiered</code>.</div>
 
   <h2><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hito C: POO en VM</h2>
 
@@ -98,9 +99,9 @@ import Layout from '../layouts/Layout.astro';
 
   <table>
     <tr><th>Motor</th><th>Módulo</th><th>Rol</th></tr>
-    <tr><td><strong>ForjaFast (VM)</strong></td><td><code>src/vm_fast/</code></td><td>Intérprete canónico de bytecode (NaN tagging, stack caching, GC)</td></tr>
-    <tr><td><strong>JIT tiered</strong></td><td><code>src/jit_tiered.rs</code></td><td>Compilación dinámica x86-64 por niveles</td></tr>
-    <tr><td>VM v3 (Direct Threading)</td><td><code>src/legacy/vm_jit.rs</code></td><td><svg class="ico" aria-hidden="true"><use href="#i-database"/></svg> Archivada — solo referencia histórica</td></tr>
+    <tr><td><strong>ForjaFast (VM)</strong></td><td><code>compiler/forja-vm/src/vm_fast/</code></td><td>Intérprete canónico de bytecode (NaN tagging, stack caching, GC)</td></tr>
+    <tr><td><strong>JIT tiered</strong></td><td><code>compiler/forja-vm/src/jit_tiered.rs</code></td><td>Compilación dinámica x86-64 por niveles</td></tr>
+    <tr><td>VM v3 (Direct Threading)</td><td>—</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-x"/></svg> Removida (código histórico eliminado)</td></tr>
     <tr><td>VM original (v1)</td><td>—</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-x"/></svg> Removida en 0.9.0</td></tr>
   </table>
 
@@ -241,7 +242,7 @@ import Layout from '../layouts/Layout.astro';
     <tr><td><code>backend_llvm.rs</code> — LLVM IR desde el backend de registros</td><td><svg class="ico" aria-hidden="true"><use href="#i-traffic-cone"/></svg> En desarrollo</td></tr>
     <tr><td><code>backend_llvm/legacy.rs</code> — backend LLVM-IR de texto (legacy)</td><td><svg class="ico" aria-hidden="true"><use href="#i-database"/></svg> Interno acotado</td></tr>
     <tr><td><code>incremental_cache.rs</code> — <code>.forja/cache/</code></td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
-    <tr><td><code>crates/forja-android-rt</code> — JNI + Kotlin</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
+    <tr><td><code>library/android</code> — JNI + Kotlin</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
     <tr><td>Native Activity — GUI en Android</td><td><svg class="ico" aria-hidden="true"><use href="#i-circle-check"/></svg> Hecho</td></tr>
   </table>
 

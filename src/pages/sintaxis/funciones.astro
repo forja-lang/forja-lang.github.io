@@ -66,12 +66,21 @@ saludo(<span class="st">"Forja"</span>)   <span class="co">// → Hola, Forja!</
 
   <h2>Funciones externas (FFI)</h2>
 
-  <p>Usá <code><span class="kw">funcion</span> <span class="kw">externa</span></code> para declarar funciones definidas en otros lenguajes (C, Rust, etc.). Terminan con <code>;</code> en lugar de <code>&#123; ... &#125;</code>:</p>
+  <p>Usá <code><span class="kw">funcion</span> <span class="kw">externa</span></code> para declarar funciones definidas en otros lenguajes (C, Rust, etc.). Terminan con <code>;</code> en lugar de <code>&#123; ... &#125;</code>.</p>
+
+  <p>La librería se carga con <code><span class="kw">importar</span> <span class="kw">externa</span></code> y la función se llama <strong>directamente</strong>: el compilador busca el símbolo y usa la convención C.</p>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-plug"/></svg> FFI</span></div>
-    <pre><code><span class="kw">funcion</span> <span class="kw">externa</span> <span class="fn">printf</span>(formato: <span class="ty">Texto</span>) -> <span class="ty">Entero</span>;</code></pre>
+    <pre><code><span class="kw">importar</span> <span class="kw">externa</span> <span class="st">&quot;kernel32.dll&quot;</span>
+<span class="kw">funcion</span> <span class="kw">externa</span> <span class="fn">GetCurrentProcessId</span>() -> <span class="ty">Entero</span>;
+<span class="kw">funcion</span> <span class="kw">externa</span> <span class="fn">lstrlenA</span>(s: <span class="ty">Texto</span>) -> <span class="ty">Entero</span>;
+
+<span class="fn">escribir</span>(<span class="fn">GetCurrentProcessId</span>())
+<span class="fn">escribir</span>(<span class="fn">lstrlenA</span>(<span class="st">&quot;hola&quot;</span>))   <span class="co">// 4</span></code></pre>
   </div>
+
+  <div class="info"><svg class="ico" aria-hidden="true"><use href="#i-lightbulb"/></svg> La forma <code>externo f(...) -> T;</code> es equivalente. Se soportan hasta 5 argumentos <code>Texto</code>/<code>Entero</code>/<code>Booleano</code>/<code>nulo</code> y retorno <code>Entero</code> o <code>Texto</code>. Para punteros o llamadas avanzadas existe <code>std/ffi</code>.</div>
 
   <h2>Funciones genéricas</h2>
 

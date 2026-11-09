@@ -38,13 +38,13 @@ Los comandos también aceptan su nombre en inglés:
   learn, keywords, highlight, explain, help, fmt, format, doc, test, bench
 
 EJEMPLOS:
-   <span class="cmd">forja</span> <span class="sub">compilar</span> ejemplos/01_hola.fa programa.exe
-   <span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa
-   <span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa programa     (arquitectura: arm64 en forja.yaml)
+   <span class="cmd">forja</span> <span class="sub">compilar</span> ejemplos/fundamentos/01_hola.fa programa.exe
+   <span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/fundamentos/01_hola.fa
+   <span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/fundamentos/01_hola.fa programa     (arquitectura: arm64 en forja.yaml)
    <span class="cmd">forja</span> <span class="sub">repl</span>
-    <span class="cmd">forja</span> <span class="sub">formatear</span> ejemplos/01_hola.fa
-    <span class="cmd">forja</span> <span class="sub">colorear</span> ejemplos/01_hola.fa
-    <span class="cmd">forja</span> <span class="sub">test</span> ejemplos/mis_pruebas.fa
+    <span class="cmd">forja</span> <span class="sub">formatear</span> ejemplos/fundamentos/01_hola.fa
+    <span class="cmd">forja</span> <span class="sub">colorear</span> ejemplos/fundamentos/01_hola.fa
+    <span class="cmd">forja</span> <span class="sub">test</span> ejemplos/otros/test_basico.fa
     <span class="cmd">forja</span> <span class="sub">nuevo</span> mi_programa
 
 PGO (Profile-Guided Optimization):
@@ -61,16 +61,16 @@ PGO (Profile-Guided Optimization):
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-file"/></svg> Ejemplos de transpilación</span></div>
     <pre><code><span class="co"># Automático (default si el arg termina en .fa)</span>
-<span class="cmd">forja</span> <span class="sub">ejemplos/01_hola.fa</span>
+<span class="cmd">forja</span> <span class="sub">ejemplos/fundamentos/01_hola.fa</span>
 
 <span class="co"># Con salida personalizada</span>
-<span class="cmd">forja</span> <span class="sub">transpilar</span> ejemplos/01_hola.fa salida_rs
+<span class="cmd">forja</span> <span class="sub">transpilar</span> ejemplos/fundamentos/01_hola.fa salida_rs
 
 <span class="co"># Atajo 't'</span>
-<span class="cmd">forja</span> <span class="sub">t</span> ejemplos/10_clases.fa
+<span class="cmd">forja</span> <span class="sub">t</span> ejemplos/fundamentos/10_clases.fa
 
 <span class="co"># Errores en JSON (ideal para IDEs): json: verdadero en forja.yaml</span>
-<span class="cmd">forja</span> <span class="sub">transpilar</span> ejemplos/10_clases.fa</code></pre>
+<span class="cmd">forja</span> <span class="sub">transpilar</span> ejemplos/fundamentos/10_clases.fa</code></pre>
   </div>
 
   <h3>Configuración de <code>medir</code> / <code>compilar</code></h3>
@@ -145,7 +145,7 @@ Hola Gaucho
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-package"/></svg> Ejemplo de build</span></div>
-    <pre><code><span class="cmd">forja</span> <span class="sub">compilar</span> ejemplos/01_hola.fa hola.exe
+    <pre><code><span class="cmd">forja</span> <span class="sub">compilar</span> ejemplos/fundamentos/01_hola.fa hola.exe
 <span class="co">// → Binario generado: hola.exe (1234 bytes)</span>
 
 <span class="co">// Ahora cualquiera lo puede usar, sin Rust:</span>
@@ -162,19 +162,19 @@ Hola Gaucho
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-wrench"/></svg> Ejemplos de build-asm</span></div>
     <pre><code><span class="co"># Mínimo: genera el binario automáticamente (target = plataforma actual)</span>
-<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa
+<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/fundamentos/01_hola.fa
 
 <span class="co"># Con nombre de salida personalizado</span>
-<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa programa.exe
+<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/fundamentos/01_hola.fa programa.exe
 
 <span class="co"># Especificar arquitectura destino</span>
-<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa programa      # arquitectura: arm64 en forja.yaml
+<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/fundamentos/01_hola.fa programa      # arquitectura: arm64 en forja.yaml
 
 <span class="co"># Especificar Linux x86-64</span>
-<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa prog          # arquitectura: x86_64-linux
+<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/fundamentos/01_hola.fa prog          # arquitectura: x86_64-linux
 
 <span class="co"># El assembly generado se puede compilar manualmente</span>
-<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa prog          # arquitectura: x86_64-windows
+<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/fundamentos/01_hola.fa prog          # arquitectura: x86_64-windows
 gcc -O2 -o prog.exe prog.s</code></pre>
   </div>
 
@@ -215,25 +215,22 @@ gcc -O2 -o prog.exe prog.s</code></pre>
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-palette"/></svg> Ejemplo</span></div>
     <pre><code><span class="co"># Antes (desordenado)</span>
-<span class="cmd">forja</span> <span class="sub">fmt</span> ejemplos/01_hola.fa
+<span class="cmd">forja</span> <span class="sub">fmt</span> ejemplos/fundamentos/01_hola.fa
 
 <span class="co"># Después: código formateado con estilo consistente</span></code></pre>
   </div>
 
   <h2><code>destino: nativo</code> — GUI nativa con Xilem</h2>
 
-  <p>Corre archivos <code>.fa</code> que usen <code>importar gui</code> en una ventana nativa, ya sea compilando el proyecto a Rust+Xilem o usando el runtime de GUI nativa sin cargo previo (si compilaste Forja con <code>--features gui</code>).</p>
+  <p>Corre archivos <code>.fa</code> que usen <code>importar gui</code> en una ventana nativa: el compilador enlaza el runtime gráfico (<code>forja-gui-rt</code>) en el ejecutable, sin transpilar a Rust.</p>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-image"/></svg> Ejemplo</span></div>
-    <pre><code><span class="co"># Native runner (AST directo a Xilem, sin compilar Rust)</span>
-<span class="co"># Transpilado a Rust (genera .exe autónomo)</span>
-cargo run --features gui --bin forja -- transpile ejemplos/204_login_final.fa
-cd .forja_gui_cache && cargo run --release
+    <pre><code><span class="co"># Ejecutar con ventana nativa (enlaza forja-gui-rt)</span>
+<span class="cmd">forja</span> <span class="sub">ejecutar</span> ejemplos/gui/204_login_final.fa
 
-<span class="co"># GUI Launcher directo</span>
-cargo build --features gui
-.\target\debug\forja-gui.exe ejemplos/204_login_final.fa</code></pre>
+<span class="co"># Ejecutable autónomo con GUI</span>
+<span class="cmd">forja</span> <span class="sub">compilar</span> ejemplos/gui/204_login_final.fa mi_app.exe</code></pre>
   </div>
 
   <h2><code>highlight|colorear|color</code> — Colorear código en terminal</h2>
@@ -242,7 +239,7 @@ cargo build --features gui
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg> Ejemplo</span></div>
-    <pre><code><span class="cmd">forja</span> <span class="sub">highlight</span> ejemplos/01_hola.fa
+    <pre><code><span class="cmd">forja</span> <span class="sub">highlight</span> ejemplos/fundamentos/01_hola.fa
 <span class="co">// Muestra el código con keywords en amarillo,</span>
 <span class="co">// funciones en verde, tipos en cian, strings en brillante</span></code></pre>
   </div>
@@ -286,9 +283,9 @@ cargo build --features gui
    hilo            Lanza un hilo
    canal           Crea un canal de comunicación
    seleccionar     Select sobre canales
-   trait           Definición de trait
-   implementa      Implementación de trait
-   externo         Función externa (FFI)
+   rasgo           Definición de rasgo (interfaz)
+   implementa      Implementación de rasgo
+   externo         Función externa (FFI); requiere ';' final
    asegurar        Asserts en tests
    @test/@derive   Atributos</code></pre>
 </div>
@@ -352,7 +349,7 @@ Para mostrar algo en pantalla, usamos:
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-tree-pine"/></svg> Ejemplo</span></div>
-    <pre><code><span class="cmd">forja</span> <span class="sub">diagrama</span> ejemplos/07_funciones.fa
+    <pre><code><span class="cmd">forja</span> <span class="sub">diagrama</span> ejemplos/fundamentos/07_funciones.fa
 <span class="co">// Genera: ejemplos/funciones.html</span>
 <span class="co">// Abrí el HTML en el navegador para ver el árbol</span></code></pre>
   </div>
@@ -363,7 +360,7 @@ Para mostrar algo en pantalla, usamos:
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-file"/></svg> Ejemplo</span></div>
-    <pre><code><span class="cmd">forja</span> <span class="sub">doc</span> ejemplos/10_clases.fa</code></pre>
+    <pre><code><span class="cmd">forja</span> <span class="sub">doc</span> ejemplos/fundamentos/10_clases.fa</code></pre>
   </div>
 
   <h2><code>test|tests|probar [archivo]</code> — Tests</h2>
@@ -373,7 +370,7 @@ Para mostrar algo en pantalla, usamos:
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-flask-conical"/></svg> Ejemplos</span></div>
     <pre><code><span class="co"># Tests de un archivo específico</span>
-<span class="cmd">forja</span> <span class="sub">test</span> ejemplos/mis_pruebas.fa
+<span class="cmd">forja</span> <span class="sub">test</span> ejemplos/otros/test_basico.fa
 
 <span class="co"># Todos los tests en ejemplos/</span>
 <span class="cmd">forja</span> <span class="sub">test</span></code></pre>
@@ -386,16 +383,16 @@ Para mostrar algo en pantalla, usamos:
   <div class="code-block-wrapper">
     <div class="code-header"><span>⏱ Ejemplos</span></div>
     <pre><code><span class="co"># Medir en todas las VMs</span>
-<span class="cmd">forja</span> <span class="sub">medir</span> ejemplos/bench_fib.fa
+<span class="cmd">forja</span> <span class="sub">medir</span> ejemplos/avanzado/189_benchmark_manual.fa
 
 <span class="co"># Medir en una VM específica: motor: rapido en forja.yaml</span>
-<span class="cmd">forja</span> <span class="sub">medir</span> ejemplos/bench_fib.fa
+<span class="cmd">forja</span> <span class="sub">medir</span> ejemplos/avanzado/189_benchmark_manual.fa
 
 <span class="co"># Con iteraciones personalizadas: iteraciones: 10 en forja.yaml</span>
-<span class="cmd">forja</span> <span class="sub">medir</span> ejemplos/bench_fib.fa
+<span class="cmd">forja</span> <span class="sub">medir</span> ejemplos/avanzado/189_benchmark_manual.fa
 
 <span class="co"># Modo ASM nativo: destino: ensamblador en forja.yaml</span>
-<span class="cmd">forja</span> <span class="sub">medir</span> ejemplos/bench_fib.fa</code></pre>
+<span class="cmd">forja</span> <span class="sub">medir</span> ejemplos/avanzado/189_benchmark_manual.fa</code></pre>
   </div>
 
   <h2><code>PGO — Profile-Guided Optimization</code></h2>
@@ -440,12 +437,11 @@ Para mostrar algo en pantalla, usamos:
 
   <h2>Compilar el Rust generado</h2>
 
-  <p>Si usaste <code>transpile</code>, el archivo <code>.rs</code> generado se compila con Rust de forma estándar:</p>
+  <p>Si usaste <code>transpilar</code>, el proyecto Rust generado se compila de forma estándar:</p>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-box"/></svg> Compilar con rustc</span></div>
-    <pre><code>rustc ejemplos/hola_mundo.rs
-./hola_mundo</code></pre>
+    <pre><code>cd hola_mundo &amp;&amp; cargo build --release</code></pre>
   </div>
 
   <h2>Benchmarks</h2>
@@ -454,13 +450,9 @@ Para mostrar algo en pantalla, usamos:
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-bar-chart-3"/></svg> Benchmarks disponibles</span></div>
-    <pre><code>cargo run --release --bin bench-jit          # JIT Nativo vs ForjaFast vs Rust
-cargo run --release --bin bench-jit-100k     # JIT con 100k iteraciones
-cargo run --release --bin bench-vms          # JIT(DT) vs ForjaFast
-cargo run --release --bin bench-forjafast    # Todas las VMs (cold + hot)
-cargo run --release --bin bench-rust-native  # Rust nativo (baseline)
-cargo run --release --bin bench-clean        # ForjaFast vs Python
-cargo run --release --bin bench-completo     # Completo vs Rust/Python/Go
-cargo run --release --bin bench-cpython-opt  # Optimizaciones CPython</code></pre>
+    <pre><code>cargo bench --bench perf-regresion   # puerta de CI (ratios vs baseline)
+cargo bench --bench compilar-vm      # criterion: compilación y VM
+python scripts/bench-fib-asm.py      # fib(42) ASM vs Rust
+python scripts/bench-aot.py          # AOT nativo</code></pre>
   </div>
 </Layout>

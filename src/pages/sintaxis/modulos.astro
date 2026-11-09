@@ -11,16 +11,19 @@ import Layout from '../../layouts/Layout.astro';
 
   <h2>Importar módulos externos (FFI)</h2>
 
-  <p>Usá <code><span class="kw">importar</span> <span class="kw">externa</span></code> para cargar bibliotecas del sistema (.dll/.so):</p>
+  <p>Usá <code><span class="kw">importar</span> <span class="kw">externa</span></code> para cargar bibliotecas del sistema (.dll/.so) y <code>funcion externa</code> para declarar el símbolo. La llamada es directa: el compilador lo busca en las librerías cargadas.</p>
 
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-plug"/></svg> FFI</span></div>
-    <pre><code><span class="kw">importar</span> <span class="st">&quot;std/io&quot;</span>
+    <pre><code><span class="kw">importar</span> <span class="kw">externa</span> <span class="st">&quot;kernel32.dll&quot;</span>
+<span class="kw">funcion</span> <span class="kw">externa</span> <span class="fn">GetCurrentProcessId</span>() -&gt; <span class="kw">Entero</span>;
+<span class="kw">funcion</span> <span class="kw">externa</span> <span class="fn">lstrlenA</span>(s: <span class="kw">Texto</span>) -&gt; <span class="kw">Entero</span>;
 
-<span class="fn">escribir</span>(<span class="st">&quot;Módulo estándar importado&quot;</span>)</code></pre>
+<span class="fn">escribir</span>(<span class="fn">GetCurrentProcessId</span>())
+<span class="fn">escribir</span>(<span class="fn">lstrlenA</span>(<span class="st">&quot;hola&quot;</span>))   <span class="co">// 4</span></code></pre>
   </div>
 
-  <p>Esto permite acceder a funciones definidas en C, Rust u otros lenguajes, que se declaran con <code>funcion externa</code>.</p>
+  <p>Se aceptan hasta 5 argumentos de tipo <code>Texto</code>, <code>Entero</code>, <code>Booleano</code> o <code>nulo</code>, y retorno <code>Entero</code> o <code>Texto</code>. La forma larga <code>externo f(...) -&gt; T;</code> es equivalente. Para punteros o casos avanzados existe <code>std/ffi</code>.</p>
 
   <h2>Sintaxis</h2>
 
@@ -31,7 +34,7 @@ import Layout from '../../layouts/Layout.astro';
 <span class="fn">escribir</span>(<span class="fn">potencia</span>(<span class="nu">2</span>, <span class="nu">10</span>))</code></pre>
   </div>
 
-  <p>La ruta es relativa al directorio del proyecto, sin la extensión <code>.fa</code> ni comillas. Para rutas absolutas del sistema de archivos se usan comillas: <code>importar "/ruta/absoluta"</code>.</p>
+  <p>La ruta es relativa al directorio del proyecto y no lleva la extensión <code>.fa</code>. Se acepta con o sin comillas; para rutas absolutas del sistema de archivos las comillas son obligatorias: <code>importar "/ruta/absoluta"</code>.</p>
 
   <h2>Ejemplo</h2>
 

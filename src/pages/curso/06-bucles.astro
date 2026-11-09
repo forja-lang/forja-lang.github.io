@@ -25,7 +25,7 @@ import Layout from '../../layouts/Layout.astro';
   <p>Recorre un rango de forma más compacta:</p>
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-pencil"/></svg> para</span></div>
-    <pre><code><span class="kw">para</span> i <span class="kw">en</span> 1..4 &#123;
+    <pre><code><span class="kw">para</span> (<span class="kw">variable</span> i = 1; i &lt; 4; i = i + 1) &#123;
     <span class="fn">escribir</span>(i)   <span class="co">// 1, 2, 3</span>
 &#125;</code></pre>
   </div>
@@ -33,7 +33,7 @@ import Layout from '../../layouts/Layout.astro';
   <h2>Control de flujo</h2>
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-pencil"/></svg> romper / continuar</span></div>
-    <pre><code><span class="kw">para</span> i <span class="kw">en</span> 1..10 &#123;
+    <pre><code><span class="kw">para</span> (<span class="kw">variable</span> i = 1; i &lt; 10; i = i + 1) &#123;
     <span class="kw">si</span> (i == 5) &#123; <span class="kw">romper</span> &#125;      <span class="co">// corta el bucle</span>
     <span class="kw">si</span> (i % 2 == 0) &#123; <span class="kw">continuar</span> &#125; <span class="co">// salta a la siguiente</span>
     <span class="fn">escribir</span>(i)

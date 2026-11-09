@@ -318,10 +318,10 @@ import Layout from '../../layouts/Layout.astro';
     <div class="code-header"><span>Comandos</span></div>
     <pre><code><span class="co"># Native runner (AST directo a Xilem, sin compilar Rust)</span>
 # forja.yaml: destino: nativo
-cargo run --features gui --bin forja -- run ejemplos/208_gui_galeria.fa
+cargo run --features gui --bin forja -- run ejemplos/gui/208_gui_galeria.fa
 
 <span class="co"># Transpilado a Rust (genera .exe autónomo)</span>
-cargo run --features gui --bin forja -- transpile ejemplos/208_gui_galeria.fa
+cargo run --features gui --bin forja -- transpile ejemplos/gui/208_gui_galeria.fa
 cd .forja_gui_cache &amp;&amp; cargo run --release</code></pre>
   </div>
 </Layout>

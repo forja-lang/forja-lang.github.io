@@ -8,7 +8,7 @@ import Playground from '../components/Playground.astro';
   description="Forja (fa) es un lenguaje de programación educativo, en español, con contratos y tipado. Compila a nativo, GUI, WASM y más. Probalo en el navegador."
 >
   <section class="hero landing-hero">
-    <div class="hero-eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg> Lenguaje de programación · v0.9.7</div>
+    <div class="hero-eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg> Lenguaje de programación · v0.10.2</div>
     <h1>Programá en español.<br />Compilá a todas partes.</h1>
     <p class="hero-pitch">
       <strong>Forja</strong> es un lenguaje educativo con <strong>contratos</strong> y
@@ -148,10 +148,10 @@ git clone https://github.com/forja-lang/forja
 cd forja &amp;&amp; cargo build --release
 
 <span class="co"># Ejecutar en la VM</span>
-<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/01_hola.fa
+<span class="cmd">forja</span> <span class="sub">run</span> ejemplos/fundamentos/01_hola.fa
 
 <span class="co"># Compilar a un binario nativo</span>
-<span class="cmd">forja</span> <span class="sub">build-asm</span> ejemplos/01_hola.fa -o programa
+<span class="cmd">forja</span> <span class="sub">build-asm</span> ejemplos/fundamentos/01_hola.fa -o programa
 
 <span class="co"># Modo interactivo</span>
 <span class="cmd">forja</span> <span class="sub">repl</span></code></pre>
@@ -203,25 +203,27 @@ cd forja &amp;&amp; cargo build --release
         <tr><th>Componente</th><th>Módulo(s)</th></tr>
       </thead>
       <tbody>
-        <tr><td><strong>Lexer + Parser</strong></td><td><code>crates/forja-syntax/src/lexer.rs</code>, <code>crates/forja-syntax/src/parser.rs</code>, <code>crates/forja-syntax/src/ast.rs</code></td></tr>
-        <tr><td><strong>Semántica</strong></td><td><code>crates/forja-types/src/semantics.rs</code> (type checker + borrow checker)</td></tr>
-        <tr><td><strong>Optimizador</strong></td><td><code>src/optimizer.rs</code> (constant folding + DCE)</td></tr>
-        <tr><td><strong>IR SSA</strong></td><td><code>src/ir.rs</code>, <code>src/ir_constructor.rs</code>, <code>src/ir_ssa.rs</code></td></tr>
-        <tr><td><strong>Bytecode</strong></td><td><code>src/bytecode.rs</code>, <code>src/uops.rs</code></td></tr>
-        <tr><td><strong>VM ForjaFast</strong></td><td><code>src/vm_fast/</code></td></tr>
-        <tr><td><strong>JIT tiered</strong></td><td><code>src/jit_tiered.rs</code></td></tr>
+        <tr><td><strong>Lexer + Parser</strong></td><td><code>compiler/forja-syntax</code> (tokens, lexer, parser, AST)</td></tr>
+        <tr><td><strong>Semántica</strong></td><td><code>compiler/forja-types</code> (tipos, préstamos, inferencia)</td></tr>
+        <tr><td><strong>HIR</strong></td><td><code>compiler/forja-hir</code> (<code>DefId</code>, módulos, desugar)</td></tr>
+        <tr><td><strong>IR + optimizador</strong></td><td><code>compiler/forja-ir</code> (SSA, const/copy prop, CSE, DCE, inlining)</td></tr>
+        <tr><td><strong>Bytecode</strong></td><td><code>compiler/forja-bytecode</code> (opcodes, uops, contratos)</td></tr>
+        <tr><td><strong>VM ForjaFast</strong></td><td><code>compiler/forja-vm/src/vm_fast/</code></td></tr>
+        <tr><td><strong>JIT tiered</strong></td><td><code>compiler/forja-vm/src/jit_tiered.rs</code></td></tr>
+        <tr><td><strong>GC y heap</strong></td><td><code>compiler/forja-runtime</code> (GC, shapes, <code>Host</code>)</td></tr>
+        <tr><td><strong>Primitivas del sistema</strong></td><td><code>compiler/forja-native</code> (crypto, red, sqlite, ffi)</td></tr>
+        <tr><td><strong>Driver y AOT</strong></td><td><code>compiler/forja-driver</code> (caché incremental, AOT)</td></tr>
         <tr><td><strong>Compilador ASM</strong></td><td><code>src/compiler_asm.rs</code> (x86-64 / ARM64)</td></tr>
         <tr><td><strong>Transpilador Rust</strong></td><td><code>src/transpiler.rs</code></td></tr>
         <tr><td><strong>Backend LLVM</strong></td><td><code>src/backend_llvm.rs</code></td></tr>
-        <tr><td><strong>GC generacional</strong></td><td><code>src/gc.rs</code>, <code>src/gc_intrinsics.rs</code></td></tr>
-        <tr><td><strong>Biblioteca estándar</strong></td><td><code>stdlib/std/</code> (48 módulos)</td></tr>
-        <tr><td><strong>GUI nativa</strong></td><td><code>crates/forja-gui-rt/</code>, <code>crates/forja-theme/</code></td></tr>
-        <tr><td><strong>WASM</strong></td><td><code>crates/forja-wasm/</code>, <code>crates/forja-wasm-gui/</code></td></tr>
-        <tr><td><strong>Herramientas</strong></td><td><code>src/formatter.rs</code>, <code>src/bin/forja_lsp.rs</code>, <code>src/debugger.rs</code></td></tr>
+        <tr><td><strong>Biblioteca estándar</strong></td><td><code>library/std/</code> (47 módulos)</td></tr>
+        <tr><td><strong>GUI nativa</strong></td><td><code>library/gui-core/</code>, <code>library/gui-theme/</code>, <code>library/gui-rt/</code></td></tr>
+        <tr><td><strong>WASM</strong></td><td><code>library/wasm/</code>, <code>library/wasm-gui/</code></td></tr>
+        <tr><td><strong>Herramientas</strong></td><td><code>src/tools/forja-cli</code>, <code>src/tools/forja-lsp</code>, <code>src/tools/forja-dap</code>, <code>src/tools/forja-repl</code></td></tr>
       </tbody>
     </table>
     <p>
-      Los benchmarks reproducibles viven en <code>benchmarks/</code> y el pipeline
+      Los benchmarks reproducibles viven en <code>benches/</code> y el pipeline
       canónico se documenta en
       <a href="/arquitectura/pipeline/">Arquitectura → Pipeline</a>.
     </p>

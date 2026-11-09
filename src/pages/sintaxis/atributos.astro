@@ -30,8 +30,8 @@ import Layout from '../../layouts/Layout.astro';
 
   <table>
     <tr><th>Derive</th><th>Descripción</th></tr>
-    <tr><td><code>Mostrar</code></td><td>Implementa formato legible en strings</td></tr>
-    <tr><td><code>Igual</code></td><td>Implementa <code>==</code> y <code>!=</code></td></tr>
+    <tr><td><code>Mostrar</code></td><td>Hace que <code>escribir(obj)</code> imprima <code>Clase &lbrace; campo: valor &rbrace;</code>. En enums todavía se muestra <code>&lt;Tipo&gt;</code>.</td></tr>
+    <tr><td><code>Igual</code></td><td>Hace que <code>==</code> y <code>!=</code> comparen todos los campos (clases) o variante + datos (enums).</td></tr>
   </table>
 
   <div class="code-block-wrapper">
@@ -48,8 +48,11 @@ import Layout from '../../layouts/Layout.astro';
 
 <span class="kw">variable</span> a = <span class="kw">nuevo</span> <span class="fn">Punto</span>(<span class="nu">1</span>, <span class="nu">2</span>)
 <span class="kw">variable</span> b = <span class="kw">nuevo</span> <span class="fn">Punto</span>(<span class="nu">1</span>, <span class="nu">2</span>)
-<span class="fn">escribir</span>(a.x == b.x)   <span class="co">// los campos coinciden → verdadero</span></code></pre>
+<span class="fn">escribir</span>(a == b)   <span class="co">// verdadero: compara x e y campo por campo</span>
+<span class="fn">escribir</span>(a)       <span class="co">// Punto &lbrace; x: 1, y: 2 &rbrace;</span></code></pre>
   </div>
+
+  <div class="info"><svg class="ico" aria-hidden="true"><use href="#i-lightbulb"/></svg> Sin <code>@derive(Igual)</code>, dos objetos distintos nunca son iguales aunque tengan los mismos campos. El derive también funciona en <code>tipo Color = Rojo | Verde</code>: <code>Rojo == Rojo</code> → verdadero; <code>Rojo == Verde</code> → falso.</div>
 
   <h2>Uso combinado</h2>
 
