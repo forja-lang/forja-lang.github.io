@@ -1,0 +1,22 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="forja-fmt — formateador — Forja">
+  <h1>forja-fmt — formateador determinista</h1>
+  <p><strong>Crate:</strong> <code>compiler/forja-fmt</code> · <strong>Depende de:</strong> <code>forja-syntax</code></p>
+
+  <h2>¿Por qué existe?</h2>
+  <p><code>forja formatear</code> necesita una salida <strong>determinista e idempotente</strong>: formatear dos veces el mismo archivo da el mismo resultado. El crate reconstruye el programa desde el AST y reinserta los comentarios, que el AST no guarda.</p>
+
+  <h2>API</h2>
+  <table>
+    <tr><th>Función</th><th>Qué hace</th></tr>
+    <tr><td><code>Formatter::formatear</code></td><td>Reconstruye el fuente desde el AST (sin comentarios).</td></tr>
+    <tr><td><code>formatear_con_comentarios</code></td><td>Reinserta los comentarios extraídos del fuente original.</td></tr>
+    <tr><td><code>escapar_texto</code></td><td>Re-escapa literales para que el programa emitido parsee al mismo valor.</td></tr>
+  </table>
+
+  <h2>Uso</h2>
+  <p><code>forja formatear archivo.fa</code> lo formatea; con <code>verificar_formato: verdadero</code> en <code>forja.yaml</code> sólo verifica y falla si hace falta reformatear. También lo usa el LSP al guardar.</p>
+</Layout>

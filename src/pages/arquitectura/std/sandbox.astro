@@ -3,12 +3,12 @@ import Layout from '../../../layouts/Layout.astro';
 ---
 <Layout title="Módulo sandbox — Aislamiento de Red (stdlib) — Forja">
   <h1>Módulo <code>sandbox</code> — Aislamiento de Red</h1>
-  <p><strong>Archivo:</strong> <code>stdlib/std/sandbox.fa</code></p>
+  <p><strong>Archivo:</strong> <code>library/std/sandbox.fa</code></p>
 
   <h2>¿Por qué existe?</h2>
   <p>Controla el <strong>acceso a recursos del sistema</strong> (red, archivos y procesos) desde código Forja. Por defecto <strong>todo está habilitado</strong>; este módulo permite <em>restringir</em> el acceso cuando sea necesario. La política es de <strong>whitelist</strong>: una vez que se restringe un host, puerto, directorio o comando, <strong>solo los elementos restringidos quedan permitidos</strong>.</p>
 
-  <p>Se usa con <code>importar std/sandbox</code> y es la capa Forja sobre las funciones nativas <code>_sandbox_*</code> implementadas en Rust en <code>src/sandbox.rs</code> (ver la página <a href="../sandbox.astro">Sandbox (sandbox.rs)</a>).</p>
+  <p>Se usa con <code>importar std/sandbox</code> y es la capa Forja sobre las funciones nativas <code>_sandbox_*</code> implementadas en Rust en <code>compiler/forja-runtime/src/sandbox.rs</code> (ver <a href="/arquitectura/runtime/">forja-runtime</a>).</p>
 
   <h2>Funciones que expone</h2>
   <table>

@@ -3,7 +3,7 @@ import Layout from '../../../layouts/Layout.astro';
 ---
 <Layout title="Módulos json / csv / toml / hex — Formatos de Datos (stdlib) — Forja">
   <h1>Módulos <code>json</code>, <code>csv</code>, <code>toml</code>, <code>hex</code> — Formatos de Datos</h1>
-  <p><strong>Archivos:</strong> <code>stdlib/std/json.fa</code>, <code>stdlib/std/csv.fa</code>, <code>stdlib/std/toml.fa</code>, <code>stdlib/std/hex.fa</code>, <code>stdlib/std/codificacion.fa</code>, <code>stdlib/std/binario.fa</code></p>
+  <p><strong>Archivos:</strong> <code>library/std/json.fa</code>, <code>library/std/csv.fa</code>, <code>library/std/toml.fa</code>, <code>library/std/hex.fa</code>, <code>library/std/codificacion.fa</code>, <code>library/std/binario.fa</code></p>
 
   <h2>¿Por qué existen?</h2>
   <p>Proveen capacidades de serialización y deserialización en los formatos de datos más comunes: JSON, CSV, TOML, y codificaciones como hex, Base64 y binario. Son esenciales para interoperabilidad con otros sistemas y lenguajes.</p>
@@ -12,35 +12,32 @@ import Layout from '../../../layouts/Layout.astro';
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
     <tr><td><code>json.parsear(texto)</code></td><td>Parsea un texto JSON a un valor Forja (mapa, arreglo, número, texto, booleano)</td></tr>
-    <tr><td><code>json.generar(valor)</code></td><td>Convierte un valor Forja a texto JSON</td></tr>
-    <tr><td><code>json.prettify(valor)</code></td><td>Convierte a JSON con formato legible (indentado)</td></tr>
-    <tr><td><code>json.desde_archivo(ruta)</code></td><td>Lee y parsea un archivo JSON</td></tr>
-    <tr><td><code>json.a_archivo(ruta, valor)</code></td><td>Escribe un valor como JSON a un archivo</td></tr>
+    <tr><td><code>json.serializar(valor)</code></td><td>Convierte un valor Forja a texto JSON</td></tr>
+    <tr><td><code>json.leer_json(ruta)</code></td><td>Lee y parsea un archivo JSON</td></tr>
+    <tr><td><code>json.escribir_json(ruta, valor)</code></td><td>Escribe un valor como JSON a un archivo</td></tr>
   </table>
 
   <h2>Módulo <code>csv</code> — Comma-Separated Values</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td><code>csv.leer(texto)</code></td><td>Parsea texto CSV a un arreglo de mapas (cabecera → valor)</td></tr>
-    <tr><td><code>csv.generar(datos)</code></td><td>Convierte un arreglo de mapas a texto CSV</td></tr>
-    <tr><td><code>csv.leer_archivo(ruta)</code></td><td>Lee y parsea un archivo CSV</td></tr>
-    <tr><td><code>csv.guardar_archivo(ruta, datos)</code></td><td>Guarda datos como CSV en un archivo</td></tr>
-    <tr><td><code>csv.leer_con_separador(texto, sep)</code></td><td>Parsea CSV con separador personalizado (TSV, etc.)</td></tr>
+    <tr><td><code>csv.parsear(texto)</code></td><td>Parsea CSV a <code>Arreglo&lt;Arreglo&lt;Texto&gt;&gt;</code></td></tr>
+    <tr><td><code>csv.parsear_con_cabeceras(texto)</code></td><td>Parsea CSV a un arreglo de mapas (cabecera → valor)</td></tr>
+    <tr><td><code>csv.generar(filas)</code></td><td>Convierte filas en texto CSV</td></tr>
+    <tr><td><code>csv.generar_con_cabeceras(cabeceras, filas)</code></td><td>Genera CSV incluyendo la fila de cabeceras</td></tr>
   </table>
 
   <h2>Módulo <code>toml</code> — Tom's Obvious Minimal Language</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td><code>toml.parsear(texto)</code></td><td>Parsea texto TOML a un mapa Forja</td></tr>
-    <tr><td><code>toml.generar(mapa)</code></td><td>Convierte un mapa a texto TOML</td></tr>
-    <tr><td><code>toml.desde_archivo(ruta)</code></td><td>Lee y parsea un archivo TOML</td></tr>
+    <tr><td><code>toml.parsear(texto)</code></td><td>Parsea pares, tablas <code>[a.b]</code>, strings, números, booleanos y arreglos a un mapa Forja</td></tr>
+    <tr><td><code>toml.generar(mapa)</code></td><td>Convierte un mapa Forja a texto TOML</td></tr>
   </table>
 
   <h2>Módulo <code>hex</code> y <code>codificacion</code> — Codificaciones</h2>
   <table>
     <tr><th>Función</th><th>Módulo</th><th>Descripción</th></tr>
-    <tr><td><code>hex_codificar(bytes)</code></td><td><code>hex</code></td><td>Convierte bytes a string hexadecimal</td></tr>
-    <tr><td><code>hex_decodificar(hex)</code></td><td><code>hex</code></td><td>Convierte hexadecimal a bytes</td></tr>
+    <tr><td><code>hex.texto_a_hex(texto)</code></td><td><code>hex</code></td><td>Convierte texto a su representación hexadecimal</td></tr>
+    <tr><td><code>hex.hex_a_texto(hex)</code></td><td><code>hex</code></td><td>Convierte hexadecimal a texto</td></tr>
     <tr><td><code>base64_codificar(datos)</code></td><td><code>codificacion</code></td><td>Codifica bytes a Base64 (RFC 4648)</td></tr>
     <tr><td><code>base64_decodificar(cadena)</code></td><td><code>codificacion</code></td><td>Decodifica Base64 a bytes</td></tr>
     <tr><td><code>uuid_generar()</code></td><td><code>codificacion</code></td><td>Genera un UUID v4 aleatorio</td></tr>
@@ -56,5 +53,5 @@ import Layout from '../../../layouts/Layout.astro';
     <li><strong>Criptografía:</strong> Codificar claves y hashes en hex o Base64</li>
   </ul>
 
-  <div class="tip"><strong><svg class="ico" aria-hidden="true"><use href="#i-lightbulb"/></svg> Rendimiento:</strong> Los módulos JSON y TOML están implementados con bindings nativos a las crates <code>serde_json</code> y <code>toml</code> de Rust, ofreciendo rendimiento cercano a Rust nativo.</div>
+  <div class="tip"><strong><svg class="ico" aria-hidden="true"><use href="#i-lightbulb"/></svg> Rendimiento:</strong> JSON usa <code>serde_json</code>; TOML tiene parser/generador nativo propio (<code>_toml_parsear</code>/<code>_toml_generar</code>). Ambos corren en Rust, no en el intérprete.</div>
 </Layout>

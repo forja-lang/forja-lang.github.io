@@ -4,7 +4,7 @@ import Layout from '../../../layouts/Layout.astro';
 
 <Layout title="Biblioteca Estándar (std) — Visión General — Forja">
   <h1>Biblioteca Estándar (<code>std</code>)</h1>
-  <p><strong>Directorio:</strong> <code>stdlib/std/</code> — más de <strong>40 módulos</strong> escritos en Forja, incrustados en el binario via <code>src/stdlib_embedded.rs</code>.</p>
+  <p><strong>Directorio:</strong> <code>library/std/</code> — más de <strong>40 módulos</strong> escritos en Forja, incrustados en el binario via <code>compiler/forja-registry/src/stdlib_embedded.rs</code>.</p>
 
   <div class="info"><strong><svg class="ico" aria-hidden="true"><use href="#i-lightbulb"/></svg> ¿Cómo importar?</strong> Los módulos se importan con <code>importar std/nombre_modulo</code> (o <code>importar nombre_modulo</code> según la configuración de proyecto).</div>
 
@@ -98,5 +98,5 @@ import Layout from '../../../layouts/Layout.astro';
     <li><a href="http/">Cliente/servidor HTTP</a> — cliente_http / cliente_h2 / servidor_web / servidor_h2</li>
   </ul>
 
-  <div class="tip"><strong>¿Cómo se implementa?</strong> Cada módulo <code>.fa</code> es una capa fina sobre las funciones nativas en Rust expuestas por <code>src/native_registry.rs</code>. Ver la página de <a href="../stdlib_embedded/">stdlib Incrustada</a> para entender cómo se empaquetan en el binario.</div>
+  <div class="tip"><strong>¿Cómo se implementa?</strong> Cada módulo <code>.fa</code> es una capa fina sobre las funciones nativas en Rust expuestas por <code>compiler/forja-native/src/native_registry/</code>. El empaquetado en el binario lo hace <code>compiler/forja-registry/src/stdlib_embedded.rs</code>, descrito en <a href="/arquitectura/registry/">forja-registry — paquetes</a>.</div>
 </Layout>

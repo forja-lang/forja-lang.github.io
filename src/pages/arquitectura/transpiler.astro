@@ -1,0 +1,22 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Transpilador a Rust — Forja">
+  <h1>Transpilador a Rust</h1>
+  <p><strong>Archivo:</strong> <code>src/transpiler.rs</code> · <strong>API:</strong> <code>transpilar_a_rust</code>, <code>transpilar_a_rust_con_ast</code></p>
+
+  <h2>¿Por qué existe?</h2>
+  <p>Es una ruta <strong>independiente</strong> del pipeline de bytecode: no genera opcodes, escribe un proyecto Cargo en Rust y lo compila con <code>rustc</code>. Sirve para obtener un binario nativo con el mismo backend LLVM de Rust.</p>
+
+  <h2>Cómo funciona</h2>
+  <ol>
+    <li>Parsea y analiza el programa con el frontend compartido.</li>
+    <li>Traduce declaraciones, expresiones y control de flujo a Rust equivalente.</li>
+    <li>Esquiva las diferencias de semántica (enteros, textos, contratos) con helpers generados.</li>
+    <li>Escribe <code>Cargo.toml</code> + <code>main.rs</code> y compila.</li>
+  </ol>
+
+  <h2>Cuándo usarlo</h2>
+  <p>Cuando se necesita un binario nativo sin depender del ensamblador propio ni del AOT con bytecode incrustado. Para el día a día, la VM y el JIT son la vía normal.</p>
+</Layout>

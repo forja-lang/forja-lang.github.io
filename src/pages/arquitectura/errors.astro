@@ -1,0 +1,22 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Errores, spans y sesión — Forja">
+  <h1>Errores, spans y sesión</h1>
+  <p><strong>Crates:</strong> <code>compiler/forja-errors</code>, <code>compiler/forja-span</code>, <code>compiler/forja-session</code></p>
+
+  <h2>Los tres crates</h2>
+  <table>
+    <tr><th>Crate</th><th>Responsabilidad</th></tr>
+    <tr><td><code>forja-span</code></td><td><code>Span</code> (rango de bytes), <code>FileId</code> estable y <code>SourceMap</code> que convierte a línea/columna contando saltos una sola vez por archivo.</td></tr>
+    <tr><td><code>forja-errors</code></td><td><code>ErrorForja</code>: código, mensaje, ayuda y dos spans. Modos globales thread-safe: nivel de detalle, salida JSON y color.</td></tr>
+    <tr><td><code>forja-session</code></td><td>Configuración (<code>forja.yaml</code>) y <code>Session</code>: estricto y, a futuro, contratos y caché por sesión.</td></tr>
+  </table>
+
+  <h2>Por qué están separados del compilador</h2>
+  <p>El frontend (<a href="/arquitectura/syntax/">forja-syntax</a>) necesita diagnosticar sin depender de nada más, y el LSP necesita los mismos tipos de error que la CLI. Al ser crates propios, ambos comparten el formato exacto: un error se ve igual en la terminal, en el editor y en JSON.</p>
+
+  <h2>Configuración</h2>
+  <p><code>forja.yaml</code> no se toca con flags: nivel (<code>detallado</code>, <code>depuracion</code>, <code>traza</code>), <code>json</code> y <code>color</code> se leen de ahí. Si el archivo no existe, se crea con todas las claves y valores por defecto.</p>
+</Layout>

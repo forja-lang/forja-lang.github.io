@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="forja-hir — representación intermedia de alto nivel — Forja">
+  <h1>forja-hir — identidad, módulos y desazucarado</h1>
+  <p><strong>Crate:</strong> <code>compiler/forja-hir</code> · <strong>Depende de:</strong> <code>forja-syntax</code></p>
+
+  <h2>¿Por qué existe?</h2>
+  <p>El AST no tiene identidad estable: dos declaraciones con el mismo nombre son indistinguibles. El HIR asigna un <code>DefId</code> a cada declaración y resuelve <code>modulo.item</code> sin depender de strings aplanados. No reemplaza al AST: es un paso intermedio mínimo.</p>
+
+  <h2>Mapa de módulos</h2>
+  <table>
+    <tr><th>Módulo</th><th>Responsabilidad</th></tr>
+    <tr><td><code>lib.rs</code></td><td><code>DefId</code>, tabla de módulos y resolución de nombres.</td></tr>
+    <tr><td><code>desugar.rs</code></td><td>Azúcar sintáctico a formas canónicas.</td></tr>
+    <tr><td><code>dedup.rs</code></td><td>Deduplicación de declaraciones tras inlinear imports.</td></tr>
+    <tr><td><code>prelude.rs</code></td><td>Declaraciones implícitas que todo programa ve.</td></tr>
+  </table>
+
+  <h2>Quién lo consume</h2>
+  <p><a href="/arquitectura/types/">forja-types</a> (resolución), <a href="/arquitectura/vm/">forja-vm</a> (reexporta <code>dedup</code> y <code>desugar</code>) y el pipeline de <code>forja</code> para módulos.</p>
+</Layout>

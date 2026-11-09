@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="forja-types — semántica — Forja">
+  <h1>forja-types — tipos, préstamos e inferencia</h1>
+  <p><strong>Crate:</strong> <code>compiler/forja-types</code> · <strong>Depende de:</strong> <code>forja-syntax</code></p>
+
+  <h2>¿Por qué existe?</h2>
+  <p>Todo el análisis semántico está acá: chequeo de tipos, inferencia, <code>BorrowChecker</code>, exhaustividad de <code>coincidir</code> y validación de contratos. Al depender sólo del AST y los diagnósticos, puede reutilizarse sin arrastrar el backend; el crate <code>forja</code> lo reexporta como <code>forja::semantics</code>.</p>
+
+  <h2>Mapa de módulos</h2>
+  <table>
+    <tr><th>Módulo</th><th>Responsabilidad</th></tr>
+    <tr><td><code>semantics/mod.rs</code></td><td>Fachada pública y estado del chequeo.</td></tr>
+    <tr><td><code>semantics/nucleo.rs</code></td><td>Recorrido de declaraciones y sentencias, scopes y símbolos.</td></tr>
+    <tr><td><code>semantics/inferencia.rs</code></td><td>Inferencia y unificación de tipos, promociones y literales.</td></tr>
+    <tr><td><code>semantics/analisis.rs</code></td><td>Préstamos, ownership, exhaustividad y compatibilidad de firmas.</td></tr>
+  </table>
+
+  <h2>Modo estricto</h2>
+  <p><code>set_estricto</code> / <code>con_estricto</code> activan el modo estricto: <code>nulo</code> explícito en tipos no anulables, llamadas a funciones no declaradas y ownership estricto. La CLI lo enciende con <code>estricto: verdadero</code> en <code>forja.yaml</code>.</p>
+
+  <h2>Quién lo consume</h2>
+  <p><a href="/arquitectura/ir/">forja-ir</a>, <a href="/arquitectura/bytecode/">forja-bytecode</a> y <a href="/arquitectura/vm/">forja-vm</a>. La CLI y el LSP lo invocan a través de <code>forja</code>.</p>
+</Layout>

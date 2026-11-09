@@ -1,0 +1,24 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="forja-lint — linter — Forja">
+  <h1>forja-lint — linter configurable</h1>
+  <p><strong>Crate:</strong> <code>compiler/forja-lint</code> · <strong>Depende de:</strong> <code>forja-syntax</code></p>
+
+  <h2>¿Por qué existe?</h2>
+  <p>Analiza el AST y produce advertencias <strong>sin abortar la compilación</strong>. Se integra en la CLI (<code>forja lint</code>) y en el servidor LSP, así el editor y el CI ven los mismos diagnósticos.</p>
+
+  <h2>Reglas</h2>
+  <ol>
+    <li><code>variable-sin-usar</code> — variable declarada y nunca leída.</li>
+    <li><code>funcion-sin-usar</code> — función definida y nunca llamada.</li>
+    <li><code>complejidad</code> — complejidad ciclomática alta por función.</li>
+    <li><code>panic-accidental</code> — <code>panic</code>/<code>abortar</code>/<code>pánico</code> en el código.</li>
+    <li><code>comparacion-constante</code> — comparación entre dos literales.</li>
+    <li><code>division-por-cero</code> — división o módulo por un literal cero.</li>
+  </ol>
+
+  <h2>Uso</h2>
+  <p>Con <code>lint_estricto: verdadero</code> en <code>forja.yaml</code> las advertencias pasan a ser errores y el comando falla. Ver <a href="/arquitectura/cli/">CLI</a>.</p>
+</Layout>

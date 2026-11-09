@@ -3,12 +3,12 @@ import Layout from '../../../layouts/Layout.astro';
 ---
 <Layout title="Módulo red / sockets — Redes TCP/UDP (stdlib) — Forja">
   <h1>Módulos <code>red</code> y <code>sockets</code> — Comunicación en Red</h1>
-  <p><strong>Archivos:</strong> <code>stdlib/std/red.fa</code>, <code>stdlib/std/sockets.fa</code></p>
+  <p><strong>Archivos:</strong> <code>library/std/red.fa</code>, <code>library/std/sockets.fa</code></p>
 
   <h2>¿Por qué existen?</h2>
   <p>Proveen capacidades de comunicación en red de bajo y alto nivel. <code>sockets.fa</code> expone sockets TCP/UDP para comunicación directa, mientras que <code>red.fa</code> ofrece utilidades de red de más alto nivel como resolución DNS y verificación de conectividad.</p>
 
-  <div class="warning"><strong><svg class="ico" aria-hidden="true"><use href="#i-triangle-alert"/></svg> Sandbox:</strong> Por defecto, Forja bloquea todas las conexiones de red. Poné <code>permitir_red: &lt;hosts&gt;</code> en <code>forja.yaml</code> para habilitar conectividad. Ver <a href="/arquitectura/sandbox">Sandbox de Red</a>.</div>
+  <div class="warning"><strong><svg class="ico" aria-hidden="true"><use href="#i-triangle-alert"/></svg> Sandbox:</strong> Por defecto, Forja bloquea todas las conexiones de red. Poné <code>permitir_red: &lt;hosts&gt;</code> en <code>forja.yaml</code> para habilitar conectividad. Ver <a href="/arquitectura/native/">Sandbox de Red</a>.</div>
 
   <h2>Módulo <code>sockets</code> — Sockets TCP/UDP</h2>
   <table>

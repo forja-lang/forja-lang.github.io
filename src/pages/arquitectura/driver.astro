@@ -1,0 +1,22 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="forja-driver — pipeline, caché y AOT — Forja">
+  <h1>forja-driver — política del pipeline, caché y AOT</h1>
+  <p><strong>Crate:</strong> <code>compiler/forja-driver</code> · <strong>Depende de:</strong> <code>forja-bytecode</code> (+ <code>forja-vm</code> con la feature <code>vm</code>)</p>
+
+  <h2>¿Por qué existe?</h2>
+  <p>El formato de bytecode vive en <code>forja-bytecode</code>; acá queda la <strong>política</strong>: hash de fuente, invalidación de caché por imports, compilación AOT y arranque del ejecutable autónomo.</p>
+
+  <h2>Mapa de módulos</h2>
+  <table>
+    <tr><th>Módulo</th><th>Responsabilidad</th></tr>
+    <tr><td><code>lib.rs</code></td><td>Driver de compilación y <code>hash_fuente</code> estable.</td></tr>
+    <tr><td><code>cache.rs</code></td><td><code>IncrementalCache</code>: módulos compilados, hash de imports e invalidación.</td></tr>
+    <tr><td><code>aot.rs</code></td><td>Ejecutable autónomo con bytecode incrustado.</td></tr>
+  </table>
+
+  <h2>AOT y modo autónomo</h2>
+  <p><code>forja compilar</code> produce un binario con el bytecode y los contratos adentro. Al arrancar, el stub detecta el bytecode incrustado (<code>selfrun</code>, en <code>src/selfrun.rs</code>) y ejecuta sin archivos externos. Si el programa usa GUI, el stub enlaza el runtime gráfico. Ver <a href="/arquitectura/aot/">AOT</a>.</p>
+</Layout>

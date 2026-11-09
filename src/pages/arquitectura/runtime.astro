@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="forja-runtime — GC, heap y Host — Forja">
+  <h1>forja-runtime — GC, heap y el trait <code>Host</code></h1>
+  <p><strong>Crate:</strong> <code>compiler/forja-runtime</code> · <strong>Depende de:</strong> <code>forja-bytecode</code></p>
+
+  <h2>¿Por qué existe?</h2>
+  <p>Es la base que comparten los motores: representación de valores, heap con GC, descriptores de clase y el trait <code>Host</code> con el que las primitivas nativas acceden al intérprete sin depender de <code>forja-vm</code>.</p>
+
+  <h2>Mapa de módulos</h2>
+  <table>
+    <tr><th>Módulo</th><th>Responsabilidad</th></tr>
+    <tr><td><code>runtime.rs</code></td><td>Arranque del runtime y estado global.</td></tr>
+    <tr><td><code>gc.rs</code></td><td>Colector generacional y su telemetría.</td></tr>
+    <tr><td><code>host.rs</code></td><td>Trait <code>Host</code>: lo único que ven las nativas.</td></tr>
+    <tr><td><code>shape.rs</code></td><td><em>Shapes</em> de objetos (layout compartido entre instancias).</td></tr>
+    <tr><td><code>class_descriptor.rs</code></td><td>Descriptores de clase: métodos, campos e interfaces.</td></tr>
+    <tr><td><code>tipos.rs</code></td><td>Representación de valores (NaN tagging).</td></tr>
+    <tr><td><code>fprofiler.rs</code></td><td>Profiler integrado (muestras y conteos).</td></tr>
+    <tr><td><code>sandbox.rs</code>, <code>socket.rs</code></td><td>Aislamiento de red y sockets base.</td></tr>
+  </table>
+
+  <h2>Relación con los motores</h2>
+  <p><a href="/arquitectura/vm/">forja-vm</a> implementa el trait y ejecuta; <a href="/arquitectura/native/">forja-native</a> sólo consume el trait. Esa separación permite que las nativas se testeen sin VM y que la VM cambie de GC sin tocar las primitivas.</p>
+</Layout>

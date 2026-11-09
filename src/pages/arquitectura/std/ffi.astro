@@ -3,10 +3,17 @@ import Layout from '../../../layouts/Layout.astro';
 ---
 <Layout title="Módulo ffi — Foreign Function Interface (stdlib) — Forja">
   <h1>Módulo <code>ffi</code> — Foreign Function Interface</h1>
-  <p><strong>Archivo:</strong> <code>stdlib/std/ffi.fa</code></p>
+  <p><strong>Archivo:</strong> <code>library/std/ffi.fa</code></p>
 
   <h2>¿Por qué existe?</h2>
-  <p>Provee llamar funciones C desde Forja. Es un módulo esencial para programas Forja que necesiten esta funcionalidad.</p>
+  <p>Permite llamar funciones C desde Forja con punteros explícitos. Para el caso normal ya no hace falta: <code>funcion externa f(...)</code> se enlaza automáticamente desde las librerías cargadas con <code>importar externa</code>. El módulo queda para punteros, arreglos de argumentos y control fino.</p>
+
+  <div class="code-block-wrapper">
+    <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-plug"/></svg> Enlace automático (recomendado)</span></div>
+    <pre><code><span class="kw">importar</span> <span class="kw">externa</span> <span class="st">&quot;kernel32.dll&quot;</span>
+<span class="kw">funcion</span> <span class="kw">externa</span> <span class="fn">GetCurrentProcessId</span>() -&gt; <span class="kw">Entero</span>;
+<span class="fn">escribir</span>(<span class="fn">GetCurrentProcessId</span>())</code></pre>
+  </div>
 
   <h2>Funciones principales</h2>
   <table>
@@ -22,5 +29,5 @@ import Layout from '../../../layouts/Layout.astro';
     <li><strong>Integración:</strong> Combinar con otros módulos std para soluciones completas.</li>
   </ul>
 
-  <div class="info"><strong><svg class="ico" aria-hidden="true"><use href="#i-library"/></svg> Documentación:</strong> Consultá el archivo fuente <code>stdlib/std/ffi.fa</code> para ver la implementación completa y todos los detalles.</div>
+  <div class="info"><strong><svg class="ico" aria-hidden="true"><use href="#i-library"/></svg> Documentación:</strong> Consultá el archivo fuente <code>library/std/ffi.fa</code> para ver la implementación completa y todos los detalles.</div>
 </Layout>

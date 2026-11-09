@@ -1,16 +1,33 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 ---
-<Layout title="Biblioteca (biblioteca.rs) — Forja">
-  <h1>Biblioteca – Funciones estándar del lenguaje</h1>
-  <p><strong>Archivo:</strong> <code>src/biblioteca.rs</code></p>
 
-  <h2>¿Por qué existe?</h2>
-  <p>Define el conjunto de built‑ins y la API estándar que el compilador y la VM usan para operaciones comunes (entrada/salida, manipulación de strings, etc.).</p>
+<Layout title="API pública del crate forja — Forja">
+  <h1>API pública del crate <code>forja</code></h1>
+  <p><strong>Archivo:</strong> <code>src/lib.rs</code> · <strong>Manifiesto:</strong> <code>compiler/forja/Cargo.toml</code></p>
 
-  <h2>Cómo funciona</h2>
-  <p>Los built‑ins están catalogados en <code>builtin_kind.rs</code> y su comportamiento se implementa en funciones públicas que pueden ser llamadas desde el bytecode mediante <code>CallBuiltin</code>.</p>
+  <h2>Qué es</h2>
+  <p>Es la fachada del compilador para usar Forja como biblioteca: compilar a bytecode, ejecutar en la VM o el JIT, transpilar a Rust y acceder a los tipos del lenguaje. El código vive en <code>src/</code>; el crate sólo aporta el manifiesto dentro de <code>compiler/</code>.</p>
 
-  <h2>Ejemplo de built‑in</h2>
-  <p>Un built‑in típico es <code>escribir</code>, que escribe texto por salida estándar.</p>
+  <h2>Reexportes</h2>
+  <p>Para no romper la API histórica, <code>forja</code> reexporta los crates del frontend y la semántica:</p>
+  <table>
+    <tr><th>Ruta pública</th><th>Viene de</th></tr>
+    <tr><td><code>forja::token</code>, <code>forja::lexer</code>, <code>forja::parser</code>, <code>forja::ast</code>, <code>forja::error</code></td><td><a href="/arquitectura/syntax/">forja-syntax</a></td></tr>
+    <tr><td><code>forja::semantics</code></td><td><a href="/arquitectura/types/">forja-types</a></td></tr>
+    <tr><td><code>forja::bytecode</code></td><td><a href="/arquitectura/bytecode/">forja-bytecode</a></td></tr>
+    <tr><td><code>forja::vm</code>, <code>forja::jit</code></td><td><a href="/arquitectura/vm/">forja-vm</a></td></tr>
+  </table>
+
+  <h2>Funciones principales</h2>
+  <table>
+    <tr><th>Función</th><th>Qué hace</th></tr>
+    <tr><td><code>compilar_pipeline_completa</code> (+ variantes)</td><td>Fuente → <code>(bytecode, contratos)</code>. Ver <a href="/arquitectura/pipeline/">pipeline</a>.</td></tr>
+    <tr><td><code>ejecutar</code>, <code>ejecutar_vm</code>, <code>ejecutar_jit</code></td><td>Compila y ejecuta devolviendo la salida como <code>Vec&lt;String&gt;</code>.</td></tr>
+    <tr><td><code>transpilar_a_rust</code></td><td>Fuente → proyecto Rust (<a href="/arquitectura/transpiler/">transpilador</a>).</td></tr>
+    <tr><td><code>ejecutar_con_pgo</code></td><td>Ejecuta con perfil de optimización (<a href="/arquitectura/vm/">PGO</a>).</td></tr>
+  </table>
+
+  <h2>Quién la usa</h2>
+  <p>La <a href="/arquitectura/cli/">CLI</a>, el <a href="/arquitectura/repl/">REPL</a>, el LSP/DAP y los runtimes de <a href="/arquitectura/wasm/">WASM</a> y <a href="/arquitectura/android/">Android</a>.</p>
 </Layout>

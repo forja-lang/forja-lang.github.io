@@ -3,12 +3,19 @@ import Layout from '../../layouts/Layout.astro';
 ---
 <Layout title="GUI Runtime (forja-gui-rt) — Forja">
   <h1>Runtime GUI (<code>forja-gui-rt</code>)</h1>
-  <p><strong>Crate:</strong> <code>crates/forja-gui-rt/</code> — Basado en Xilem v0.4 (Masonry + Vello)</p>
+  <p><strong>Crates:</strong> <code>library/gui-core</code>, <code>library/gui-theme</code> y <code>library/gui-rt</code> (submódulos) — sobre <code>xilem</code> (Masonry + Vello)</p>
+
+  <table>
+    <tr><th>Crate</th><th>Responsabilidad</th></tr>
+    <tr><td><code>forja-gui-core</code></td><td>Señales reactivas y logging de estado, sin dependencias de xilem ni del compilador.</td></tr>
+    <tr><td><code>forja-theme</code></td><td>Sistema Material You (Material 3): colores dinámicos, tipografía, formas, elevación y animación.</td></tr>
+    <tr><td><code>forja-gui-rt</code></td><td>Runtime completo: widgets, layout, event loop y <code>build_and_run()</code>.</td></tr>
+  </table>
 
   <h2>¿Qué es?</h2>
   <p>El runtime GUI de Forja permite crear aplicaciones de ventana con interfaz gráfica usando el mismo lenguaje Forja. Está implementado sobre <a href="https://github.com/linebender/xilem"><code>xilem</code></a>, un framework UI reactivo con renderizado GPU acelerado por <a href="https://github.com/linebender/vello">Vello</a> (WebGPU).</p>
 
-  <p>Cuando un programa Forja importa <code>"gui"</code>, el transpilador genera código Rust que llama a <code>forja_gui_rt::build_and_run()</code>, el cual se encarga de:</p>
+  <p>Cuando un programa Forja importa <code>gui</code>, el compilador genera un ejecutable autónomo que enlaza este runtime (no transpila a Rust) y llama a <code>forja_gui_rt::build_and_run()</code>, el cual se encarga de:</p>
   <ol>
     <li>Inicializar el estado evaluando las variables y funciones del programa</li>
     <li>Extraer el layout de la función <code>main()</code></li>
@@ -38,7 +45,7 @@ import Layout from '../../layouts/Layout.astro';
     <tbody>
       <tr><td><code>gui_nativa.rs</code></td><td>Motor principal: enum <code>Layout</code> (87+ variantes), <code>expr_a_layout()</code> (200+ funciones Forja), <code>layout_a_view()</code> (conversión a Xilem), <code>AppStateNativo</code>, <code>build_and_run()</code></td></tr>
       <tr><td><code>evaluador.rs</code></td><td>Intérprete tree-walking: <code>ValorGUI</code>, <code>ejecutar_funcion()</code>, <code>evaluar_expresion()</code>, funciones nativas (SQLite, archivos, JSON)</td></tr>
-      <tr><td><code>signals.rs</code></td><td>Sistema reactivo: <code>Signal&lt;T&gt;</code>, <code>VariableStore</code>, generación atómica, <code>Stream&lt;T&gt;</code></td></tr>
+      <tr><td><code>library/gui-core/src/signals.rs</code></td><td>Sistema reactivo: <code>Signal&lt;T&gt;</code>, <code>VariableStore</code>, generación atómica, <code>Stream&lt;T&gt;</code></td></tr>
       <tr><td><code>accessibility.rs</code></td><td>Accesibilidad: roles Material, descripciones en español, TalkBack/VoiceOver</td></tr>
       <tr><td><code>icons.rs</code></td><td>Catálogo de 100+ iconos Material Design (paths SVG reales)</td></tr>
       <tr><td><code>svg_icon_widget.rs</code></td><td>Renderizador SVG de iconos via Vello</td></tr>
@@ -50,7 +57,7 @@ import Layout from '../../layouts/Layout.astro';
       <tr><td><code>qr_widget.rs</code></td><td>Widget QR Code con render Vello</td></tr>
       <tr><td><code>chart_widgets.rs</code></td><td>Gráficos: Bar, Line, Pie, Gauge, Sparkline con Vello</td></tr>
       <tr><td><code>canvas_widget.rs</code></td><td>Lienzo de dibujo libre con 20+ comandos vía JSON</td></tr>
-      <tr><td><code>theme/</code></td><td>Sistema de tema Material You: ColorScheme, TypeScale, ShapeSystem, ElevationSystem, MotionSystem, animaciones, HCT color space</td></tr>
+      <tr><td><code>library/gui-theme/src/theme/</code></td><td>Sistema de tema Material You: ColorScheme, TypeScale, ShapeSystem, ElevationSystem, MotionSystem, animaciones, HCT color space</td></tr>
     </tbody>
   </table>
 

@@ -3,7 +3,7 @@ import Layout from '../../../layouts/Layout.astro';
 ---
 <Layout title="Módulo resultado — Opcion y Resultado (Option/Result) (stdlib) — Forja">
   <h1>Módulo <code>resultado</code> — Tipos Option y Result</h1>
-  <p><strong>Archivo:</strong> <code>stdlib/std/resultado.fa</code></p>
+  <p><strong>Archivo:</strong> <code>library/std/resultado.fa</code></p>
 
   <h2>¿Por qué existe?</h2>
   <p>Proporciona utilidades para trabajar con los tipos algebraicos fundamentales de Forja: <strong>Opcion</strong> (Option — Alguno/None) y <strong>Resultado</strong> (Result — Ok/Error). Estos tipos son la columna vertebral del manejo de errores y valores opcionales en Forja.</p>
@@ -32,7 +32,7 @@ import Layout from '../../../layouts/Layout.astro';
   <p>La forma más común de trabajar con estos tipos es usando <code>coincidir</code>:</p>
   <div class="code-block-wrapper">
     <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-file"/></svg> manejo_opcion.fa</span></div>
-    <pre><code><span class="kw">variable</span> usuario_opt = env.obtener(<span class="st">"USER"</span>)
+    <pre><code><span class="kw">variable</span> usuario_opt = env.obtener_variable(<span class="st">"USER"</span>)
 <span class="kw">coincidir</span> (usuario_opt) &brace;
     <span class="kw">caso</span> Alguno(v) -> &brace;
         <span class="fn">escribir_linea</span>(<span class="st">"Usuario: "</span> + v)

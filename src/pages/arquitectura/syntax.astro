@@ -1,0 +1,32 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="forja-syntax — frontend — Forja">
+  <h1>forja-syntax — tokens, lexer, parser y AST</h1>
+  <p><strong>Crate:</strong> <code>compiler/forja-syntax</code> (submódulo) · <strong>Depende de:</strong> <code>forja-errors</code>, <code>forja-span</code></p>
+
+  <h2>¿Por qué existe?</h2>
+  <p>Es el frontend reutilizable del lenguaje: no conoce bytecode, VM, JIT ni GUI. Por eso linters, formateadores, editores y servidores LSP pueden consumirlo sin arrastrar el compilador completo. El crate <code>forja</code> reexporta estos módulos (<code>forja::lexer</code>, <code>forja::parser</code>, …) para conservar la API pública histórica.</p>
+
+  <h2>Mapa de módulos</h2>
+  <table>
+    <tr><th>Módulo</th><th>Responsabilidad</th></tr>
+    <tr><td><code>token.rs</code></td><td>Vocabulario de tokens, palabras clave en español y literales.</td></tr>
+    <tr><td><code>booleanos.rs</code></td><td>Normalización de las formas alternativas de <code>verdadero</code>/<code>falso</code>.</td></tr>
+    <tr><td><code>lexer.rs</code></td><td>Texto → tokens con spans; interpolación con <code>$</code> + llaves y llaves literales.</td></tr>
+    <tr><td><code>ast.rs</code></td><td>Árbol de sintaxis abstracta: declaraciones, expresiones, patrones y tipos.</td></tr>
+    <tr><td><code>parser/</code></td><td>Descenso recursivo: <code>declaraciones</code>, <code>expresiones</code>, <code>control</code>, <code>primarias</code>, <code>tipos</code>.</td></tr>
+  </table>
+
+  <h2>Puntos clave</h2>
+  <ul>
+    <li><strong>Sin <code>unsafe</code></strong>: el crate lleva <code>#![forbid(unsafe_code)]</code>.</li>
+    <li><strong>Diagnósticos ricos</strong>: los errores son <code>ErrorForja</code> (código, mensaje, ayuda y dos spans) del crate <code>forja-errors</code>, y la posición sale de <code>forja-span</code>.</li>
+    <li><strong>Recuperación</strong>: el parser sigue tras un error de sentencia para reportar varios problemas en una pasada.</li>
+    <li><strong>Idempotencia</strong>: el AST guarda lo justo para que <code>forja-fmt</code> reconstruya el mismo programa.</li>
+  </ul>
+
+  <h2>Quién lo consume</h2>
+  <p><a href="/arquitectura/types/">forja-types</a>, <a href="/arquitectura/hir/">forja-hir</a>, <a href="/arquitectura/ir/">forja-ir</a>, <a href="/arquitectura/bytecode/">forja-bytecode</a>, <a href="/arquitectura/fmt/">forja-fmt</a>, <a href="/arquitectura/lint/">forja-lint</a>, <a href="/arquitectura/vm/">forja-vm</a> y <code>forja-gui-rt</code>.</p>
+</Layout>

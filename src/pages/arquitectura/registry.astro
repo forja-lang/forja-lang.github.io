@@ -1,0 +1,24 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="forja-registry — paquetes y stdlib embebida — Forja">
+  <h1>forja-registry — paquetes, registry remoto y stdlib embebida</h1>
+  <p><strong>Crate:</strong> <code>compiler/forja-registry</code> · <strong>Depende de:</strong> <code>forja-native</code></p>
+
+  <h2>¿Por qué existe?</h2>
+  <p>Implementa el gestor de paquetes de Forja: índice local, resolución de dependencias, publicación y servidor, y la copia de la librería estándar que se incrusta en el compilador para que <code>importar std.…</code> funcione sin instalar nada.</p>
+
+  <h2>Mapa de módulos</h2>
+  <table>
+    <tr><th>Módulo</th><th>Responsabilidad</th></tr>
+    <tr><td><code>registry.rs</code></td><td>Índice local de paquetes y versiones.</td></tr>
+    <tr><td><code>package_resolver.rs</code></td><td>Resolución de dependencias y selección de versión.</td></tr>
+    <tr><td><code>registry_remote.rs</code></td><td>Cliente del registry remoto (puerto configurable en <code>forja.yaml</code>).</td></tr>
+    <tr><td><code>registry_server.rs</code></td><td>Servidor del registry.</td></tr>
+    <tr><td><code>stdlib_embedded.rs</code></td><td>Librería estándar incrustada en el binario.</td></tr>
+  </table>
+
+  <h2>Cómo se usa</h2>
+  <p>Los comandos <code>forja paquetes</code> de la <a href="/arquitectura/cli/">CLI</a> hablan con este crate. La stdlib embebida es la misma que se publica desde <code>library/std</code> (submódulo): ver la <a href="/arquitectura/std/">referencia de std</a>.</p>
+</Layout>

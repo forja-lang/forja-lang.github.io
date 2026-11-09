@@ -1,0 +1,21 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Android — Forja">
+  <h1>Android — <code>forja-android-rt</code></h1>
+  <p><strong>Crate:</strong> <code>library/android</code> (submódulo) · <strong>Depende de:</strong> <code>forja</code>, <code>forja-gui-rt</code></p>
+
+  <h2>¿Por qué existe?</h2>
+  <p>Puente JNI para ejecutar programas Forja en Android: expone la VM y el runtime gráfico como <code>.so</code> consumible desde Java/Kotlin, empaquetado después como AAR.</p>
+
+  <h2>Cómo se construye</h2>
+  <ol>
+    <li><code>bash scripts/build-android.sh</code> compila para ARM64, x86_64, ARM32 y x86.</li>
+    <li><code>bash scripts/build-aar.sh</code> arma el AAR con el perfil <code>dist-android</code> (ThinLTO).</li>
+    <li>El proyecto Android (<code>library/android/android/template</code>) carga el <code>.so</code> y arranca la actividad.</li>
+  </ol>
+
+  <h2>Relación con el resto</h2>
+  <p>Reusa el compilador (<code>forja</code>) para compilar el script en el dispositivo y <a href="/arquitectura/gui/">forja-gui-rt</a> para dibujar con <code>winit</code> en <code>android-native-activity</code>.</p>
+</Layout>

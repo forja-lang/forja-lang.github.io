@@ -51,22 +51,27 @@ copiar/ejecutar y el paginador después de cada navegación.
   botón *Ejecutar* y una mini consola pegada debajo. Corre la VM real compilada a WASM
   (`src/wasm/run.js`, el mismo módulo que el playground).
 - **Ver código**: las páginas de `arquitectura/` muestran un botón *Ver código* que descarga
-  el fuente real desde GitHub (`src/data/codigo.ts`). El mapeo página → archivo se regenera
-  con `scripts/generar-codigo.mjs`.
+  el fuente real desde GitHub (`src/data/codigo.ts`). Una página documenta **un crate**, así
+  que el mapa página → fuente es una lista corta mantenida a mano: al agregar una página de
+  arquitectura, agregá su entrada ahí.
 
 ## Pipeline de compilación canónico
 
-El compilador expone **una única ruta canónica de compilación a bytecode**, cuya fuente de verdad
-es [`compilar_pipeline_completa()`](../src/lib.rs) (y su variante con imports
-`compilar_pipeline_completa_desde()`). Ambos delegan en el núcleo interno
-`compilar_pipeline_nucleo()`, por lo que no existe lógica de pipeline duplicada.
+El compilador está partido en **crates por fase**, y la documentación de arquitectura sigue
+esa misma división: una página por crate (ver `src/pages/arquitectura/` y
+`src/data/nav.ts`), más [`/arquitectura/pipeline/`](src/pages/arquitectura/pipeline.astro)
+con el flujo completo.
 
-- **Ruta de bytecode (canónica):** `compilar_pipeline_completa` → `compilar_pipeline_completa_desde`
-  → `compilar_pipeline_nucleo` (Lexer → Parser → TypeChecker → BorrowChecker → Optimizer → Bytecode).
-- **Aliases obsoletos (delegan, `#[deprecated]`):** `compilar_con_ir` y `compilar_pipeline`.
-- **Ruta de transpilación a Rust (independiente, no genera bytecode):** `transpilar_a_rust`
-  (alias obsoleto `compilar`) y `transpilar_a_rust_con_ast` (alias obsoleto `compilar_con_ast`).
-- **Estado del IR:** andamiaje diagnóstico; su finalización corresponde , no a esta fase.
+- **Frontend:** `forja-syntax` (tokens, lexer, parser, AST) → `forja-types` (tipos,
+  préstamos, inferencia) → `forja-hir` (`DefId`, módulos, desugar).
+- **Medio:** `forja-ir` (SSA + optimizador) → `forja-bytecode` (opcodes, contratos, `.fbc`).
+- **Ejecución:** `forja-vm` (ForjaFast + JIT tiered) sobre `forja-runtime` (GC, `Host`) y
+  `forja-native` (primitivas del sistema).
+- **Entrypoint único:** `compilar_pipeline_completa()` y sus variantes en
+  [`src/lib.rs`](../src/lib.rs); `transpilar_a_rust()` es una ruta independiente que no genera
+  bytecode.
+- **Frontera de capas:** `tests/frontera_crates.rs` verifica que ninguna crate dependa hacia
+  arriba.
 
 ## Playground WASM
 

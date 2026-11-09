@@ -1,0 +1,16 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Backend LLVM — Forja">
+  <h1>Backend LLVM</h1>
+  <p><strong>Archivos:</strong> <code>src/backend_llvm.rs</code> y <code>src/backend_llvm/legacy.rs</code></p>
+
+  <p>Forja emite LLVM IR y lo compila con <code>llc</code>/<code>clang</code>. Es el camino que reutiliza el backend de Rust para rendimiento nativo.</p>
+
+  <h2>Estado</h2>
+  <p>En desarrollo. El emisor actual cubre una parte del lenguaje; el <a href="/arquitectura/asm/">ensamblador propio</a> es hoy la ruta nativa completa. La salida se puede generar como archivo <code>.ll</code> junto al binario.</p>
+
+  <h2>Cómo se usa</h2>
+  <p><code>forja compilar</code> con <code>destino: nativo</code> y <code>forja compilar-asm</code> eligen el backend según la configuración; el AOT con LLVM usa <code>llc</code> + <code>clang</code>. Ver <a href="/arquitectura/aot/">AOT</a>.</p>
+</Layout>

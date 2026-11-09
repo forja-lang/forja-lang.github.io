@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="forja-native — primitivas del sistema — Forja">
+  <h1>forja-native — primitivas del sistema</h1>
+  <p><strong>Crate:</strong> <code>compiler/forja-native</code> · <strong>Depende de:</strong> <code>forja-runtime</code>, <code>forja-bytecode</code></p>
+
+  <h2>¿Por qué existe?</h2>
+  <p>Todo lo que toca el sistema operativo vive acá: crypto, red, archivos, procesos, terminal y FFI. No depende de <code>forja-vm</code>: los nativos reciben <code>&amp;mut dyn Host</code>, así que se testean sin intérprete y la VM puede cambiar sin tocarlos.</p>
+
+  <h2>Mapa de módulos</h2>
+  <table>
+    <tr><th>Módulo</th><th>Responsabilidad</th></tr>
+    <tr><td><code>hash.rs</code>, <code>crypto.rs</code>, <code>ed25519.rs</code></td><td>Hashing y criptografía simétrica/asimétrica.</td></tr>
+    <tr><td><code>crypto_pq.rs</code></td><td>Criptografía post-cuántica (ML-KEM, Poly1305).</td></tr>
+    <tr><td><code>base64.rs</code></td><td>Codificación Base64.</td></tr>
+    <tr><td><code>native_registry/</code></td><td>Registro de ~30 familias de nativas: archivos, red, procesos, fechas, CSV/TOML, sockets, señales, sandbox…</td></tr>
+    <tr><td><code>native_h2_core.rs</code>, <code>native_h2_tls.rs</code></td><td>HTTP/2 y TLS.</td></tr>
+    <tr><td><code>native_sqlite.rs</code></td><td>SQLite embebido (feature <code>sqlite</code>).</td></tr>
+    <tr><td><code>native_proceso_win.rs</code></td><td>Procesos en Windows (job objects).</td></tr>
+    <tr><td><code>mmap.rs</code>, <code>terminal.rs</code>, <code>ffi.rs</code></td><td>Archivos mapeados, control de terminal y llamadas a C.</td></tr>
+  </table>
+
+  <h2>Sandbox</h2>
+  <p>Las primitivas de red respetan <code>permitir_red</code> / <code>permitir_puertos</code> de <code>forja.yaml</code>: el módulo Forja es la fachada pública y nunca puede saltarse el aislamiento. Clasificación módulo → H/M generada por <code>scripts/generar-frontera.py</code>.</p>
+</Layout>

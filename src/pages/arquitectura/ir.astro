@@ -1,35 +1,29 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 ---
-<Layout title="IR SSA (ir.rs) — Forja">
-  <h1>Mid-Level IR en SSA (ir.rs)</h1>
-  <p><strong>Archivo:</strong> <code>src/ir.rs</code> (462 líneas)</p>
+
+<Layout title="forja-ir — IR SSA, optimizador y registros — Forja">
+  <h1>forja-ir — IR SSA, optimizador y bajada a registros</h1>
+  <p><strong>Crate:</strong> <code>compiler/forja-ir</code> · <strong>Depende de:</strong> <code>forja-syntax</code>, <code>forja-bytecode</code></p>
 
   <h2>¿Por qué existe?</h2>
-  <p>Define la <strong>representación intermedia (IR) en forma SSA</strong> (<em>Static Single Assignment</em>) que conecta el AST con el bytecode. En SSA, cada variable se asigna exactamente una vez, y los <strong>φ-nodes</strong> se encargan de fusionar valores en las uniones de control flow (join points). Esta forma simplifica el análisis y la optimización del código al eliminar la distinción entre asignaciones y usos.</p>
+  <p>Es la capa de medio nivel: convierte el AST en valores SSA con bloques y terminadores, corre las optimizaciones y recién después baja a bytecode. El pipeline de <code>forja</code> elige motor con <code>MotorEmision</code>: <code>Auto</code> (IR con fallback al AST), <code>Ir</code> (estricto) o <code>SoloAst</code>.</p>
 
-  <h2>Arquitectura / Estructuras clave</h2>
-  <p>El IR se compone de identificadores numéricos (<code>ValueId</code>, <code>BlockId</code>, <code>SymId</code>), instrucciones <code>Inst</code>, bloques básicos <code>BasicBlock</code>, funciones SSA <code>SsaFunction</code> y un programa completo <code>IrProgram</code> con su tabla de símbolos.</p>
+  <h2>Mapa de módulos</h2>
   <table>
-    <tr><th>Componente</th><th>Descripción</th></tr>
-    <tr><td><code>ValueId</code> / <code>BlockId</code> / <code>SymId</code></td><td>Alias de <code>usize</code> que identifican valores, bloques básicos y símbolos respectivamente</td></tr>
-    <tr><td><code>IrType</code></td><td>Tipos del IR: <code>Int</code>, <code>Float</code>, <code>Bool</code>, <code>Ptr</code>, <code>Void</code></td></tr>
-    <tr><td><code>Inst</code></td><td>Enumeración de instrucciones: constantes, <code>Param</code>, <code>Phi</code>, aritmética, comparación, lógica, <code>Load</code>/<code>Store</code>/<code>Alloca</code>, <code>Jump</code>/<code>Branch</code>/<code>Return</code>, <code>Call</code>, y operaciones de objetos y arrays</td></tr>
-    <tr><td><code>BasicBlock</code></td><td>Secuencia de instrucciones sin branches internos; incluye <code>id</code>, <code>instructions</code> y un <code>terminator</code></td></tr>
-    <tr><td><code>Terminator</code></td><td>Instrucción final que define el flujo de control: <code>Jump</code>, <code>Branch</code>, <code>Return</code> o <code>Unreachable</code></td></tr>
-    <tr><td><code>SsaFunction</code></td><td>Función SSA: nombre, tipo de retorno, bloques, bloque <code>entry</code>, número y tipos de parámetros</td></tr>
-    <tr><td><code>IrProgram</code></td><td>Programa completo: funciones + tabla de símbolos</td></tr>
-    <tr><td><code>SymbolTable</code></td><td>Interning de nombres a <code>SymId</code> con <code>intern()</code> / <code>name()</code></td></tr>
-    <tr><td><code>IrBuilder</code></td><td>Builder que emite instrucciones (<code>emit_*</code>), crea bloques (<code>new_block</code>) y terminadores (<code>terminate_*</code>), y construye <code>SsaFunction</code> con <code>build_function</code></td></tr>
-    <tr><td><code>MemIdx</code></td><td>Índice de un slot de memoria de variable en el scope (para <code>Load</code>/<code>Store</code>)</td></tr>
+    <tr><th>Módulo</th><th>Responsabilidad</th></tr>
+    <tr><td><code>ir.rs</code></td><td>Valores SSA, bloques básicos y terminadores.</td></tr>
+    <tr><td><code>ir_constructor.rs</code></td><td>AST → IR.</td></tr>
+    <tr><td><code>ir_ssa.rs</code></td><td>Construcción y reparación de SSA (φ-nodos).</td></tr>
+    <tr><td><code>ir_emision.rs</code></td><td>Emisión de IR y decisiones por constructo.</td></tr>
+    <tr><td><code>ir_to_bytecode.rs</code></td><td>IR → opcodes de <code>forja-bytecode</code>.</td></tr>
+    <tr><td><code>optimizer/</code></td><td>Pasadas: <code>const_prop</code>, <code>copy_prop</code>, <code>cse</code>, <code>dce</code>, <code>inliner</code>, <code>loop_unswitch</code>.</td></tr>
+    <tr><td><code>optimizer_pipeline.rs</code></td><td>Orden y repetición de las pasadas.</td></tr>
+    <tr><td><code>arena.rs</code></td><td>Arena de valores e instrucciones.</td></tr>
+    <tr><td><code>register_ir.rs</code>, <code>register_alloc.rs</code></td><td>IR de registros y asignación física.</td></tr>
+    <tr><td><code>codegen_reg.rs</code>, <code>stack_to_reg.rs</code></td><td>Generación x86-64 y paso de pila a registros.</td></tr>
   </table>
 
-  <h2>Cómo se integra</h2>
-  <p>Ocupa el centro del pipeline de compilación:</p>
-  <pre><code>AST → (IrConstructor) → IR SSA → (IrOptimizer) → IR optimizado → (IrToBytecode) → Bytecode</code></pre>
-  <p>El <code>IrBuilder</code> es la interfaz que <code>ir_constructor.rs</code> usa para bajar el AST a IR; <code>ir_ssa.rs</code> enriquece este IR con dominadores y φ-nodes; y <code>ir_to_bytecode.rs</code> lo consume para emitir opcodes.</p>
-
-  <div class="info"><strong>SSA:</strong> El beneficio principal es que cada <code>ValueId</code> corresponde a una única definición estática, lo que hace los análisis de alcance (liveness, dominancia) triviales y habilita optimizaciones que son difíciles en una representación mutante.</div>
-
-  <div class="warning"><strong>Nota:</strong> Muchas variantes de <code>Inst</code> (objetos, arrays, saltos en terminadores) existen en la enumeración pero el constructor y el conversor a bytecode aún no las emiten completamente; están marcadas con <code>#![allow(dead_code)]</code>.</div>
+  <h2>Paridad AST vs IR</h2>
+  <p>Los dos caminos deben producir la misma salida. <code>compilar_pipeline_completa_desde_ir</code> fuerza IR y <code>…_desde_ast</code> fuerza AST; los tests comparan ambos y el benchmark mide la diferencia.</p>
 </Layout>

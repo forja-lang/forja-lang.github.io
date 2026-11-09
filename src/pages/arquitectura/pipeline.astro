@@ -5,211 +5,85 @@ import Layout from '../../layouts/Layout.astro';
 <Layout title="Pipeline de compilación — Forja">
   <h1>Pipeline de compilación</h1>
 
-  <p>Forja tiene un pipeline de <strong>10+ fases</strong> que transforma código fuente <code>.fa</code> en código Rust, bytecode ejecutable (para 2 VMs), assembly nativo, LLVM IR, o ejecutables autónomos.</p>
+  <p>El compilador está partido en <strong>crates por fase</strong>, no en archivos sueltos. Cada crate tiene una responsabilidad y una dirección de dependencia fija: nada de una capa inferior puede depender de una superior (<code>tests/frontera_crates.rs</code> lo verifica).</p>
 
-  <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-shuffle"/></svg> Flujo completo del pipeline</span></div>
+  <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-shuffle"/></svg> Flujo por crate</span></div>
   <pre class="mermaid">
 flowchart TB
-    subgraph SRC["Código Fuente"]
-        S(["`**source.fa**`"])
+    S(["`**código .fa**`"])
+    subgraph FRONT["frontend"]
+        SY(["`**forja-syntax**
+            tokens · lexer · parser · AST`"])
+        TY(["`**forja-types**
+            tipos · préstamos · inferencia`"])
+        HIR(["`**forja-hir**
+            DefId · módulos · desugar`"])
     end
-    subgraph LEX["FASE 1 · Lexer"]
-        L(["`**Lexer** lexer.rs
-            texto → tokens`"])
+    subgraph MEDIO["medio"]
+        IR(["`**forja-ir**
+            SSA · optimizador · registros`"])
+        BC(["`**forja-bytecode**
+            opcodes · contratos · .fbc`"])
     end
-    subgraph PAR["FASES 2-3 · Parser"]
-        P(["`**Parser** parser.rs
-            tokens → AST
-            _recursive descent_`"])
+    subgraph EJEC["ejecución"]
+        VM(["`**forja-vm**
+            vm_fast · JIT tiered · PGO`"])
+        RT(["`**forja-runtime**
+            GC · heap · trait Host`"])
+        NAT(["`**forja-native**
+            crypto · red · sqlite · ffi`"])
     end
-    subgraph SEM["FASE 4 · Semántica"]
-        TC(["`**Type Checker**
-            semantics.rs
-            inferencia de tipos`"])
-        BC(["`**Borrow Checker**
-            semantics.rs
-            ownership · scoping`"])
-    end
-    subgraph OPT["FASE 4c · Optimización"]
-        O(["`**Optimizer** optimizer.rs
-            constant folding
-            dead code elimination`"])
-    end
-    subgraph GEN["FASE 5 · Generación"]
-        TR(["`**Transpilador**
-            transpiler.rs
-            Forja → Rust`"])
-        BG(["`**Bytecode**
-            bytecode.rs
-            AST → Opcodes`"])
-        UO(["`**Uops**
-            uops.rs
-            micro-opcodes`"])
-        AS(["`**Compilador ASM**
-            compiler_asm.rs
-            Forja → Assembly`"])
-    end
-    subgraph VM["FASE 6 · Ejecución"]
-        V3(["`**VM v3 DT**
-            vm_jit.rs
-            direct threading`"])
-        V5(["`**VM v5 Fast**
-            vm_fast.rs
-            NaN tagging`"])
-        J(["`**NativeJIT**
-            jit.rs + jit_engine.rs
-            código máquina`"])
-        G(["`**gcc -O2** → .exe`"])
-    end
-    subgraph DIST["FASE 7 · Distribución"]
-        A(["`**AOT + Selfrun**
-            aot.rs + selfrun.rs
-            .exe autónomo`"])
-        W(["`**WASM**
-            forja-wasm
-            playground web`"])
-    end
-
-    S --> L --> P --> TC --> BC --> O
-    O --> TR & BG & AS
-    BG --> UO
-    UO --> V3 & V5
-    V5 --> J
-    AS --> G --> A
-    J --> A --> W
-
-    TR -.-> R(["`Rust (.rs)`"])
-    UO -.-> B(["`Bytecode (.fbc)`"])
-    AS -.-> Sa(["`Assembly (.s)`"])
-    G -.-> E(["`Ejecutable (.exe)`"])
-    W -.-> Pg(["`WebAssembly`"])
-
-    classDef src fill:#2d2d3d,stroke:#7c7c9e,color:#fff
-    classDef lx fill:#1a3a5c,stroke:#4a8ccf,color:#e0e0e0
-    classDef pr fill:#2d5a1e,stroke:#5cb84a,color:#e0e0e0
-    classDef sm fill:#5a2d1e,stroke:#c8783a,color:#e0e0e0
-    classDef op fill:#3a2d5a,stroke:#8a5ac8,color:#e0e0e0
-    classDef gn fill:#1e3a3a,stroke:#3aa0a0,color:#e0e0e0
-    classDef vm fill:#3a1e3a,stroke:#c060c0,color:#e0e0e0
-    classDef ds fill:#2a2a1e,stroke:#a0a040,color:#e0e0e0
-    classDef ot fill:#333,stroke:#666,color:#999,stroke-dasharray:4 4
-
-    class S src; class L lx; class P pr; class TC,BC sm; class O op
-    class TR,BG,UO,AS gn; class V3,V5,J,G vm; class A,W ds
-    class R,B,Sa,E,Pg ot
+    S --> SY --> TY --> HIR --> IR --> BC --> VM
+    VM --> RT
+    VM --> NAT
   </pre>
 
-  <h2>Rutas según el comando</h2>
+  <h2>Orden real de las fases</h2>
+  <ol>
+    <li><strong>Análisis</strong> — <code>forja-syntax</code> tokeniza, parsea y arma el AST con spans de <code>forja-span</code> y diagnósticos de <code>forja-errors</code>.</li>
+    <li><strong>Semántica</strong> — <code>forja-types</code> chequea tipos, infiere, valida préstamos y exhaustividad de <code>coincidir</code>.</li>
+    <li><strong>HIR</strong> — <code>forja-hir</code> da identidad a cada declaración (<code>DefId</code>), resuelve <code>modulo.item</code> y desazucara.</li>
+    <li><strong>IR</strong> — <code>forja-ir</code> baja a SSA, corre el optimizador (plegado, DCE, CSE, inlining, <em>loop unswitch</em>) y asigna registros.</li>
+    <li><strong>Bytecode</strong> — <code>forja-bytecode</code> emite opcodes (y micro-opcodes), valida contratos y serializa.</li>
+    <li><strong>Ejecución</strong> — <code>forja-vm</code> interpreta con <em>ForjaFast</em> o compila en caliente con el JIT tiered, sobre <code>forja-runtime</code> (GC, heap) y <code>forja-native</code> (primitivas del sistema).</li>
+  </ol>
 
-  <pre class="mermaid">
-flowchart LR
-    C1["`**forja run**`"] --> R1["Lexer → Parser → TC → BC → Opt → Bytecode → Uops → **ForjaFast v5**"]
-    C2["`**forja build**`"] --> R2["Lexer → Parser → TC → BC → Opt → Bytecode → **AOT + Selfrun** → .exe"]
-    C3["`**forja build-asm**`"] --> R3["Lexer → Parser → **Compiler ASM** → .s → gcc −O2 → .exe"]
-    C4["`**forja .fa**`"] --> R4["Lexer → Parser → TC → BC → Opt → **Transpilador** → Rust (.rs)"]
-    C5["`**forja repl**`"] --> R5["Lexer → Parser → Bytecode → **ForjaFast**"]
-    C6["`**forja fmt**`"] --> R6["Lexer → Parser → **Formatter**"]
-    C7["`**forja diagrama**`"] --> R7["Lexer → Parser → **DiagramGenerator** → HTML"]
+  <h2>Entrypoints canónicos</h2>
+  <p>La API pública vive en el crate <code>forja</code> (<code>src/lib.rs</code>) y hay <strong>un solo</strong> pipeline de bytecode; las variantes sólo cambian cómo se resuelven imports y qué motor de emisión se usa.</p>
+  <table>
+    <tr><th>Función</th><th>Uso</th></tr>
+    <tr><td><code>compilar_pipeline_completa(source)</code></td><td>Source plano sin <code>importar</code> → <code>(bytecode, contratos)</code>.</td></tr>
+    <tr><td><code>compilar_pipeline_completa_desde(source, raíz)</code></td><td>Resuelve <code>importar</code> desde un directorio e inlina módulos.</td></tr>
+    <tr><td><code>compilar_pipeline_completa_desde_ir(...)</code></td><td>Fuerza la ruta IR en todos los constructos (sin fallback al AST).</td></tr>
+    <tr><td><code>compilar_pipeline_completa_desde_ast(...)</code></td><td>Fuerza el backend AST: base de paridad y benchmark AST vs IR.</td></tr>
+    <tr><td><code>ejecutar*</code> / <code>ejecutar_vm</code> / <code>ejecutar_jit</code></td><td>Compilan y corren en la VM, en el JIT o en el JIT con fallback.</td></tr>
+    <tr><td><code>transpilar_a_rust</code></td><td>Ruta independiente: Forja → Rust, sin bytecode.</td></tr>
+  </table>
 
-    classDef cmd fill:#1a1a2e,stroke:#4a4a8f,color:#fff
-    classDef rt fill:#1e3a2e,stroke:#3aa060,color:#e0e0e0
-    class C1,C2,C3,C4,C5,C6,C7 cmd
-    class R1,R2,R3,R4,R5,R6,R7 rt
-  </pre>
+  <h2>Salidas</h2>
+  <ul>
+    <li><strong>Bytecode</strong> → VM <em>ForjaFast</em> o JIT tiered.</li>
+    <li><strong>AOT</strong> → ejecutable autónomo con bytecode incrustado (<a href="/arquitectura/aot/">driver + selfrun</a>).</li>
+    <li><strong>Ensamblador</strong> x86-64/ARM64 (<a href="/arquitectura/asm/">compiler_asm</a>) y <strong>LLVM IR</strong> (<a href="/arquitectura/llvm/">backend_llvm</a>).</li>
+    <li><strong>Rust</strong> (<a href="/arquitectura/transpiler/">transpiler</a>), <strong>WASM</strong> y <strong>Android</strong>.</li>
+  </ul>
 
-  <h2>Fases del pipeline</h2>
-
-  <pre class="mermaid">
-flowchart TB
-    F1["1 · Lexer · lexer.rs · texto → Vec&lt;Token&gt;"]
-    F2["2-3 · Parser · parser.rs · Vec&lt;Token&gt; → Programa (AST)"]
-    F4A["4a · Type Checker · semantics.rs · inferencia de tipos"]
-    F4B["4b · Borrow Checker · semantics.rs · ownership · scoping"]
-    F4C["4c · Optimizer · optimizer.rs · constant folding + DCE"]
-    F5A["5a · Transpilador · transpiler.rs · AST → Rust (.rs)"]
-    F5B["5b · Bytecode · bytecode.rs + uops.rs · AST → Opcodes → Uops"]
-    F5D["5d · Assembly · compiler_asm.rs · AST → .s (x86-64 / ARM64)"]
-    F6A["6a · VMs · vm_jit.rs / vm_fast.rs · bytecode → Output"]
-    F6B["6b · JIT Engine · jit_engine.rs + jit.rs · código máquina"]
-    F7["7 · AOT + Selfrun · aot.rs + selfrun.rs · .exe autónomo"]
-
-    F1 --> F2 --> F4A --> F4B --> F4C
-    F4C --> F5A & F5B & F5D
-    F5B --> F6A & F6B
-    F6A & F6B --> F7
-
-    classDef ph fill:#1a2a3a,stroke:#4a7a9f,color:#e0e0e0
-    class F1,F2,F4A,F4B,F4C,F5A,F5B,F5D,F6A,F6B,F7 ph
-  </pre>
-
-  <h2>Los 60+ módulos del proyecto</h2>
-
-  <div class="feature-grid">
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-target"/></svg></span><h4>main.rs</h4><p>CLI — 20+ comandos, punto de entrada</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-library"/></svg></span><h4>lib.rs</h4><p>API pública: compilar(), ejecutar()</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-case-sensitive"/></svg></span><h4>token.rs</h4><p>Definición de tokens del lenguaje</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-book-open"/></svg></span><h4>lexer.rs</h4><p>Tokenizador (texto → tokens)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-tree-pine"/></svg></span><h4>ast.rs</h4><p>AST definitions (nodos del árbol)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-wrench"/></svg></span><h4>parser.rs</h4><p>Parsing recursivo descendente</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-ban"/></svg></span><h4>error.rs</h4><p>Sistema de errores educativo + JSON</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg></span><h4>semantics.rs</h4><p>Type Checker + Borrow Checker</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-settings"/></svg></span><h4>monomorph.rs</h4><p>Monomorfización de genéricos</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-box"/></svg></span><h4>transpiler.rs</h4><p>Forja → Rust (código compilable)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg></span><h4>compiler_asm.rs</h4><p>Forja → Assembly (3413 líneas)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg></span><h4>backend_llvm/legacy.rs</h4><p>Forja → LLVM IR</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-shuffle"/></svg></span><h4>ir.rs / ir_ssa.rs</h4><p>Mid-level IR en SSA con φ-nodes</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-shuffle"/></svg></span><h4>ir_constructor.rs</h4><p>AST → IR SSA</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-shuffle"/></svg></span><h4>ir_to_bytecode.rs</h4><p>IR SSA → bytecode</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-app-window"/></svg></span><h4>stack_to_reg.rs</h4><p>Stack → registros virtuales</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-app-window"/></svg></span><h4>register_ir.rs</h4><p>IR de registros + live intervals</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-app-window"/></svg></span><h4>register_alloc.rs</h4><p>Linear scan + spill</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-app-window"/></svg></span><h4>codegen_reg.rs</h4><p>Generación x86-64 con REX</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-save"/></svg></span><h4>bytecode.rs</h4><p>Generación bytecode (5107 líneas)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-microscope"/></svg></span><h4>uops.rs</h4><p>Micro-opcodes (832 líneas)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg></span><h4>vm_jit.rs v3 DT</h4><p>Direct Threading (1570 líneas)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-rocket"/></svg></span><h4>vm_fast.rs v5 <svg class="ico" aria-hidden="true"><use href="#i-trophy"/></svg></h4><p>NaN tagging, producción (8694 líneas)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-wind"/></svg></span><h4>gc.rs / gc_intrinsics.rs</h4><p>GC generacional + safe points</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-brick-wall"/></svg></span><h4>arena.rs / shape.rs</h4><p>Arena allocator + shapes de objetos</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg></span><h4>jit.rs</h4><p>NativeJIT x86-64 (20+ opcodes)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-shuffle"/></svg></span><h4>jit_engine.rs</h4><p>Orquestador JIT + fallback</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-signal"/></svg></span><h4>jit_tiered.rs</h4><p>JIT tiered + OSR + deopt</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-trending-up"/></svg></span><h4>pgo.rs</h4><p>Optimización guiada por perfiles</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-save"/></svg></span><h4>incremental_cache.rs</h4><p>Cache de compilación incremental</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-ruler"/></svg></span><h4>optimizer.rs</h4><p>Constant folding + DCE (2743 líneas)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-palette"/></svg></span><h4>formatter.rs</h4><p>Formateador de código</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-bar-chart-3"/></svg></span><h4>diagrama.rs</h4><p>Diagramas HTML del AST</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-message-circle"/></svg></span><h4>repl.rs</h4><p>REPL interactivo</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-package"/></svg></span><h4>aot.rs</h4><p>Compilador AOT (.exe autónomo)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-person-standing"/></svg></span><h4>selfrun.rs</h4><p>Bytecode embed + auto-ejecución</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-puzzle"/></svg></span><h4>module.rs</h4><p>Resolvedor módulos (+ anti path traversal)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-clipboard-list"/></svg></span><h4>prelude.rs</h4><p>Prelude del lenguaje</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg></span><h4>ffi.rs</h4><p>Llamadas a librerías nativas (C)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-package"/></svg></span><h4>package_resolver.rs</h4><p>Resolución de paquetes</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-settings"/></svg></span><h4>package_config.rs</h4><p>Configuración forja.json</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-trending-up"/></svg></span><h4>fprofiler.rs</h4><p>Profiler integrado</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-monitor"/></svg></span><h4>forja_lsp.rs</h4><p>Servidor LSP + VSCode</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg></span><h4>forja-wasm</h4><p>Bindings WASM para playground</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-image"/></svg></span><h4>forja-wasm-gui</h4><p>GUI en Canvas 2D (WASM)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-bot"/></svg></span><h4>forja-android-rt</h4><p>VM Forja en Android (JNI)</p></div>
-    <div class="feature-card"><span class="icon"><svg class="ico" aria-hidden="true"><use href="#i-image"/></svg></span><h4>forja-gui-rt</h4><p>GUI nativa (Xilem)</p></div>
-  </div>
-
-  <h2>API pública (lib.rs)</h2>
-
-  <p>Estas son las funciones principales que expone la biblioteca para usar Forja desde Rust:</p>
-
-  <div class="code-block-wrapper">
-    <div class="code-header"><span><svg class="ico" aria-hidden="true"><use href="#i-file"/></svg> API de compilación y ejecución</span></div>
-    <pre><code><span class="co">/// Compila .fa → código Rust (pipeline completo con Optimizer)</span>
-<span class="kw">pub fn</span> compilar(source: &str) -&gt; Result&lt;String, Vec&lt;ErrorForja&gt;&gt;;
-
-<span class="co">/// Compila y ejecuta código Forja en ForjaFast v5 (VM producción)</span>
-<span class="kw">pub fn</span> ejecutar(source: &str) -&gt; Result&lt;Vec&lt;String&gt;, String&gt;;
-
-<span class="co">/// Compila y ejecuta con JIT Nativo (x86-64), fallback a ForjaFast</span>
-<span class="kw">pub fn</span> ejecutar_jit(source: &str) -&gt; Result&lt;Vec&lt;String&gt;, String&gt;;</code></pre>
-  </div>
-
-  <p>La función <code>compilar()</code> ejecuta: Lexer → Parser → Type Checker → Borrow Checker → Optimizer → DCE → Transpilador.<br>
-  La función <code>ejecutar()</code> ejecuta: Lexer → Parser → Type Checker → Optimizer → DCE → Bytecode Generator → optimizar_indices → fusionar_opcodes → ForjaFast v5.</p>
+  <h2>Crates del compilador</h2>
+  <p>Todos son miembros del workspace y se compilan en orden de dependencia. <code>forja-syntax</code> es submódulo (lo consume <code>forja-gui-rt</code>); el resto vive en el árbol.</p>
+  <table>
+    <tr><th>Crate</th><th>Rol</th></tr>
+    <tr><td><code>forja-span</code> / <code>forja-errors</code></td><td>Spans, source map y diagnósticos en español.</td></tr>
+    <tr><td><code>forja-session</code></td><td>Configuración (<code>forja.yaml</code>) y sesión de compilación.</td></tr>
+    <tr><td><code>forja-syntax</code></td><td>Frontend: tokens, lexer, parser, AST.</td></tr>
+    <tr><td><code>forja-types</code></td><td>Tipos, préstamos e inferencia.</td></tr>
+    <tr><td><code>forja-hir</code></td><td>HIR mínimo: <code>DefId</code>, módulos, prelude.</td></tr>
+    <tr><td><code>forja-ir</code></td><td>IR SSA, optimizador y bajada a registros.</td></tr>
+    <tr><td><code>forja-bytecode</code></td><td>Opcodes, micro-opcodes, contratos y serialización.</td></tr>
+    <tr><td><code>forja-runtime</code></td><td>GC, heap, descriptores de clase y trait <code>Host</code>.</td></tr>
+    <tr><td><code>forja-vm</code></td><td>Intérprete ForjaFast, JIT tiered, PGO.</td></tr>
+    <tr><td><code>forja-native</code></td><td>Primitivas del sistema (crypto, red, sqlite, ffi).</td></tr>
+    <tr><td><code>forja-driver</code></td><td>Política del pipeline, caché incremental y AOT.</td></tr>
+    <tr><td><code>forja-registry</code></td><td>Paquetes, registry remoto y stdlib embebida.</td></tr>
+    <tr><td><code>forja-fmt</code> / <code>forja-lint</code></td><td>Formateador idempotente y linter.</td></tr>
+  </table>
 </Layout>

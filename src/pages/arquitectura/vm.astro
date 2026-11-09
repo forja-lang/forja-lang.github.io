@@ -1,38 +1,35 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 ---
-<Layout title="VM Original (vm.rs) — Forja">
-  <h1>Máquina Virtual Original (v1) — Removida</h1>
-  <p><strong>Archivo:</strong> <code>src/vm.rs</code> (eliminado en 0.9.0)</p>
 
-  <div class="warning"><strong><svg class="ico" aria-hidden="true"><use href="#i-triangle-alert"/></svg> Removida en la versión 0.9.0:</strong> La VM original (<code>ForjaVM</code>) fue eliminada del código. ForjaFast (v5) es ahora la única VM de interpretación junto con la VM Direct Threading (<code>vm_jit.rs</code>). Esta página se conserva como referencia histórica de su diseño.</div>
+<Layout title="forja-vm — ForjaFast y JIT tiered — Forja">
+  <h1>forja-vm — ForjaFast, JIT tiered y PGO</h1>
+  <p><strong>Crate:</strong> <code>compiler/forja-vm</code> · <strong>Depende de:</strong> casi todo el compilador (syntax, types, hir, ir, bytecode, runtime, native, registry)</p>
 
-  <h2>¿Por qué existía?</h2>
-  <p>Era la <strong>primera generaci&oacute;n</strong> de m&aacute;quina virtual de Forja, dise&ntilde;ada como un int&eacute;rprete stack-based simple y did&aacute;ctico. Su prop&oacute;sito era servir como implementaci&oacute;n de referencia y para programas peque&ntilde;os donde el rendimiento no es cr&iacute;tico.</p>
-
-  <h2>Dise&ntilde;o general</h2>
-  <p>La VM original usaba <code>struct ForjaVM</code> con los siguientes componentes:</p>
-
+  <h2>Los dos motores</h2>
   <table>
-    <tr><th>Campo</th><th>Descripci&oacute;n</th></tr>
-    <tr><td><code>pc: usize</code></td><td>Contador de programa (puntero a la siguiente opcode)</td></tr>
-    <tr><td><code>stack: Vec&lt;Valor></code></td><td>Pila de valores operandos (tipos din&aacute;micos v&iacute;a enum)</td></tr>
-    <tr><td><code>globals: HashMap&lt;String, Valor></code></td><td>Variables globales accesibles por nombre</td></tr>
-    <tr><td><code>locals: Vec&lt;Valor></code></td><td>Variables locales por &iacute;ndice (acceso O(1))</td></tr>
-    <tr><td><code>functions: HashMap&lt;String, Vec&lt;Opcode>></code></td><td>Tabla de funciones definidas por el usuario</td></tr>
-    <tr><td><code>builtins: HashMap&lt;BuiltinKind, fn(&mut ForjaVM, usize)></code></td><td>Despacho de built-ins</td></tr>
+    <tr><th>Motor</th><th>Cómo funciona</th></tr>
+    <tr><td><strong>ForjaFast</strong> (<code>vm_fast/</code>)</td><td>Intérprete de bytecode con <em>NaN tagging</em>, quickening y opcodes fusionados. Es el motor por defecto.</td></tr>
+    <tr><td><strong>JIT tiered</strong> (<code>jit_tiered.rs</code>)</td><td>Compila a código máquina x86-64 las funciones calientes y cae a ForjaFast si no puede.</td></tr>
+  </table>
+  <p>La VM original <em>v1</em> se retiró en 0.9.0: hoy sólo existen estos dos motores.</p>
+
+  <h2>Mapa de módulos</h2>
+  <p>Todos los archivos de esta tabla están en <code>compiler/forja-vm/src/</code>.</p>
+  <table>
+    <tr><th>Módulo</th><th>Responsabilidad</th></tr>
+    <tr><td><code>vm_fast/mod.rs</code></td><td>Estado del intérprete y despacho principal.</td></tr>
+    <tr><td><code>vm_fast/ejecucion*.rs</code></td><td>Bucle de ejecución, quickening y micro-opcodes.</td></tr>
+    <tr><td><code>vm_fast/builtins.rs</code></td><td>Built-ins del lenguaje (<code>escribir</code>, <code>leer</code>, …).</td></tr>
+    <tr><td><code>vm_fast/ops_*.rs</code></td><td>Semántica por familia: aritmética, float, decimal exacto, colecciones, objetos, métodos, E/S, contratos, concurrencia y sockets.</td></tr>
+    <tr><td><code>vm_fast/gc_bridge.rs</code></td><td>Puente con el GC de <code>forja-runtime</code>.</td></tr>
+    <tr><td><code>jit_tiered.rs</code></td><td>Umbrales de calentamiento, emisión de código y fallback.</td></tr>
+    <tr><td><code>pgo.rs</code></td><td>Perfil de ejecución para optimizar en la segunda pasada.</td></tr>
+    <tr><td><code>module.rs</code></td><td>Resolución de módulos en runtime.</td></tr>
+    <tr><td><code>host_impl.rs</code></td><td>Implementación del trait <code>Host</code> del runtime.</td></tr>
+    <tr><td><code>natives_vm/</code></td><td>Nativas que necesitan el intérprete (hot reload).</td></tr>
   </table>
 
-  <h2>Loop principal de ejecuci&oacute;n</h2>
-  <p>La funci&oacute;n <code>ejecutar</code> iteraba sobre el bytecode con un bucle <code>while</code>, usaba <code>match</code> para cada <code>Opcode</code> y actualizaba la pila y el contador del programa.</p>
-
-  <h2>Migración a ForjaFast</h2>
-  <p>Al eliminar esta VM, las siguientes funciones pasaron a usar <code>ForjaFast</code>:</p>
-  <ul>
-    <li><code>ejecutar_vm()</code> en <code>lib.rs</code> — ahora usa ForjaFast</li>
-    <li>La rama por defecto del REPL (<code>repl.rs</code>) — ahora usa ForjaFast</li>
-    <li><code>selfrun.rs</code> (runtime AOT) — ahora siempre usa ForjaFast</li>
-    <li><code>homogeneizar_exacto</code> se movió a <code>vm_jit.rs</code> (su único consumidor)</li>
-    <li>Se eliminó la opción <code>--vm vm</code> (hoy la clave <code>motor</code> de <code>forja.yaml</code>) y la entrada "VM Original" del benchmark <code>medir</code></li>
-  </ul>
+  <h2>Relación con el resto</h2>
+  <p>Consume <a href="/arquitectura/bytecode/">bytecode</a> y <a href="/arquitectura/runtime/">runtime</a>; delega las primitivas del sistema en <a href="/arquitectura/native/">forja-native</a>. El modo <code>motor: rapido | jit | todas</code> de <code>forja.yaml</code> elige qué motor corre.</p>
 </Layout>

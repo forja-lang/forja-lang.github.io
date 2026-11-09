@@ -1,124 +1,31 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 ---
-<Layout title="Bytecode (bytecode.rs) — Forja">
-  <h1>Bytecode y Opcodes de la Máquina Virtual de Forja</h1>
-  <p><strong>Archivo:</strong> <code>src/bytecode.rs</code> (5107 líneas)</p>
+
+<Layout title="forja-bytecode — opcodes y contratos — Forja">
+  <h1>forja-bytecode — opcodes, micro-opcodes y contratos</h1>
+  <p><strong>Crate:</strong> <code>compiler/forja-bytecode</code> · <strong>Depende de:</strong> <code>forja-syntax</code>, <code>forja-types</code></p>
 
   <h2>¿Por qué existe?</h2>
-  <p>Define el <strong>lenguaje intermedio (IR)</strong> entre el compilador y la máquina virtual. El bytecode es una secuencia de opcodes stack-based que la VM interpreta para ejecutar programas Forja. Separar el bytecode de la VM permite:</p>
+  <p>Define el formato de ejecución y es la frontera entre el compilador y los motores. Todo lo que la VM y el JIT ejecutan está descripto acá, incluida la tabla de símbolos y la tabla de contratos de Design by Contract.</p>
+
+  <h2>Mapa de módulos</h2>
+  <table>
+    <tr><th>Módulo</th><th>Responsabilidad</th></tr>
+    <tr><td><code>opcode.rs</code></td><td>Conjunto de opcodes y su codificación.</td></tr>
+    <tr><td><code>uops.rs</code></td><td>Micro-opcodes y fusión de secuencias calientes.</td></tr>
+    <tr><td><code>gen/</code></td><td>Generación: <code>declaraciones</code>, <code>expresiones</code>, <code>tipos</code>, <code>postcondiciones</code> y el orquestador <code>generacion</code>.</td></tr>
+    <tr><td><code>contratos.rs</code></td><td><code>ContratoBytecode</code> y <code>TipoContrato</code> (<code>requiere</code>/<code>asegura</code>/invariantes).</td></tr>
+    <tr><td><code>symbol_table.rs</code></td><td>Símbolos, funciones y nativas por índice.</td></tr>
+    <tr><td><code>metadata.rs</code></td><td>Metadatos del módulo compilado.</td></tr>
+    <tr><td><code>postproceso.rs</code></td><td>Pasadas finales sobre el flujo emitido.</td></tr>
+    <tr><td><code>serialize.rs</code></td><td>Serialización binaria (<code>.fbc</code>) y deserialización.</td></tr>
+  </table>
+
+  <h2>Por qué importa</h2>
   <ul>
-    <li>Múltiples backends de ejecución (VM Fast, VM Direct Threading, JIT nativo, compilador AOT)</li>
-    <li>Optimizaciones en el bytecode independientes de la VM (fusionado de opcodes, especialización adaptativa)</li>
-    <li>Portabilidad: el mismo bytecode puede ejecutarse en distintas arquitecturas</li>
+    <li><strong>Estable</strong>: el bytecode serializado es lo que se incrusta en los ejecutables AOT y en el modo autónomo.</li>
+    <li><strong>Compartido</strong>: lo consumen <a href="/arquitectura/ir/">forja-ir</a>, <a href="/arquitectura/vm/">forja-vm</a>, <a href="/arquitectura/native/">forja-native</a>, <a href="/arquitectura/runtime/">forja-runtime</a>, <a href="/arquitectura/driver/">forja-driver</a> y <a href="/arquitectura/registry/">forja-registry</a>.</li>
+    <li><strong>Contratos</strong>: las postcondiciones y los contratos viajan con el módulo, no con el fuente.</li>
   </ul>
-
-  <h2>Estructuras clave</h2>
-
-  <h3><code>BuiltinKind</code> — Funciones built-in del lenguaje</h3>
-  <p>Enum que identifica las funciones predefinidas de Forja mediante un discriminante numérico, evitando hash lookups por nombre en tiempo de ejecución:</p>
-  <table>
-    <tr><th>Variante</th><th>Descripción</th></tr>
-    <tr><td><code>Escribir</code></td><td>Imprime un valor en consola</td></tr>
-    <tr><td><code>Longitud</code></td><td>Retorna la longitud de un string/arreglo</td></tr>
-    <tr><td><code>Len</code></td><td>Alias de Longitud</td></tr>
-    <tr><td><code>Tipo</code></td><td>Retorna el tipo de un valor como string</td></tr>
-    <tr><td><code>ATexto</code></td><td>Convierte un valor a su representación textual</td></tr>
-    <tr><td><code>EsNumero</code></td><td>Verifica si un valor es n&uacute;mero</td></tr>
-    <tr><td><code>EsTexto</code></td><td>Verifica si un valor es texto</td></tr>
-    <tr><td><code>Empujar</code></td><td>Empuja un elemento a un arreglo/mapa</td></tr>
-    <tr><td><code>Obtener</code></td><td>Obtiene un elemento por &iacute;ndice/clave</td></tr>
-    <tr><td><code>Remover</code></td><td>Elimina un elemento por &iacute;ndice/clave</td></tr>
-    <tr><td><code>Nuevo</code></td><td>Constructor de clases</td></tr>
-  </table>
-
-  <h3><code>Opcode</code> — Códigos de operación de la VM</h3>
-  <p>Enum principal con todas las instrucciones que la VM puede ejecutar. Organizado en categorías:</p>
-
-  <h4>Gestión de pila</h4>
-  <table>
-    <tr><th>Opcode</th><th>Descripción</th></tr>
-    <tr><td><code>PushEntero(i64)</code></td><td>Empuja un entero al stack</td></tr>
-    <tr><td><code>PushDecimal(f64)</code></td><td>Empuja un flotante al stack</td></tr>
-    <tr><td><code>PushTexto(Arc&lt;str>)</code></td><td>Empuja un string (Arc-compildo) al stack</td></tr>
-    <tr><td><code>PushBooleano(bool)</code></td><td>Empuja un booleano al stack</td></tr>
-    <tr><td><code>PushNulo</code></td><td>Empuja <code>nulo</code> al stack</td></tr>
-    <tr><td><code>Pop</code></td><td>Elimina el tope del stack</td></tr>
-    <tr><td><code>Dup</code></td><td>Duplica el tope del stack</td></tr>
-  </table>
-
-  <h4>Pattern Matching (enum destructuring)</h4>
-  <table>
-    <tr><th>Opcode</th><th>Descripción</th></tr>
-    <tr><td><code>CheckTag(usize)</code></td><td>Verifica que el tag del enum en tope de pila sea igual al &iacute;ndice. Empuja booleano sin modificar la pila</td></tr>
-    <tr><td><code>ExtractField(usize)</code></td><td>Extrae el campo i-&eacute;simo de la variante en tope de pila. Reemplaza el objeto por el campo extra&iacute;do</td></tr>
-  </table>
-
-  <h4>Variables (por nombre — sistema original)</h4>
-  <table>
-    <tr><th>Opcode</th><th>Descripción</th></tr>
-    <tr><td><code>Load(Arc&lt;str>)</code></td><td>Carga una variable por nombre al stack</td></tr>
-    <tr><td><code>Store(Arc&lt;str>)</code></td><td>Almacena un valor del stack en una variable por nombre</td></tr>
-    <tr><td><code>Declare(Arc&lt;str>, bool)</code></td><td>Declara una nueva variable (nombre, mutable)</td></tr>
-  </table>
-
-  <h4>Variables (por &iacute;ndice — ultra r&aacute;pido, O(1))</h4>
-  <table>
-    <tr><th>Opcode</th><th>Descripción</th></tr>
-    <tr><td><code>LoadIdx(usize)</code></td><td>Carga variable por &iacute;ndice al stack</td></tr>
-    <tr><td><code>StoreIdx(usize)</code></td><td>Almacena valor del stack en variable por &iacute;ndice</td></tr>
-    <tr><td><code>DeclareIdx(usize, bool)</code></td><td>Declara variable por &iacute;ndice</td></tr>
-    <tr><td><code>DeclareIdxGlobal(usize, bool)</code></td><td>Declara variable global de m&oacute;dulo (persiste entre recargas)</td></tr>
-  </table>
-
-  <h4>Aritm&eacute;ticas gen&eacute;ricas</h4>
-  <p><code>Add</code>, <code>Sub</code>, <code>Mul</code>, <code>Div</code> — operan seg&uacute;n el tipo de los operandos en tiempo de ejecuci&oacute;n.</p>
-
-  <h4>Aritm&eacute;ticas especializadas (PEP 659)</h4>
-  <p>Versiones tipadas generadas por el sistema de quickening adaptativo:</p>
-  <p><code>AddInt</code>, <code>AddFloat</code>, <code>SubInt</code>, <code>SubFloat</code>, <code>MulInt</code>, <code>MulFloat</code>, <code>DivInt</code>, <code>DivFloat</code></p>
-
-  <h4>Comparaciones</h4>
-  <p><code>Igual</code>, <code>Diferente</code>, <code>Menor</code>, <code>Mayor</code>, <code>MenorIgual</code>, <code>MayorIgual</code> + variantes especializadas <code>IgualInt</code>, <code>MenorInt</code>, <code>MayorInt</code>, <code>IgualFloat</code>, <code>DiferenteFloat</code>, etc.</p>
-
-  <h4>L&oacute;gicas</h4>
-  <p><code>Y</code>, <code>O</code>, <code>No</code></p>
-
-  <h4>Saltos y control de flujo</h4>
-  <p><code>Jump(usize)</code>, <code>JumpSiFalso(usize)</code>, <code>Halt</code>, <code>Return</code>, <code>Call(Arc&lt;str>, usize)</code></p>
-
-  <h4>Funciones</h4>
-  <p><code>FunctionDef(Arc&lt;str>, Vec&lt;String>)</code> — Define una funci&oacute;n con nombre y lista de par&aacute;metros.</p>
-
-  <h4>Fusionados (Superinstructions)</h4>
-  <p>Opcodes compuestos que eliminan push/pop redundantes:</p>
-  <p><code>DeclareEnteroOp(usize, i64)</code>, <code>DeclareBooleanoOp(usize, bool)</code>, <code>StoreEnteroOp(usize, i64)</code>, <code>LoadAddInt(usize, i64)</code>, <code>LoadIdx2(usize, usize)</code>, <code>AddStoreFloat(usize)</code>, <code>FusedDivAdd(usize, usize, usize)</code>, <code>PushAddInt(i64)</code>, <code>LoadJumpSiFalso(usize, usize)</code> y m&aacute;s.</p>
-
-  <h4>AVX2 SIMD (experimental)</h4>
-  <p><code>AddPacked</code>, <code>SubPacked</code>, <code>MulPacked</code>, <code>DivPacked</code>, <code>ReduceAdd</code> — operaciones vectoriales empaquetadas.</p>
-
-  <h4>BigDecimal (Exacto)</h4>
-  <p><code>PushExacto(i128, u32)</code>, <code>AddExact</code>, <code>SubExact</code>, <code>MulExact</code>, <code>DivExact</code> — aritm&eacute;tica de precisi&oacute;n arbitraria.</p>
-
-  <h4>Design by Contract</h4>
-  <p><code>EntraPre</code>, <code>SalePost</code>, <code>ContratoInicio(String)</code>, <code>ContratoFin(String)</code> — marcan los l&iacute;mites de contratos en el bytecode.</p>
-
-  <h2>Generaci&oacute;n de bytecode</h2>
-  <p>El generador de bytecode recorre el AST y produce la secuencia de opcodes. Incluye:</p>
-  <ul>
-    <li><code>GeneradorBytecode</code>: Estructura principal que mantiene el estado durante la generaci&oacute;n</li>
-    <li><code>generar(&ast) -> Result&lt;Vec&lt;Opcode>></code>: Recorre el AST recursivamente generando opcodes</li>
-    <li><code>optimizar_indices(&bytecode) -> Vec&lt;Opcode></code>: Asigna &iacute;ndices &uacute;nicos globales a variables para acceso O(1)</li>
-    <li><code>fusionar_opcodes(&bytecode) -> Vec&lt;Opcode></code>: Fusiona patrones comunes (PushEntero + DeclareIdx --> DeclareEnteroOp)</li>
-  </ul>
-
-  <h2>Interpretaci&oacute;n del bytecode</h2>
-  <ol>
-    <li>Se crea un <code>Vec&lt;Opcode></code> con el bytecode generado.</li>
-    <li>La VM ejecuta un bucle <code>while pc &lt; bytecode.len()</code> que despacha cada opcode mediante <code>match</code>.</li>
-    <li>El stack es <code>Vec&lt;ValorFast></code> en ForjaFast (y <code>ValorDT</code> en la VM Direct Threading).</li>
-    <li>Variables por &iacute;ndice usan vectores pre‑alojados para acceso O(1).</li>
-    <li>Llamadas a built‑ins o funciones se delegan al dispatcher correspondiente.</li>
-    <li>Opcode‑fusion combina operaciones comunes para reducir sobrecarga.</li>
-  </ol>
 </Layout>

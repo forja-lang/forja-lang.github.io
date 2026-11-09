@@ -1,79 +1,34 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 ---
-<Layout title="CLI (main.rs) — Forja">
-  <h1>Interfaz de Línea de Comandos (CLI)</h1>
-  <p><strong>Archivo:</strong> <code>src/main.rs</code> · <strong>Configuración:</strong> <code>src/config.rs</code></p>
+
+<Layout title="CLI y configuración — Forja">
+  <h1>CLI, comandos y configuración</h1>
+  <p><strong>Archivos:</strong> <code>src/tools/forja-cli/src/</code> (<code>main.rs</code> + <code>commands/</code>), <code>src/config.rs</code>, <code>src/package_config.rs</code></p>
 
   <h2>¿Por qué existe?</h2>
-  <p>Es el punto de entrada del compilador Forja: ejecutar programas, compilar a ejecutable autónomo, generar assembly, medir, formatear, lintar, transpilar y acceder al REPL.</p>
+  <p>La CLI es un crate propio que sólo despacha comandos: no contiene lógica del compilador, la pide a <code>forja</code> y <code>forja-driver</code>. Cada comando vive en su archivo dentro de <code>commands/</code> (<code>run</code>, <code>aot</code>, <code>asm</code>, <code>bench</code>, <code>formato</code>, <code>pruebas</code>, <code>paquetes</code>, <code>highlight</code>, <code>learn</code>, <code>ayuda</code>, <code>consola</code>).</p>
 
-  <h2>Sin flags: todo se configura en <code>forja.yaml</code></h2>
-  <p>La CLI <strong>no acepta flags</strong> (<code>--x</code>). Cuando arranca, si el directorio actual no tiene <code>forja.yaml</code>, lo crea con <strong>todas</strong> las claves y sus valores por defecto. Cambiar el comportamiento es editar ese archivo. Los booleanos se escriben <code>verdadero</code>/<code>falso</code> y las opciones usan palabras del idioma (<code>rapido</code>, <code>maquina</code>, <code>ensamblador</code>, <code>nativo</code>, <code>detallado</code>, <code>depuracion</code>, <code>traza</code>):</p>
-  <pre><code># forja.yaml — se crea automáticamente
-motor: rapido              # rapido | vm | jit | todas
-destino: maquina           # maquina | ensamblador | nativo
-estricto: falso            # modo estricto de tipos y ownership
-contratos: verdadero       # requiere/asegura/invariantes
-pila: falso                # pila de llamadas en errores
-matematica_rapida: falso   # aritmética rápida
-perfil: ''                 # '' | recoger | usar
-recarga: falso             # recarga de módulos (destino: nativo)
-permitir_red: ''           # hosts del sandbox de red (coma)
-permitir_puertos: ''       # puertos del sandbox de red (coma)
-max_archivo_mb: 10         # límite del archivo fuente
-arquitectura: ''           # '' | x86_64-windows | x86_64-linux | arm64 | riscv64
-iteraciones: 100           # iteraciones de `medir`
-consola: falso             # consola visible en el .exe
-verificar_formato: falso   # `formatear` sólo verifica
-lint_estricto: falso       # `lint`: advertencias = errores
-nivel: ''                  # '' | detallado | depuracion | traza
-json: falso                # diagnósticos JSON
-color: verdadero           # color en la salida
-puerto_registry: 8787      # servidor del registry</code></pre>
-  <div class="info"><strong>Nota:</strong> el token del registry (<code>FORJA_REGISTRY_TOKEN</code>) y las rutas internas (<code>FORJA_ORIGINAL_EXE</code>) siguen por entorno porque son secretos o los pone el runtime, no el usuario.</div>
+  <h2>Sin flags: <code>forja.yaml</code></h2>
+  <p>Los comandos aceptan términos en español y el comportamiento se configura en <code>forja.yaml</code>. Si el archivo no existe, se crea con todas las claves y sus valores por defecto; si aparece un flag, la CLI avisa y sale con error. Claves relevantes: <code>motor</code>, <code>destino</code>, <code>estricto</code>, <code>contratos</code>, <code>arquitectura</code>, <code>permitir_red</code>, <code>nivel</code>, <code>json</code>.</p>
 
   <h2>Comandos</h2>
-  <pre><code><span class="cmd">forja</span> <span class="arg">&lt;archivo.fa&gt;</span>                       ejecutar directo
-<span class="cmd">forja</span> <span class="sub">ejecutar</span> <span class="arg">&lt;archivo.fa&gt;</span>
-<span class="cmd">forja</span> <span class="sub">compilar</span> <span class="arg">&lt;archivo.fa&gt;</span> <span class="arg">[salida]</span>     ejecutable autónomo
-<span class="cmd">forja</span> <span class="sub">asm</span> <span class="arg">&lt;archivo.fa&gt;</span> <span class="arg">[salida]</span>          assembly nativo
-<span class="cmd">forja</span> <span class="sub">medir</span> <span class="arg">&lt;archivo.fa&gt;</span>                 benchmark de VMs
-<span class="cmd">forja</span> <span class="sub">formatear</span> <span class="arg">&lt;ruta&gt;</span> <span class="arg">[salida]</span>
-<span class="cmd">forja</span> <span class="sub">transpilar</span> <span class="arg">&lt;archivo.fa&gt;</span> <span class="arg">[dir]</span>      proyecto Rust
-<span class="cmd">forja</span> <span class="sub">diagrama</span> <span class="arg">&lt;archivo.fa&gt;</span> <span class="arg">[salida]</span>
-<span class="cmd">forja</span> <span class="sub">documentar</span> <span class="arg">&lt;archivo.fa&gt;</span> <span class="arg">[salida]</span>
-<span class="cmd">forja</span> <span class="sub">lint</span> <span class="arg">&lt;ruta&gt;</span>
-<span class="cmd">forja</span> <span class="sub">test</span> <span class="arg">[archivo]</span>
-<span class="cmd">forja</span> <span class="sub">repl</span>
-<span class="cmd">forja</span> <span class="sub">nuevo</span> <span class="arg">&lt;nombre&gt;</span> · iniciar · add · remove · install
-<span class="cmd">forja</span> <span class="sub">publish</span> <span class="arg">[ruta]</span> · yank <span class="arg">&lt;paquete&gt;</span> <span class="arg">&lt;version&gt;</span>
-<span class="cmd">forja</span> <span class="sub">registry-serve</span> <span class="arg">[dir]</span> <span class="arg">[puerto]</span>
-<span class="cmd">forja</span> <span class="sub">aprender</span> · palabras · explicar <span class="arg">&lt;palabra&gt;</span> · colorear <span class="arg">&lt;archivo&gt;</span>
-<span class="cmd">forja</span> <span class="sub">version</span> · ayuda <span class="arg">[tema]</span></code></pre>
+  <table>
+    <tr><th>Comando</th><th>Qué hace</th></tr>
+    <tr><td><code>ejecutar</code> / <code>correr</code></td><td>Compila y corre en la VM o el JIT según <code>motor</code>.</td></tr>
+    <tr><td><code>compilar</code> / <code>construir</code></td><td>Ejecutable autónomo (<a href="/arquitectura/aot/">AOT</a>).</td></tr>
+    <tr><td><code>compilar-asm</code> / <code>asm</code></td><td>Ensamblador nativo (<a href="/arquitectura/asm/">ASM</a>).</td></tr>
+    <tr><td><code>transpilar</code></td><td>Proyecto Rust (<a href="/arquitectura/transpiler/">transpilador</a>).</td></tr>
+    <tr><td><code>interactivo</code> / <code>repl</code></td><td>Consola interactiva (<a href="/arquitectura/repl/">REPL</a>).</td></tr>
+    <tr><td><code>probar</code> / <code>test</code></td><td>Corre los módulos marcados con <code>@test</code>.</td></tr>
+    <tr><td><code>medir</code> / <code>benchmark</code></td><td>Compara motores y reporta tiempos.</td></tr>
+    <tr><td><code>formatear</code> / <code>fmt</code></td><td>Formatea (<a href="/arquitectura/fmt/">forja-fmt</a>).</td></tr>
+    <tr><td><code>lint</code></td><td>Advertencias del linter (<a href="/arquitectura/lint/">forja-lint</a>).</td></tr>
+    <tr><td><code>diagrama</code> / <code>grafico</code></td><td>Diagrama Mermaid del AST (<code>src/diagrama.rs</code>).</td></tr>
+    <tr><td><code>documentar</code> / <code>doc</code></td><td>Exporta los comentarios <code>///</code> a HTML.</td></tr>
+    <tr><td><code>colorear</code>, <code>nuevo</code>, <code>iniciar</code>, <code>aprender</code>, <code>explicar</code>, <code>palabras</code>, <code>ayuda</code></td><td>Utilidades de terminal, proyectos y aprendizaje.</td></tr>
+  </table>
 
-  <h2>¿Cómo funciona?</h2>
-  <ul>
-    <li>Al arrancar llama a <code>config::asegurar()</code> (crea <code>forja.yaml</code> con defaults si falta) y <code>config::recargar()</code>.</li>
-    <li>Parsea <strong>sólo</strong> el subcomando y sus argumentos posicionales; si aparece algo que empieza con <code>-</code>, avisa y sale con error.</li>
-    <li>Delega en los módulos correspondientes: <code>compiler_asm.rs</code>, <code>vm_fast</code>, <code>aot.rs</code>, <code>fprofiler.rs</code>, etc.</li>
-    <li>El manejo de errores es centralizado: <code>ErrorForja</code> se formatea (texto o JSON según <code>json: verdadero</code>) y define el código de salida.</li>
-  </ul>
-
-  <h2>Ejemplos</h2>
-  <pre><code><span class="cmd">forja</span> <span class="sub">ejemplos/01_hola.fa</span>
-<span class="cmd">forja</span> <span class="sub">compilar</span> ejemplos/01_hola.fa programa.exe
-
-# Cambiar de motor o de destino: editar forja.yaml
-#   motor: jit
-#   destino: ensamblador
-<span class="cmd">forja</span> <span class="sub">ejecutar</span> ejemplos/01_hola.fa
-
-# Otra arquitectura para asm
-#   arquitectura: arm64
-<span class="cmd">forja</span> <span class="sub">asm</span> ejemplos/01_hola.fa programa
-
-# Verificación de formato en CI
-#   verificar_formato: verdadero
-<span class="cmd">forja</span> <span class="sub">formatear</span> ejemplos</code></pre>
+  <h2>Proyectos</h2>
+  <p><code>forja.json</code> (<code>src/package_config.rs</code>) describe un proyecto: nombre, versión y dependencias. <code>forja.yaml</code> describe cómo compilarlo.</p>
 </Layout>

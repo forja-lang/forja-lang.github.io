@@ -1,159 +1,79 @@
-%% Forja Compilation Pipeline
-%% Render: mermaid-cli, GitHub markdown, or mermaid.live
-%% Usage:  mmdc -i docs/pipeline.mmd -o docs/pipeline.svg
+%% Pipeline de compilación de Forja — una fase por crate.
+%% Render: mmdc -i docs/pipeline.mmd -o docs/pipeline.svg
 
 ---
 title: Pipeline de Compilación — Forja (fa)
 ---
 
 %% ═══════════════════════════════════════════════════════════════
-%%   DIAGRAMA 1: FLUJO PRINCIPAL
+%%   DIAGRAMA 1: FLUJO PRINCIPAL (por crate)
 %% ═══════════════════════════════════════════════════════════════
 
 flowchart TD
-    subgraph Source["📄 Código Fuente"]
-        S(["`**source.fa** 🗒️
-            texto plano`"])
+    S(["`**código fuente .fa**`"])
+
+    subgraph FRONT["FRONTEND"]
+        SY(["`**forja-syntax**
+            compiler/forja-syntax
+            tokens · lexer · parser · AST`"])
+        TY(["`**forja-types**
+            compiler/forja-types
+            tipos · préstamos · inferencia`"])
+        HIR(["`**forja-hir**
+            compiler/forja-hir
+            DefId · módulos · desugar`"])
     end
 
-    subgraph F1["FASE 1 · Lexer"]
-        L(["`**Lexer**
-            📖 lexer.rs
-            texto → tokens`"])
+    subgraph MEDIO["MEDIO"]
+        IR(["`**forja-ir**
+            compiler/forja-ir
+            SSA · optimizador · registros`"])
+        BC(["`**forja-bytecode**
+            compiler/forja-bytecode
+            opcodes · uops · contratos`"])
     end
 
-    subgraph F2["FASES 2-3 · Parser"]
-        P(["`**Parser**
-            🔧 parser.rs
-            tokens → AST
-            _recursive descent_`"])
+    subgraph EJEC["EJECUCIÓN"]
+        VM(["`**forja-vm**
+            compiler/forja-vm
+            ForjaFast · JIT tiered · PGO`"])
+        RT(["`**forja-runtime**
+            compiler/forja-runtime
+            GC · heap · trait Host`"])
+        NAT(["`**forja-native**
+            compiler/forja-native
+            crypto · red · sqlite · ffi`"])
     end
 
-    subgraph F3["FASE 4 · Semántica"]
-        TC(["`**Type Checker**
-            🔍 semantics.rs
-            inferencia de tipos`"])
-        BC(["`**Borrow Checker**
-            🔍 semantics.rs
-            ownership · mutabilidad`"])
-    end
-
-    subgraph F4["FASE 4c · Optimización"]
-        OPT(["`**Optimizer**
-            📐 optimizer.rs
-            constant folding
-            dead code elimination`"])
-    end
-
-    subgraph F5["FASE 5 · Generación de Código"]
-        TR(["`**Transpilador**
-            🦀 transpiler.rs
-            Forja → Rust (.rs)`"])
-        BCG(["`**Bytecode Gen**
-            💾 bytecode.rs
-            AST → Opcodes`"])
-        UOP(["`**Uops**
-            🔬 uops.rs
-            micro-opcodes`"])
-        ASM(["`**Compilador ASM**
-            ⚡ compiler_asm.rs
-            Forja → Assembly
-            x86-64 / ARM64`"])
-        LLVM(["`**Compilador LLVM**
-            ⚡ compiler_llvm.rs
-            Forja → LLVM IR`"])
-    end
-
-    subgraph F6["FASE 6 · Ejecución"]
-        VM1(["`**VM v1**
-            ⚙️ vm.rs
-            stack-based`"])
-        VMJIT(["`**VM v3 DT**
-            ⚡ vm_jit.rs
-            direct threading`"])
-        VM5(["`**VM v5 Fast** 🏆
-            🚀 vm_fast.rs
-            NaN tagging · stack caching`"])
-        JIT(["`**NativeJIT**
-            🔥 jit.rs + jit_engine.rs
-            código máquina x86-64`"])
-        GCC(["`**gcc -O2**
-            ensamblador → .exe`"])
-    end
-
-    subgraph F7["FASE 7 · Distribución"]
-        AOT(["`**AOT + Selfrun**
-            📦 aot.rs + selfrun.rs
-            .exe autónomo`"])
-        WASM(["`**WASM**
-            🌐 forja-wasm
-            playground web`"])
-    end
-
-    S --> L
-    L --> P
-    P --> TC
-    TC --> BC
-    BC --> OPT
-
-    OPT --> TR
-    OPT --> BCG
-    OPT --> ASM
-    OPT --> LLVM
-
-    BCG --> UOP
-
-    UOP --> VM1
-    UOP --> VMJIT
-    UOP --> VM5
-    VM5 --> JIT
-
-    ASM --> GCC
-    GCC --> AOT
-
-    JIT --> AOT
-    AOT --> WASM
-
-    TR -.-> FIN_RUST(["`📄 código Rust (.rs)`"])
-    UOP -.-> FIN_FBC(["`💾 bytecode (.fbc)`"])
-    ASM -.-> FIN_ASM(["`📄 assembly (.s)`"])
-    GCC -.-> FIN_EXE(["`⚡ ejecutable (.exe)`"])
-    WASM -.-> FIN_WASM(["`🌐 WebAssembly / Playground`"])
+    S --> SY --> TY --> HIR --> IR --> BC --> VM
+    VM --- RT
+    VM --- NAT
 
     classDef source fill:#2d2d3d,stroke:#7c7c9e,color:#fff
-    classDef lexer fill:#1a3a5c,stroke:#4a8ccf,color:#e0e0e0
-    classDef parser fill:#2d5a1e,stroke:#5cb84a,color:#e0e0e0
-    classDef semantic fill:#5a2d1e,stroke:#c8783a,color:#e0e0e0
-    classDef opt fill:#3a2d5a,stroke:#8a5ac8,color:#e0e0e0
-    classDef generator fill:#1e3a3a,stroke:#3aa0a0,color:#e0e0e0
+    classDef front fill:#1a3a5c,stroke:#4a8ccf,color:#e0e0e0
+    classDef medio fill:#3a2d5a,stroke:#8a5ac8,color:#e0e0e0
     classDef ejec fill:#3a1e3a,stroke:#c060c0,color:#e0e0e0
-    classDef dist fill:#2a2a1e,stroke:#a0a040,color:#e0e0e0
-    classDef out fill:#333,stroke:#666,color:#999,stroke-dasharray:4 4
 
     class S source
-    class L lexer
-    class P parser
-    class TC,BC semantic
-    class OPT opt
-    class TR,BCG,UOP,ASM,LLVM generator
-    class VM1,VMJIT,VM5,JIT,GCC ejec
-    class AOT,WASM dist
-    class FIN_RUST,FIN_FBC,FIN_ASM,FIN_EXE,FIN_WASM out
+    class SY,TY,HIR front
+    class IR,BC medio
+    class VM,RT,NAT ejec
 
 %% ═══════════════════════════════════════════════════════════════
 %%   DIAGRAMA 2: RUTAS POR COMANDO
 %% ═══════════════════════════════════════════════════════════════
 
 flowchart LR
-    subgraph RUTAS["RUTAS POR COMANDO CLI"]
-        C1["`**forja run**`"] --> R1["Lexer → Parser → TC → BC → Opt → Bytecode → Uops → **ForjaFast v5**\n(compilar_pipeline_completa)"]
-        C2["`**forja build**`"] --> R2["Lexer → Parser → TC → BC → Opt → Bytecode → **AOT + Selfrun** → .exe\n(compilar_pipeline_completa)"]
-        C3["`**forja build-asm**`"] --> R3["Lexer → Parser → **Compiler ASM** → .s → gcc -O2 → .exe"]
-        C4["`**forja .fa**`"] --> R4["Lexer → Parser → TC → BC → Opt → **Transpilador** → código Rust (.rs)"]
-        C5["`**forja repl**`"] --> R5["Lexer → Parser → Bytecode → **ForjaFast** (variables persisten)"]
-        C6["`**forja fmt**`"] --> R6["Lexer → Parser → **Formatter** → código formateado"]
-        C7["`**forja diagrama**`"] --> R7["Lexer → Parser → **DiagramGenerator** → HTML interactivo"]
-        C8["`**forja build-wasm**`"] --> R8["Lexer → Parser → TC → BC → Opt → Bytecode → **WASM binding**"]
+    subgraph RUTAS["RUTAS POR COMANDO"]
+        C1["`**forja ejecutar**`"] --> R1["forja-syntax → forja-types → forja-hir → forja-ir → forja-bytecode → **forja-vm**
+        (motor: rapido | jit en forja.yaml)"]
+        C2["`**forja compilar**`"] --> R2["... → forja-bytecode → **forja-driver (AOT + selfrun)** → ejecutable"]
+        C3["`**forja compilar-asm**`"] --> R3["forja-syntax → forja-types → **src/compiler_asm.rs** → .s → gcc/cl.exe"]
+        C4["`**forja transpilar**`"] --> R4["forja-syntax → forja-types → **src/transpiler.rs** → proyecto Rust"]
+        C5["`**forja interactivo**`"] --> R5["fuente acumulado → forja-bytecode → **forja-vm (ForjaFast)**"]
+        C6["`**forja formatear**`"] --> R6["forja-syntax → **forja-fmt**"]
+        C7["`**forja lint**`"] --> R7["forja-syntax → **forja-lint** → diagnósticos"]
+        C8["`**forja diagrama**`"] --> R8["forja-syntax → **src/diagrama.rs** → Mermaid (.mmd)"]
     end
 
     classDef cmd fill:#1a1a2e,stroke:#4a4a8f,color:#fff
@@ -163,99 +83,27 @@ flowchart LR
     class R1,R2,R3,R4,R5,R6,R7,R8 ruta
 
 %% ═══════════════════════════════════════════════════════════════
-%%   DIAGRAMA 3: MÓDULOS DEL PROYECTO
+%%   DIAGRAMA 3: CRATES DEL WORKSPACE
 %% ═══════════════════════════════════════════════════════════════
 
 flowchart LR
-    subgraph MOD["MÓDULOS DEL PROYECTO"]
-        M1["🎯 main.rs · CLI"]
-        M2["📚 lib.rs · API pública"]
-        M3["🔤 token.rs · definición de tokens"]
-        M4["📖 lexer.rs · tokenizador"]
-        M5["🌳 ast.rs · nodos del AST"]
-        M6["🔧 parser.rs · parsing recursivo"]
-        M7["🚫 error.rs · errores educativos"]
-        M8["🔍 semantics.rs · TC + BC"]
-        M9["🦀 transpiler.rs · Forja → Rust"]
-        M10["⚡ compiler_asm.rs · Forja → ASM"]
-        M11["⚡ compiler_llvm.rs · Forja → LLVM"]
-        M12["💾 bytecode.rs · opcodes 1206 líneas"]
-        M13["🔬 uops.rs · micro-opcodes 463 líneas"]
-        M14["⚙️ vm.rs v1 · stack-based 2040 líneas"]
-        M15["⚡ vm_jit.rs v3 DT 649 líneas"]
-        M16["🚀 vm_fast.rs v5 · producción 3610 líneas"]
-        M17["🔥 jit.rs + jit_engine.rs · JIT nativo"]
-        M18["📐 optimizer.rs · constant folding + DCE"]
-        M19["🎨 formatter.rs · formateador"]
-        M20["📊 diagrama.rs · diagramas HTML"]
-        M21["💬 repl.rs · REPL interactivo"]
-        M22["📦 aot.rs · compilador AOT"]
-        M23["🏃 selfrun.rs · bytecode embed"]
-        M24["🧩 module.rs · resolvedor módulos"]
-        M25["📋 prelude.rs · prelude del lenguaje"]
-        M26["📦 package_resolver.rs"]
-        M27["⚙️ package_config.rs · forja.json"]
-        M28["📈 fprofiler.rs · profiler integrado"]
-        M29["🖥️ forja_lsp.rs · servidor LSP + VSCode"]
-        M30["🌐 forja-wasm · playground web"]
-        M31["🖼️ gui.rs · interfaz gráfica Xilem"]
+    subgraph COMP["compiler/ (workspace)"]
+        E["forja-span · forja-errors · forja-session"]
+        F["forja-syntax · forja-types · forja-hir"]
+        M["forja-ir · forja-bytecode · forja-driver"]
+        X["forja-runtime · forja-native · forja-vm · forja-registry"]
+        H["forja-fmt · forja-lint"]
     end
-
-    classDef mod fill:#1e1e2e,stroke:#4a4a7f,color:#e0e0e0
-    class MOD mod
-
-%% ═══════════════════════════════════════════════════════════════
-%%   DIAGRAMA 4: TABLA DE FASES
-%% ═══════════════════════════════════════════════════════════════
-
-flowchart TB
-    subgraph TABLA["TABLA DE FASES DEL PIPELINE"]
-        F1T["1 · Lexer
-             lexer.rs
-             texto → Vec<Token>"]
-        F2T["2-3 · Parser
-              parser.rs · 34 reglas
-              Vec<Token> → Programa (AST)"]
-        F4AT["4a · Type Checker
-              semantics.rs
-              inferencia de tipos"]
-        F4BT["4b · Borrow Checker
-              semantics.rs
-              ownership · scoping"]
-        F4CT["4c · Optimizer
-              optimizer.rs
-              constant folding + DCE"]
-        F5AT["5a · Transpilador
-              transpiler.rs
-              AST → código Rust (.rs)"]
-        F5BT["5b · Bytecode Gen
-              bytecode.rs + uops.rs
-              AST → Vec<Opcode> → Vec<Uop>"]
-        F5DT["5d · Assembly
-              compiler_asm.rs
-              AST → .s (x86-64 / ARM64)"]
-        F6AT["6a · VMs
-              vm.rs / vm_jit.rs / vm_fast.rs
-              bytecode → Output"]
-        F6BT["6b · JIT Engine
-              jit_engine.rs + jit.rs
-              código máquina + ejecución"]
-        F7T["7 · AOT + Selfrun
-             aot.rs + selfrun.rs
-             .exe autónomo"]
-
-        F1T --> F2T
-        F2T --> F4AT
-        F4AT --> F4BT
-        F4BT --> F4CT
-        F4CT --> F5AT
-        F4CT --> F5BT
-        F4CT --> F5DT
-        F5BT --> F6AT
-        F5BT --> F6BT
-        F6AT --> F7T
-        F6BT --> F7T
+    subgraph TOOLS["herramientas"]
+        T["src/tools: forja-cli · forja-repl · forja-lsp · forja-dap"]
     end
+    subgraph LIBS["library/ (submódulos)"]
+        L["std · gui · gui-core · gui-theme · gui-rt · rt · android · wasm · wasm-gui"]
+    end
+    E --> F --> M --> X
+    H --> F
+    T --> X
+    L --> X
 
-    classDef phase fill:#1a2a3a,stroke:#4a7a9f,color:#e0e0e0
-    class TABLA phase
+    classDef comp fill:#1e1e2e,stroke:#4a4a7f,color:#e0e0e0
+    class COMP,TOOLS,LIBS comp

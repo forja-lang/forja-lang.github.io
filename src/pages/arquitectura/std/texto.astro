@@ -3,25 +3,18 @@ import Layout from '../../../layouts/Layout.astro';
 ---
 <Layout title="Módulo texto — Cadenas y Manipulación de Texto (stdlib) — Forja">
   <h1>Módulo <code>texto</code> — Manipulación de Cadenas</h1>
-  <p><strong>Archivo:</strong> <code>stdlib/std/texto.fa</code></p>
+  <p><strong>Archivo:</strong> <code>library/std/texto.fa</code></p>
 
   <h2>¿Por qué existe?</h2>
-  <p>Proporciona operaciones avanzadas de manipulación de cadenas de texto: búsqueda, extracción, transformación, división, y trimming. Complementa las operaciones básicas de strings que vienen integradas en el lenguaje.</p>
+  <p>Agrega utilidades que no están integradas en el tipo <code>Texto</code>. Los builtins del lenguaje ya cubren <code>longitud</code>, <code>a_mayusculas</code>, <code>a_minusculas</code>, <code>contiene</code>, <code>reemplazar</code>, <code>invertir</code>, <code>recortar</code> y <code>subcadena</code>; el módulo ya no los duplica para no pisarlos al importarse.</p>
 
   <h2>Funciones principales</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td><code>longitud_texto(s)</code></td><td>Devuelve la cantidad de caracteres</td></tr>
-    <tr><td><code>a_mayusculas(s)</code></td><td>Convierte a mayusculas</td></tr>
-    <tr><td><code>a_minusculas(s)</code></td><td>Convierte a minusculas</td></tr>
     <tr><td><code>capitalizar(s)</code></td><td>Pone en mayúscula la primera letra</td></tr>
-    <tr><td><code>invertir(s)</code></td><td>Invierte </td></tr>
     <tr><td><code>contar_ocurrencias(texto, patron)</code></td><td>Cuenta cuántas veces aparece un patrón</td></tr>
     <tr><td><code>esta_vacio(s)</code></td><td>Verifica si la cadena está vacía</td></tr>
     <tr><td><code>repetir_texto(s, veces)</code></td><td>Repite la cadena N veces</td></tr>
-    <tr><td><code>contiene(texto, patron)</code></td><td>contiene</td></tr>
-    <tr><td><code>reemplazar(texto, original, remplazo)</code></td><td>Reemplaza todas las ocurrencias de un patrón</td></tr>
-    <tr><td><code>recortar(s)</code></td><td>Recorta </td></tr>
   </table>
 
   <h2>Casos de uso</h2>

@@ -3,7 +3,7 @@ import Layout from '../../../layouts/Layout.astro';
 ---
 <Layout title="Módulo colecciones — Arreglos, Mapas y Pilas (stdlib) — Forja">
   <h1>Módulo <code>colecciones</code> — Estructuras de Datos</h1>
-  <p><strong>Archivo:</strong> <code>stdlib/std/colecciones.fa</code></p>
+  <p><strong>Archivo:</strong> <code>library/std/colecciones.fa</code></p>
 
   <h2>¿Por qué existe?</h2>
   <p>Provee operaciones avanzadas sobre las estructuras de datos nativas de Forja: <strong>arreglos</strong> (listas), <strong>mapas</strong> (diccionarios), y agrega estructuras adicionales como <strong>pilas</strong> y <strong>conjuntos</strong>.</p>
@@ -20,7 +20,7 @@ import Layout from '../../../layouts/Layout.astro';
     <tr><td><code>ordenar(arr)</code></td><td>Retorna el arreglo ordenado (nuevo arreglo, no modifica el original). Implementa ordenamiento de burbuja O(n²). Funciona con números (enteros, flotantes). Ejemplo: ordenar([3,1,4,1,5]) → [1,1,3,4,5]</td></tr>
     <tr><td><code>aplanar(arr)</code></td><td>Retorna un arreglo aplanado (1 nivel de profundidad). Si un elemento es un arreglo, sus elementos se agregan individualmente. Ejemplo: aplanar([[1,2],[3,[4]]]) → [1,2,3,[4]]</td></tr>
     <tr><td><code>unico(arr)</code></td><td>Retorna un arreglo sin elementos duplicados. Conserva el orden de primera aparición. Ejemplo: unico([1,2,2,3,1]) → [1,2,3]</td></tr>
-    <tr><td><code>invertir(arr)</code></td><td>Invierte el orden del arreglo. Retorna un nuevo arreglo con los elementos en orden inverso. Ejemplo: invertir([1,2,3]) → [3,2,1]</td></tr>
+    <tr><td><code>invertir_arreglo(arr)</code></td><td>Invierte el orden del arreglo. Retorna un nuevo arreglo con los elementos en orden inverso. Ejemplo: invertir_arreglo([1,2,3]) → [3,2,1]</td></tr>
     <tr><td><code>segmento(arr, inicio, fin)</code></td><td>Retorna un segmento (rebanada) del arreglo desde 'inicio' hasta 'fin' (exclusivo). Ejemplo: segmento([1,2,3,4,5], 1, 3) → [2,3]</td></tr>
     <tr><td><code>claves(mapa)</code></td><td>Retorna las claves del mapa como un arreglo. Ejemplo: claves(&lbrace;"a":1, "b":2&rbrace;) → ["a", "b"]</td></tr>
     <tr><td><code>valores(mapa)</code></td><td>Retorna los valores del mapa como un arreglo. Ejemplo: valores(&lbrace;"a":1, "b":2&rbrace;) → [1, 2]</td></tr>

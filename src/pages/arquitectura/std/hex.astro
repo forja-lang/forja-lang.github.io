@@ -3,7 +3,7 @@ import Layout from '../../../layouts/Layout.astro';
 ---
 <Layout title="Módulo hex — Hexadecimal (stdlib) — Forja">
   <h1>Módulo <code>hex</code> — Hexadecimal</h1>
-  <p><strong>Archivo:</strong> <code>stdlib/std/hex.fa</code></p>
+  <p><strong>Archivo:</strong> <code>library/std/hex.fa</code></p>
 
   <h2>¿Por qué existe?</h2>
   <p>Provee codificación y decodificación hexadecimal. Es un módulo esencial para programas Forja que necesiten esta funcionalidad.</p>
@@ -17,7 +17,7 @@ import Layout from '../../../layouts/Layout.astro';
     <tr><td><code>validar_base_n(s: Texto, base: Entero)</code></td><td>Valida si un string es válido en una base dada (2-36)</td></tr>
     <tr><td><code>base_n_a_decimal(numero: Texto, base: Entero)</code></td><td>Convierte un string en cualquier base (2-36) a entero Dígitos: 0-9, A-Z/a-z Retorna Error si el string está vacío, la base es inválida, o hay caracteres no válidos</td></tr>
     <tr><td><code>decimal_a_base_n(n: Entero, base: Entero)</code></td><td>Convierte un entero a string en cualquier base (2-36) Los dígitos &gt; 9 se representan con letras mayúsculas (A-Z)</td></tr>
-    <tr><td><code>a_decimal(hex: Texto)</code></td><td>Convierte hexadecimal a entero decimal</td></tr>
+    <tr><td><code>hex_a_decimal(hex: Texto)</code></td><td>Convierte hexadecimal a entero decimal</td></tr>
     <tr><td><code>a_binario(hex: Texto)</code></td><td>Convierte hexadecimal a string binario</td></tr>
     <tr><td><code>a_octal(hex: Texto)</code></td><td>Convierte hexadecimal a string octal</td></tr>
     <tr><td><code>decimal_a_hex(n: Entero)</code></td><td>Convierte entero decimal a hexadecimal</td></tr>
@@ -40,7 +40,7 @@ import Layout from '../../../layouts/Layout.astro';
     <tr><td><code>sumar(a: Texto, b: Texto)</code></td><td>Suma dos números hexadecimales</td></tr>
     <tr><td><code>restar(a: Texto, b: Texto)</code></td><td>Resta dos números hexadecimales (a - b)</td></tr>
     <tr><td><code>multiplicar(a: Texto, b: Texto)</code></td><td>Multiplica dos números hexadecimales</td></tr>
-    <tr><td><code>dividir(a: Texto, b: Texto)</code></td><td>Divide dos números hexadecimales (cociente entero)</td></tr>
+    <tr><td><code>dividir_hex(a: Texto, b: Texto)</code></td><td>Divide dos números hexadecimales (cociente entero)</td></tr>
     <tr><td><code>modulo(a: Texto, b: Texto)</code></td><td>Módulo entre dos números hexadecimales</td></tr>
     <tr><td><code>potencia(a: Texto, exp: Texto)</code></td><td>Potencia: a^exp (exponente entero no negativo)</td></tr>
     <tr><td><code>mcd(a: Texto, b: Texto)</code></td><td>Máximo Común Divisor (algoritmo de Euclides)</td></tr>
@@ -60,5 +60,5 @@ import Layout from '../../../layouts/Layout.astro';
     <li><strong>Integración:</strong> Combinar con otros módulos std para soluciones completas.</li>
   </ul>
 
-  <div class="info"><strong><svg class="ico" aria-hidden="true"><use href="#i-library"/></svg> Documentación:</strong> Consultá el archivo fuente <code>stdlib/std/hex.fa</code> para ver la implementación completa y todos los detalles.</div>
+  <div class="info"><strong><svg class="ico" aria-hidden="true"><use href="#i-library"/></svg> Documentación:</strong> Consultá el archivo fuente <code>library/std/hex.fa</code> para ver la implementación completa y todos los detalles.</div>
 </Layout>

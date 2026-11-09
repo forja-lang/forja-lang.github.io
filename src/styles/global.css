@@ -1256,6 +1256,7 @@ h2 > code, h3 > code { color: var(--syn-kw); font-weight: 600; }
 
 /* ---------- Iconos (sprite lucide) ---------- */
 .ico {
+  display: inline-block;
   width: 1em;
   height: 1em;
   flex: none;

@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Ensamblador nativo — Forja">
+  <h1>Ensamblador nativo (x86-64 / ARM64)</h1>
+  <p><strong>Archivo:</strong> <code>src/compiler_asm.rs</code> (+ <code>src/compiler_asm/cobertura/</code>)</p>
+
+  <h2>¿Por qué existe?</h2>
+  <p>Genera ensamblador directamente desde el AST, sin bytecode ni VM, y lo ensambla con GCC/MSVC. Es la ruta de <code>forja compilar-asm</code> y la base del AOT sin LLVM.</p>
+
+  <h2>Cómo funciona</h2>
+  <ol>
+    <li>El AST pasa por la semántica y la monomorfización.</li>
+    <li>Se emite ensamblador para la arquitectura pedida (<code>arquitectura</code> en <code>forja.yaml</code>: <code>x86_64-windows</code>, <code>x86_64-linux</code>, <code>arm64</code>, <code>riscv64</code>).</li>
+    <li>Se invoca el ensamblador/linker del sistema y se obtiene el ejecutable.</li>
+  </ol>
+
+  <h2>Lo que cubre</h2>
+  <ul>
+    <li>Enteros, Decimal con SSE y textos (concatenación e interpolación).</li>
+    <li>Contratos (<code>requiere</code>/<code>asegura</code>) con <code>forja_contract_error</code>.</li>
+    <li>Bucles con <code>romper</code>/<code>continuar</code>, destructuring y llamadas con ABI correcta.</li>
+    <li>Paridad con la VM: el test <code>e2e_vm_vs_asm_nativo_misma_salida</code> compara toda la batería de programas.</li>
+  </ul>
+
+  <h2>Relación con el resto</h2>
+  <p>Comparte frontend con el <a href="/arquitectura/pipeline/">pipeline</a>; el AOT lo usa como backend (<a href="/arquitectura/aot/">AOT</a>) y el backend LLVM es la alternativa (<a href="/arquitectura/llvm/">LLVM</a>).</p>
+</Layout>

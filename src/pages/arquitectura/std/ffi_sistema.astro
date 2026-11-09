@@ -3,7 +3,7 @@ import Layout from '../../../layouts/Layout.astro';
 ---
 <Layout title="Módulos ffi / proceso / env / señal — Interoperabilidad y Sistema (stdlib) — Forja">
   <h1>Módulos <code>ffi</code>, <code>proceso</code>, <code>env</code>, <code>señales</code> — Sistema e Interoperabilidad</h1>
-  <p><strong>Archivos:</strong> <code>stdlib/std/ffi.fa</code>, <code>stdlib/std/proceso.fa</code>, <code>stdlib/std/env.fa</code>, <code>stdlib/std/señales.fa</code>, <code>stdlib/std/ruta.fa</code>, <code>stdlib/std/arg.fa</code></p>
+  <p><strong>Archivos:</strong> <code>library/std/ffi.fa</code>, <code>library/std/proceso.fa</code>, <code>library/std/env.fa</code>, <code>library/std/señales.fa</code>, <code>library/std/ruta.fa</code>, <code>library/std/arg.fa</code></p>
 
   <h2>¿Por qué existen?</h2>
   <p>Estos módulos proveen interoperabilidad con el sistema operativo y otros lenguajes. <code>ffi</code> permite llamar funciones C desde Forja, <code>proceso</code> ejecuta comandos externos, <code>env</code> maneja variables de entorno, <code>señales</code> maneja señales del SO, <code>ruta</code> manipula rutas de archivos, y <code>arg</code> accede a argumentos de línea de comandos.</p>
@@ -33,7 +33,7 @@ import Layout from '../../../layouts/Layout.astro';
   <h2>Módulo <code>env</code> — Variables de Entorno</h2>
   <table>
     <tr><th>Función</th><th>Descripción</th></tr>
-    <tr><td><code>env.obtener(nombre)</code></td><td>Obtiene el valor de una variable de entorno (retorna Opcion)</td></tr>
+    <tr><td><code>env.obtener_variable(nombre)</code></td><td>Obtiene el valor de una variable de entorno (retorna Opcion)</td></tr>
     <tr><td><code>env.asignar(nombre, valor)</code></td><td>Asigna una variable de entorno</td></tr>
     <tr><td><code>env.eliminar(nombre)</code></td><td>Elimina una variable de entorno</td></tr>
     <tr><td><code>env.listar()</code></td><td>Lista todas las variables de entorno como mapa</td></tr>

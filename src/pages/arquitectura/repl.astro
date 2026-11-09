@@ -1,196 +1,23 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 ---
-<Layout title="REPL (repl.rs) — Forja">
-  <h1>REPL – Interfaz de Línea de Comandos Interactiva</h1>
-  <p><strong>Archivo:</strong> <code>src/repl.rs</code> — <strong>315 líneas</strong></p>
+
+<Layout title="REPL — Forja">
+  <h1>REPL y modo aprender</h1>
+  <p><strong>Crate:</strong> <code>src/tools/forja-repl</code> (<code>repl.rs</code>, <code>learn.rs</code>)</p>
 
   <h2>¿Por qué existe?</h2>
-  <p>
-    El REPL (Read-Eval-Print Loop) permite a los usuarios escribir y ejecutar fragmentos de código
-    Forja en tiempo real, facilitando pruebas rápidas, depuración y exploración del lenguaje sin
-    necesidad de crear archivos fuente. Es la herramienta ideal para aprendizaje, experimentación
-    y scripting rápido.
-  </p>
+  <p>Permite escribir y ejecutar Forja línea por línea sin crear archivos. Es un crate propio para que la <a href="/arquitectura/cli/">CLI</a> y el binario <code>forja</code> lo compartan sin duplicar el bucle de lectura.</p>
 
-  <h2>Estructura principal</h2>
-
-  <h3><code>REPL</code></h3>
-  <table>
-    <thead>
-      <tr><th>Campo</th><th>Tipo</th><th>Descripción</th></tr>
-    </thead>
-    <tbody>
-      <tr><td><code>vm_mode</code></td><td><code>String</code></td><td>Modo de VM a utilizar: <code>"fast"</code> (ForjaFast con NaN tagging, default) o <code>"jit"</code></td></tr>
-      <tr><td><code>buffer</code></td><td><code>String</code></td><td>Buffer de entrada acumulada para expresiones multi-línea</td></tr>
-      <tr><td><code>show_bytecode</code></td><td><code>bool</code></td><td>Si es cierto, muestra el bytecode generado antes de ejecutar</td></tr>
-      <tr><td><code>source_acumulado</code></td><td><code>String</code></td><td>Código fuente completo acumulado desde el inicio de la sesión</td></tr>
-      <tr><td><code>rl</code></td><td><code>Editor&#60;()&#62;</code></td><td>Editor de línea de rustyline con historial y edición</td></tr>
-      <tr><td><code>vm_fast</code></td><td><code>Option&#60;ForjaFast&#62;</code></td><td>Instancia de la VM rápida (modo fast), contenida en Option</td></tr>
-    </tbody>
-  </table>
-
-  <hr />
-
-  <h2>Métodos públicos</h2>
-
-  <h3><code>REPL::new()</code></h3>
-  <table>
-    <thead>
-      <tr><th>Firma</th><th>Descripción</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>pub fn new(modo: &#38;str) -> Self</code></td>
-        <td>
-          Crea una nueva instancia del REPL. Inicializa rustyline con historial, configura el
-          modo de VM según el string recibido (<code>"fast"</code>, <code>"jit"</code>, etc.),
-          y prepara los buffers de código fuente.
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3><code>REPL::iniciar()</code></h3>
-  <table>
-    <thead>
-      <tr><th>Firma</th><th>Descripción</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>pub fn iniciar(&#38;mut self)</code></td>
-        <td>
-          <strong>Método principal (~180 líneas).</strong> Bucle principal de lectura-ejecución:
-          <ol>
-            <li>Muestra el prompt <code>>>></code> y lee una línea con rustyline</li>
-            <li>Agrega la línea al buffer de entrada acumulada</li>
-            <li>Verifica si la entrada está completa (<code>chequear_completud()</code>)</li>
-            <li>Si está completa, pasa por el pipeline completo:
-              <ul>
-                <li>Lexer: tokeniza <code>source_acumulado + buffer</code></li>
-                <li>Parser: construye el AST (<code>Programa</code>)</li>
-                <li>Generación de bytecode: compila a opcodes</li>
-                <li>Ejecución: corre en la VM seleccionada (ForjaFast o clásica)</li>
-                <li>Muestra el resultado</li>
-              </ul>
-            </li>
-            <li>Si está incompleta, espera más líneas</li>
-            <li>Maneja comandos especiales (ver abajo)</li>
-          </ol>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <hr />
-
-  <h2>Comandos del REPL</h2>
-  <table>
-    <thead>
-      <tr><th>Comando</th><th>Descripción</th></tr>
-    </thead>
-    <tbody>
-      <tr><td><code>/salir</code> / <code>/exit</code> / <code>/quit</code></td><td>Sale del REPL</td></tr>
-      <tr><td><code>/configurar</code> / <code>/config</code></td><td>Asistente de opciones: se elige con <strong>↑ / ↓ y Enter</strong> (no se escribe nada). La opción seleccionada se ve en verde y cada elección queda impresa (<code>Motor: vm</code>) antes de pasar a la siguiente</td></tr>
-      <tr><td><code>/motor &lt;vm|rapido|jit&gt;</code></td><td>Cambia el motor de la sesión (mismos nombres que <code>forja.yaml</code>)</td></tr>
-      <tr><td><code>/limpiar</code> / <code>/reset</code></td><td>Reinicia el estado de la VM (limpia variables, funciones, heap)</td></tr>
-      <tr><td><code>/recargar</code></td><td>Recarga todos los módulos (re-parsea y re-compila desde las fuentes originales)</td></tr>
-      <tr><td><code>/recargar modulo</code></td><td>Recarga un módulo específico por su nombre</td></tr>
-      <tr><td><code>/variables</code></td><td>Muestra las variables definidas actualmente</td></tr>
-      <tr><td><code>/ayuda</code> / <code>/help</code></td><td>Lista de comandos</td></tr>
-    </tbody>
-  </table>
-
-  <p>El REPL <strong>no usa argumentos <code>--</code></strong> y los comandos van <strong>siempre con <code>/</code></strong> (<code>/salir</code>, <code>/configurar</code>, …). Todo lo que no empieza con <code>/</code> se ejecuta como código Forja.</p>
-
-  <h2>Historial de sesiones</h2>
-  <p>
-    Cada REPL escribe su historial en <code>&lt;nombre_del_archivo&gt;_historial.txt</code>
-    (junto al <code>.fa</code>; si se abre sin archivo, <code>repl_historial.txt</code>).
-    El archivo se <strong>agrega</strong>, nunca se sobreescribe: cada sesión empieza con una
-    cabecera con fecha y hora local del sistema, una instancia corta y el motor, y después van los
-    comandos tal como se escribieron:
-  </p>
-  <pre><code># ── sesión 18e5100f12702810 · 2026-11-05 05:48:00 · motor rapido · programa.fa ──
-escribir(1)
-salir</code></pre>
-
-  <hr />
-
-  <h2>Métodos privados</h2>
-
-  <h3><code>REPL::compilar_y_ejecutar()</code></h3>
-  <table>
-    <thead>
-      <tr><th>Firma</th><th>Descripción</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>fn compilar_y_ejecutar(&#38;mut self, source: &#38;str) -> Result&#60;String, String&#62;</code></td>
-        <td>
-          Pipeline completo de compilación + ejecución (~44 líneas):
-          <ol>
-            <li>Tokeniza el código fuente acumulado + la nueva línea</li>
-            <li>Parsea los tokens a AST</li>
-            <li>Genera bytecode a partir del AST</li>
-            <li>Si show_bytecode está activo, muestra los opcodes generados</li>
-            <li>Si el modo es <code>"fast"</code> (o cualquier otro): carga el bytecode en ForjaFast y ejecuta con <code>ejecutar()</code></li>
-            <li>Retorna el resultado formateado como String</li>
-          </ol>
-          En caso de error (léxico, sintáctico, semántico o de runtime), retorna el mensaje de error.
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3><code>REPL::chequear_completud()</code></h3>
-  <table>
-    <thead>
-      <tr><th>Firma</th><th>Descripción</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>fn chequear_completud(&#38;self) -> bool</code></td>
-        <td>
-          Verifica si el buffer acumulado está completo contando llaves <code>&#123;</code> y <code>&#125;</code>.
-          Si están balanceadas (misma cantidad), la entrada está completa y se ejecuta.
-          Si hay más llaves abiertas que cerradas, espera más líneas de entrada.
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <hr />
-
-  <h2>Pipeline del REPL</h2>
-  <pre><code>┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────────┐   ┌─────────────┐
-│ Entrada  │──▶│ Lexer    │──▶│ Parser   │──▶│ Bytecode Gen │──▶│ VM (fast/   │
-│ usuario  │   │ tokens   │   │ AST      │   │ opcodes       │   │  jit)        │
-└──────────┘   └──────────┘   └──────────┘   └──────────────┘   └──────┬──────┘
-                                                                       │
-                                                                       ▼
-                                                                ┌──────────────┐
-                                                                │  Resultado /  │
-                                                                │  Error       │
-                                                                └──────────────┘</code></pre>
-
-  <h2>Hot-reload de módulos</h2>
-  <p>
-    El REPL soporta recarga en caliente de módulos mediante <code>:reload</code>. Cuando se recarga
-    un módulo, el sistema:
-  </p>
-  <ol>
-    <li>Resuelve el módulo por su nombre a través del <code>ModuleResolver</code></li>
-    <li>Obtiene el bytecode actualizado con <code>generar_para_modulo()</code></li>
-    <li>Llama a <code>hot_swap_module()</code> en ForjaFast para reemplazar el bytecode en caliente</li>
-    <li>Las funciones actualizadas se reemplazan sin detener la ejecución</li>
-  </ol>
-
-  <h2>Relación con el resto del compilador</h2>
+  <h2>Qué hace</h2>
   <ul>
-    <li>Depende de <code>lexer.rs</code>, <code>parser.rs</code>, <code>bytecode.rs</code> para el pipeline de compilación</li>
-    <li>Ejecuta el código en <code>vm_fast.rs</code> (ForjaFast)</li>
-    <li>Utiliza <code>module.rs</code> (ModuleResolver) para recarga de módulos</li>
-    <li>Se invoca con <code><span class="cmd">forja</span> <span class="sub">repl</span></code> o <code><span class="cmd">forja</span> <span class="sub">repl</span> archivo.fa</code> (el motor se elige con <code>motor</code> en <code>forja.yaml</code>, dentro del REPL con <code>/motor &lt;vm|rapido|jit&gt;</code>, o con el menú <code>/configurar</code>)</li>
+    <li>Acumula el fuente de la sesión, así las variables declaradas siguen existiendo entre líneas.</li>
+    <li>Soporta expresiones multi-línea y edición con historial (rustyline).</li>
+    <li>Elige motor en caliente: <em>ForjaFast</em> (por defecto) o JIT.</li>
+    <li>Puede mostrar el bytecode generado antes de ejecutar.</li>
+    <li><code>learn.rs</code> implementa <code>forja aprender</code>: curso interactivo guiado.</li>
   </ul>
+
+  <h2>Uso</h2>
+  <p><code>forja interactivo</code> o <code>forja repl</code>. El comando <code>salir</code> termina la sesión.</p>
 </Layout>

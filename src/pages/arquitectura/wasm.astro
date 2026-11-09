@@ -1,9 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 ---
-<Layout title="WASM (crates/forja-wasm/src/lib.rs) — Forja">
+<Layout title="WASM (library/wasm/src/lib.rs) — Forja">
   <h1>Forja WASM – Compilador en el Navegador</h1>
-  <p><strong>Archivo:</strong> <code>crates/forja-wasm/src/lib.rs</code></p>
+  <p><strong>Archivo:</strong> <code>library/wasm/src/lib.rs</code></p>
   <h2>¿Por qué existe?</h2>
   <p>Expone la funcionalidad central del compilador Forja como un módulo WebAssembly, permitiendo que la comunidad interactúe con el lenguaje directamente desde navegadores sin necesidad de instalar Rust.</p>
   <h2>Cómo funciona</h2>
@@ -24,6 +24,9 @@ import Layout from '../../layouts/Layout.astro';
   </ol>
   <h2>Estructura del código</h2>
   <p>Ejemplo: la API WASM expone funciones como <code>compilar</code>, <code>forja_ejecutar</code>, <code>obtener_ejemplos</code>, <code>codificar_url</code>, <code>decodificar_url</code>, <code>forja_tokenizar</code> y <code>version</code>, todas marcadas con <code>#[wasm_bindgen]</code> para ser llamadas desde JavaScript.</p>
+  <h2>GUI en WASM</h2>
+  <p><code>library/wasm-gui</code> (<code>forja-wasm-gui</code>) es el runtime hermano que renderiza interfaces Forja en un <code>&lt;canvas&gt;</code> HTML5: recibe el layout, dibuja con <code>2d context</code> y devuelve eventos de mouse y teclado al programa.</p>
+
   <h2>Relación con el resto del proyecto</h2>
   <ul>
     <li>Reusa la lógica del crate <code>forja</code> (módulos <code>compiler_*</code>, <code>vm</code>, etc.) mediante llamadas a la biblioteca principal.</li>
